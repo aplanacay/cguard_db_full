@@ -5,7 +5,10 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','gii'],
+    'modules' => [
+        'gii' => 'yii\gii\Module'
+    ],
     'components' => [
         'request' => [
             'cookieValidationKey' => 'aOChjQp2uJytuv5VDVsntcBr7aG8vVfU',
