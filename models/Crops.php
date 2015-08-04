@@ -9,21 +9,14 @@ class Crops extends CropsBaseModel{
         
         $file = fopen("/Users/jlagare/Downloads/CORNPASS2013_CSV.csv", "r");
         
-        $row = 1;
-        
-        $cropModel = new Crops();
-        
-        //fgetcsv($file); //skip first line
-        
-        while (!feof($file)) {
+        while(!feof($file)) {
             
-            if($row == 1)
-                continue;
-            else
-                $line_of_text = fgetcsv($file);
+            $line_of_text[] = fgetcsv($file);
             
-            $row++;
-            
+            var_dump($line_of_text);
+            print "<br/><hr/>";
+            $cropModel = new Crops();
+        
             $cropModel->phl_no = $line_of_text[0];
             $cropModel->old_accession_no = $line_of_text[1];
             $cropModel->gb_no = $line_of_text[2];
@@ -54,8 +47,7 @@ class Crops extends CropsBaseModel{
             $cropModel->soil_col = $line_of_text[27];
             $cropModel->ston = $line_of_text[28];   
             
-            
-            $cropModel->save(FALSE);
+            //$cropModel->save();
             
         }
         

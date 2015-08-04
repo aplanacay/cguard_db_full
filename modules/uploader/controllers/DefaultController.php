@@ -8,8 +8,8 @@ use app\models\Crops;
 class DefaultController extends Controller {
 
     public function actionIndex() {
-        Crops::loadCropData();
-        //return $this->render('index');
+        //Crops::loadCropData();
+        return $this->render('index');
     }
 
     public function actionLoad($type = NULL) {
