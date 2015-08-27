@@ -67,4 +67,14 @@ class Users extends \yii\db\ActiveRecord
     public static function findByUsername($username){      
         return static::findOne(['username' => $username]);
     }
+    /**
+       * Validates password
+       *
+       * @param  string  $password password to validate
+       * @return boolean if password provided is valid for current user
+       */
+      public function validatePassword($password){
+          return $this->password === $password;
+      }
+
 }
