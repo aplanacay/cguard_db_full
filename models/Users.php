@@ -63,4 +63,8 @@ class Users extends \yii\db\ActiveRecord
             'is_active' => 'Is Active',
         ];
     }
+    
+    public static function findByUsername($username){      
+        return static::findOne(['username' => $username]);
+    }
 }
