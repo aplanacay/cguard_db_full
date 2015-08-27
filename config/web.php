@@ -11,6 +11,9 @@ $config = [
         'uploader' => [
             'class' => 'app\modules\uploader\UploaderModule',
         ],
+        'users' => [
+            'class' => 'app\modules\users\Module',
+        ],
     ],
     'components' => [
         'urlManager' => [
