@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log','gii'],
+    'bootstrap' => ['log', 'gii'],
     'modules' => [
         'gii' => 'yii\gii\Module',
         'uploader' => [
@@ -13,6 +13,9 @@ $config = [
         ],
         'users' => [
             'class' => 'app\modules\users\Module',
+        ],
+        'catalog' => [
+            'class' => 'app\modules\catalog\GermplasmModule',
         ],
     ],
     'components' => [
@@ -23,9 +26,9 @@ $config = [
             // Disable r=routes
             'enablePrettyUrl' => true,
             'rules' => array(
-                    '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                    '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                    '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ],
         'request' => [
