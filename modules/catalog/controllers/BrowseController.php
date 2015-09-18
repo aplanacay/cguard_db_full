@@ -1,0 +1,95 @@
+<?php
+
+namespace app\modules\catalog\controllers;
+
+use yii\web\Controller;
+use \yii\data\ActiveDataProvider;
+use ChromePhp;
+
+class BrowseController extends Controller {
+
+    public function actionIndex() {
+        $query = \app\modules\catalog\models\Germplasm::find();
+
+        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.attribute_id)');
+        $model = $model->with('attributes');
+        $columns = $model->asArray()->all();
+
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+//         foreach($model as $row){
+//            echo '<br>';
+//            print_r($row['attributes']['abbrev']);
+//        }
+        return $this->render('index', [
+                    'dataProvider' => $dataProvider,
+                    'columns' => $this->prepareDataProvider($columns),
+        ]);
+    }
+
+    public function prepareDataProvider($model) {
+
+        //$columns = array();
+        $columns = array(array(
+                'attribute' => 'id',
+                'vAlign' => 'middle',
+                'width' => '250px',
+                'value' => function ($model, $key, $index, $widget) {
+//            return Html::a($model->author->name, '#', [
+//                'title'=>'View author detail', 
+//                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
+//            ]);
+
+            return $model->id;
+        },
+            ),
+            array(
+                'attribute' => 'phl_no',
+                'vAlign' => 'middle',
+                'width' => '250px',
+                'value' => function ($model, $key, $index, $widget) {
+//            return Html::a($model->author->name, '#', [
+//                'title'=>'View author detail', 
+//                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
+//            ]);
+
+            return $model->phl_no;
+        },
+        ));
+
+        foreach ($model as $row) {
+            // echo '<br><br>';
+            $id = $row['attributes']['id'];
+            $columns[] = array(
+                'attribute' => $row['attributes']['abbrev'],
+                'vAlign' => 'middle',
+                'width' => '250px',
+                'value' => function ($model, $key, $index, $widget) use ($id) {
+//            return Html::a($model->author->name, '#', [
+//                'title'=>'View author detail', 
+//                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
+//            ]);
+            foreach ($model->attributes as $att) {
+                //\ChromePhp::log($att['id']);
+                if (number_format($att['attribute_id']) === number_format($id)) {
+                    return $att['value'];
+                }
+            }
+            //return $model->attributes[0]->id;
+//            if ($model->attributes->id===$row['attributes']['id']) {
+//                return $model->attributes->value;
+//            } else {
+//                return null;
+//            }
+        },
+            );
+        }
+        // print_r($columns);
+
+        return $columns;
+    }
+
+}
