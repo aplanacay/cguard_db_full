@@ -9,7 +9,8 @@ use app\assets\AppAsset;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-AppAsset::register($this);
+//AppAsset::register($this);
+app\assets\MaterialAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -24,13 +25,14 @@ AppAsset::register($this);
     <body>
 
         <?php $this->beginBody() ?>
-        <div class="wrap">
+        <div class="wrapper">
             <?php
             NavBar::begin([
                 'brandLabel' => 'PHLGRIMS',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    //'class' => 'navbar-inverse navbar-fixed-top',
+                    'class' => 'navbar-black navbar-fixed-top',
                 ],
             ]);
             if (Yii::$app->user->isGuest) {
@@ -44,10 +46,15 @@ AppAsset::register($this);
             } else {
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-right'],
+                    'encodeLabels' => false,
                     'items' => [
                         ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'Catalog', 'url' => ['/catalog/browse']],
-                      
+                        ['label' => 'Catalog',
+                            'items' => [
+                                ['label' => 'Corn','url' => ['/catalog/browse']],
+                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+                            ],
+                        ],
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
@@ -58,23 +65,23 @@ AppAsset::register($this);
             ?>
 
             <div class="container">
-                <?=
-                Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ])
-                ?>
+<?=
+Breadcrumbs::widget([
+    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+])
+?>
                 <?= $content ?>
             </div>
         </div>
 
         <footer class="footer">
             <div class="container">
-                <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+                <p class="pull-left">&copy; PHLGRIMS <?= date('Y') ?></p>
                 <p class="pull-right"><?= Yii::powered() ?></p>
             </div>
         </footer>
 
-        <?php $this->endBody() ?>
+<?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage() ?>
