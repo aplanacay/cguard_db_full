@@ -33,9 +33,10 @@ class Germplasm extends \app\models\GermplasmBase {
             'remarks' => 'Additional information about the record.',
             'Notes' => 'Notes',
             'is_void' => 'Is Void',
+            'NO_INT_B_A'=>'NO_INT_B_A'
         ];
     }
-
+    
     /**
      * @inheritdoc
      */

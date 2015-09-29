@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $germplasm_id
- * @property integer $attribute_id
+ * @property integer $variable_id
  * @property string $value
  * @property integer $creator_id
  * @property string $creation_timestamp
@@ -35,7 +35,7 @@ class GermplasmAttributeBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['germplasm_id', 'attribute_id', 'creator_id', 'modifier_id'], 'integer'],
+            [['germplasm_id', 'variable_id', 'creator_id', 'modifier_id'], 'integer'],
             [['creation_timestamp', 'modification_timestamp'], 'safe'],
             [['notes'], 'string'],
             [['is_void'], 'boolean'],
@@ -52,7 +52,7 @@ class GermplasmAttributeBase extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'germplasm_id' => 'Germplasm ID',
-            'attribute_id' => 'Attribute ID',
+            'variable_id' => 'Attribute ID',
             'value' => 'Value',
             'creator_id' => 'ID that refers in the users table that created the record.',
             'creation_timestamp' => 'Creation Timestamp',

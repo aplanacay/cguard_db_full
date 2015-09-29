@@ -22,8 +22,8 @@ class GermplasmAttribute extends \app\models\GermplasmAttributeBase {
         return [
             'id',
             'gemplasm_id',
-            'attribute_id',
-            'attribute',
+            'variable_id',
+            'attributes',
             'value',
             'creator_id' => function ($model) {
         return $model->creator->last_name . ', ' . $model->creator->first_name;
@@ -48,7 +48,7 @@ class GermplasmAttribute extends \app\models\GermplasmAttributeBase {
      * @return \yii\db\ActiveQuery
      */
     public function getAttributes() {
-        return $this->hasOne(\app\models\AttributeBase::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(\app\models\AttributeBase::className(), ['id' => 'variable_id']);
     }
 
     /**
@@ -62,6 +62,6 @@ class GermplasmAttribute extends \app\models\GermplasmAttributeBase {
      * @return \yii\db\ActiveQuery
      */
 //    public function getAllAttribute() {
-//        return $this->select(['distinct','attribute_id']);
+//        return $this->select(['distinct','variable_id']);
 //    }
 }

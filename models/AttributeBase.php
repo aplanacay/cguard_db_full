@@ -18,7 +18,7 @@ class AttributeBase extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'master.attribute';
+        return 'master.variable';
     }
 
     /**

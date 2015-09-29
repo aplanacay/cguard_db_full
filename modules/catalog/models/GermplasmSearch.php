@@ -10,13 +10,12 @@ use app\models\GermplasmBase;
 /**
  * GermplasmSearch represents the model behind the search form about `\app\models\GermplasmBase`.
  */
-class GermplasmSearch extends GermplasmBase
-{
+class GermplasmSearch extends GermplasmBase {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'creator_id', 'modifier_id', 'crop_id'], 'integer'],
             [['phl_no', 'creation_timestamp', 'modification_timestamp', 'remarks', 'Notes'], 'safe'],
@@ -27,8 +26,7 @@ class GermplasmSearch extends GermplasmBase
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -40,8 +38,7 @@ class GermplasmSearch extends GermplasmBase
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = GermplasmBase::find();
 
         $dataProvider = new ActiveDataProvider([
@@ -67,9 +64,10 @@ class GermplasmSearch extends GermplasmBase
         ]);
 
         $query->andFilterWhere(['like', 'phl_no', $this->phl_no])
-            ->andFilterWhere(['like', 'remarks', $this->remarks])
-            ->andFilterWhere(['like', 'Notes', $this->Notes]);
+                ->andFilterWhere(['like', 'remarks', $this->remarks])
+                ->andFilterWhere(['like', 'Notes', $this->Notes]);
 
         return $dataProvider;
     }
+
 }

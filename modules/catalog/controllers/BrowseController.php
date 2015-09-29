@@ -4,6 +4,7 @@ namespace app\modules\catalog\controllers;
 
 use yii\web\Controller;
 use \yii\data\ActiveDataProvider;
+use kartik\grid\GridView;
 use ChromePhp;
 
 class BrowseController extends Controller {
@@ -11,7 +12,7 @@ class BrowseController extends Controller {
     public function actionIndex() {
         $query = \app\modules\catalog\models\Germplasm::find();
 
-        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.attribute_id)');
+        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
         $model = $model->with('attributes');
         $columns = $model->asArray()->all();
 
@@ -58,6 +59,13 @@ class BrowseController extends Controller {
 
             return $model->phl_no;
         },
+//                 'filterType' => GridView::FILTER_SELECT2,
+//                'filter' => \app\modules\catalog\models\Germplasm::find()->orderBy('phl_no')->asArray()->all(),
+//                'filterWidgetOptions' => [
+//                    'pluginOptions' => ['allowClear' => true],
+//                ],
+//                'filterInputOptions' => ['placeholder' => 'phl no'],
+//                'format' => 'raw'
         ));
 
         foreach ($model as $row) {
@@ -74,10 +82,11 @@ class BrowseController extends Controller {
 //            ]);
             foreach ($model->attributes as $att) {
                 //\ChromePhp::log($att['id']);
-                if (number_format($att['attribute_id']) === number_format($id)) {
+                if (number_format($att['variable_id']) === number_format($id)) {
                     return $att['value'];
                 }
             }
+
             //return $model->attributes[0]->id;
 //            if ($model->attributes->id===$row['attributes']['id']) {
 //                return $model->attributes->value;
@@ -85,6 +94,13 @@ class BrowseController extends Controller {
 //                return null;
 //            }
         },
+//                'filterType' => GridView::FILTER_SELECT2,
+//                'filter' => \app\models\GermplasmAttributeBase::find()->select('distinct(value),*')->where(['variable_id' => $id])->orderBy('germplasm_id')->asArray()->all(),
+//                'filterWidgetOptions' => [
+//                    'pluginOptions' => ['allowClear' => true],
+//                ],
+//                'filterInputOptions' => ['placeholder' => 'Any author'],
+//                'format' => 'raw'
             );
         }
         // print_r($columns);
