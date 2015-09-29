@@ -1,18 +1,8 @@
 <br><br><br>
 <br><br>
 <?php
-//$this->params['breadcrumbs'][] = 'Corn Characterization';
-//
-//
-//yii\widgets\Breadcrumbs::widget([
-//    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-//]);
-?>
-
-<?php
 
 use kartik\dynagrid\DynaGrid;
-use kartik\grid\GridView;
 //use \yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -20,7 +10,6 @@ $searchModel = new \app\modules\catalog\models\GermplasmSearch;
 $viewMsg = 'view';
 $updateMsg = 'update';
 $deleteMsg = 'delete';
-
 $dynagrid = DynaGrid::begin([
             'columns' => $columns,
             'theme' => 'panel-primary',
