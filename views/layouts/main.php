@@ -64,7 +64,7 @@ app\assets\MaterialAsset::register($this);
             NavBar::end();
             ?>
 
-            <div class="container">
+            <div class="container-fluid">
 <?=
 Breadcrumbs::widget([
     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -75,7 +75,7 @@ Breadcrumbs::widget([
         </div>
 
         <footer class="footer">
-            <div class="container">
+            <div class="container-fluid">
                 <p class="pull-left">&copy; PHLGRIMS <?= date('Y') ?></p>
                 <p class="pull-right"><?= Yii::powered() ?></p>
             </div>
