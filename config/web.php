@@ -1,4 +1,5 @@
 <?php
+
 Yii::setAlias('@themes', dirname('_DIR_') . '/themes');
 $params = require(__DIR__ . '/params.php');
 
@@ -31,20 +32,6 @@ $config = [
         ],
     ],
     'components' => [
-         'as beforeRequest' => [
-            'class' => 'yii\filters\AccessControl',
-            'rules' => [
-                [
-                    'actions' => ['login', 'error'],
-                    'allow' => true,
-                ],
-                [
-
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
-        ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             // Disable index.php
@@ -87,6 +74,20 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+    ],
+    'as beforeRequest' => [
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'actions' => ['login', 'error'],
+                'allow' => true,
+            ],
+            [
+
+                'allow' => true,
+                'roles' => ['@'],
+            ],
+        ],
     ],
     'params' => $params,
 ];
