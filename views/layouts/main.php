@@ -39,7 +39,7 @@ app\assets\MaterialAsset::register($this);
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-right'],
                     'items' => [
-                        ['label' => 'Home', 'url' => ['/site/index']],
+                       // ['label' => 'Home', 'url' => ['/site/index']],
                         ['label' => 'Login', 'url' => ['/site/login']],
                     ],
                 ]);
@@ -73,13 +73,7 @@ Breadcrumbs::widget([
                 <?= $content ?>
             </div>
         </div>
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <p class="pull-left">&copy; PHLGRIMS <?= date('Y') ?></p>
-                <p class="pull-right"><?= Yii::powered() ?></p>
-            </div>
-        </footer>
+        
 
 <?php $this->endBody() ?>
     </body>
