@@ -1,3 +1,12 @@
+<head>
+    <style>
+        .nav-tabs.nav-stacked.nav-condensed > li > a {
+            padding-top: 4px; 
+            padding-bottom: 4px; 
+        }
+    </style>
+</head>
+
 <?php
 
 use yii\helpers\Html;
@@ -32,14 +41,14 @@ app\assets\MaterialAsset::register($this);
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     //'class' => 'navbar-inverse navbar-fixed-top',
-                    'class' => 'navbar-black navbar-fixed-top',
+                    'class' => 'navbar-black navbar-fixed-top nav-condensed',
                 ],
             ]);
             if (Yii::$app->user->isGuest) {
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-right'],
                     'items' => [
-                       // ['label' => 'Home', 'url' => ['/site/index']],
+                        // ['label' => 'Home', 'url' => ['/site/index']],
                         ['label' => 'Login', 'url' => ['/site/login']],
                     ],
                 ]);
@@ -51,8 +60,8 @@ app\assets\MaterialAsset::register($this);
                         ['label' => 'Home', 'url' => ['/site/index']],
                         ['label' => 'Catalog',
                             'items' => [
-                                ['label' => 'Corn','url' => ['/catalog/browse']],
-                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+                                ['label' => 'Corn', 'url' => ['/catalog/browse']],
+                            //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
                             ],
                         ],
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -65,17 +74,17 @@ app\assets\MaterialAsset::register($this);
             ?>
 
             <div class="container-fluid">
-<?=
-Breadcrumbs::widget([
-    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-])
-?>
+                <?=
+                Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ])
+                ?>
                 <?= $content ?>
             </div>
         </div>
-        
 
-<?php $this->endBody() ?>
+
+        <?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage() ?>
