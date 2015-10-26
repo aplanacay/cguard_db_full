@@ -18,16 +18,17 @@ class MaterialAsset extends AssetBundle
     public $sourcePath = '@themes/material';
     public $baseUrl = '@web';
     public $css = [
-        'css/material-font.min.css',
+        //'css/material-font.min.css',
         'css/material.min.css',
         'css/ripples.min.css',
-        'css/style.css',
+       // 'css/style.css',
     //    'css/devsite-teal.css',
        
     ];
     public $js = [
         'js/material.min.js',
-        'js/ripples.min.js'
+        'js/ripples.min.js',
+        'js/main.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
