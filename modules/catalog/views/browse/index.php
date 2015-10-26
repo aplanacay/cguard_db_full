@@ -63,7 +63,7 @@ $dynagrid = DynaGrid::begin([
             'gridOptions' => [
 
                 'bordered' => false,
-                'condensed' => true,
+                'condensed' => false,
                 //'export' => false,
                 'exportConfig' => [
                     // 'showConfirmAlert'=>true,
