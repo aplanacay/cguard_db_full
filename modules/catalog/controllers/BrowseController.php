@@ -9,6 +9,10 @@ use ChromePhp;
 
 class BrowseController extends Controller {
 
+    public function actionSearch() {
+        return $this->render('search/modal');
+    }
+
     public function actionIndex() {
         $query = \app\modules\catalog\models\Germplasm::find();
 
@@ -26,6 +30,7 @@ class BrowseController extends Controller {
 //            print_r($row['attributes']['abbrev']);
 //        }
         return $this->render('index', [
+                    // 'model' => $model,
                     'dataProvider' => $dataProvider,
                     'columns' => $this->prepareDataProvider($columns),
         ]);
@@ -34,7 +39,17 @@ class BrowseController extends Controller {
     public function prepareDataProvider($model) {
 
         //$columns = array();
-        $columns = array(array(
+        $columns = array(
+            array('class' => 'kartik\grid\ActionColumn',
+                'dropdown' => false,
+                'urlCreator' => function($action, $model, $key, $index) {
+            return '#';
+        },
+                'viewOptions' => ['title' => 'viewMsg', 'data-toggle' => 'tooltip'],
+                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
+                'deleteOptions' => ['title' => 'deleteMsg', 'data-toggle' => 'tooltip'],
+                'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_RIGHT),
+            array(
                 'attribute' => 'id',
                 'vAlign' => 'middle',
                 'width' => '250px',
@@ -75,6 +90,7 @@ class BrowseController extends Controller {
                 'attribute' => $row['attributes']['abbrev'],
                 'vAlign' => 'middle',
                 'width' => '250px',
+                 'noWrap' => true,
                 'value' => function ($model, $key, $index, $widget) use ($id) {
 //            return Html::a($model->author->name, '#', [
 //                'title'=>'View author detail', 
