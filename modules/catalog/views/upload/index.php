@@ -19,16 +19,17 @@
     }
 
 </style>
+<legend>File Import</legend>
 <?php
 
 use yii\widgets\ActiveForm;
 ?>
 <?php
 if (\Yii::$app->session->hasFlash('success') === true) {
-    echo '<br><br><br>';
+
     echo kartik\alert\Alert::widget([
         'type' => kartik\alert\Alert::TYPE_SUCCESS,
-        'title' => 'successfully uploaded the file.',
+        'title' => 'Successfully uploaded the file.',
         'icon' => 'glyphicon glyphicon-ok-sign',
         'body' => \Yii::$app->session->getFlash('success'),
         'showSeparator' => true,
@@ -47,13 +48,15 @@ if (\Yii::$app->session->hasFlash('success') === true) {
 }
 ?>
 
-<br><br>
-<br><br>
 
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-<?= $form->field($model, 'file')->fileInput() ?>
+<?php //$form->field($model, 'file')->fileInput() ?>
 
-<button>Submit</button>
-
+<!--<button>Submit</button>-->
+<?php
+echo $form->field($model, 'file')->widget(kartik\widgets\FileInput::classname(), [
+    'options' => ['accept' => 'xls/*'],
+]);
+?>
 <?php ActiveForm::end() ?>
