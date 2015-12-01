@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <br>
 <div class="container ">
    
-        <div class="col-lg-6 col-lg-offset-4">
+        <div class="col-lg-6 col-lg">
             <div class="panel panel-default">
                 <div class="container">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -31,9 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'username')->textInput(array('placeholder' => 'Username'));  ?>
+    <?= $form->field($model, 'username')->textInput(array('placeholder' => 'Username'))->label(false);  ?>
 
-    <?= $form->field($model, 'password')->passwordInput()->textInput(array('placeholder' => 'Password'));  ?>
+    <?= $form->field($model, 'password')->passwordInput()->textInput(array('placeholder' => 'Password'))->label(false);  ?>
 
  
 
