@@ -14,6 +14,7 @@ class BrowseController extends Controller {
     }
 
     public function actionIndex() {
+        \Yii::$app->session->set('curr_page', 'catalog-browse');
         $query = \app\modules\catalog\models\Germplasm::find();
 
         $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
@@ -90,7 +91,7 @@ class BrowseController extends Controller {
                 'attribute' => $row['attributes']['abbrev'],
                 'vAlign' => 'middle',
                 'width' => '250px',
-                 'noWrap' => true,
+                'noWrap' => true,
                 'value' => function ($model, $key, $index, $widget) use ($id) {
 //            return Html::a($model->author->name, '#', [
 //                'title'=>'View author detail', 
