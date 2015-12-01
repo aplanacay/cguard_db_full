@@ -48,15 +48,16 @@ if (\Yii::$app->session->hasFlash('success') === true) {
 }
 ?>
 
+<div style='width:50%'>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+    <?php //$form->field($model, 'file')->fileInput() ?>
 
-<?php //$form->field($model, 'file')->fileInput() ?>
-
-<!--<button>Submit</button>-->
-<?php
-echo $form->field($model, 'file')->widget(kartik\widgets\FileInput::classname(), [
-    'options' => ['accept' => 'xls/*'],
-]);
-?>
-<?php ActiveForm::end() ?>
+    <!--<button>Submit</button>-->
+    <?php
+    echo $form->field($model, 'file')->widget(kartik\widgets\FileInput::classname(), [
+        'options' => ['accept' => 'xls/*'],
+    ]);
+    ?>
+    <?php ActiveForm::end() ?>
+</div>
