@@ -43,7 +43,7 @@ if (\Yii::$app->session->hasFlash('success') === true) {
         'icon' => 'glyphicon glyphicon-remove-sign',
         'body' => \Yii::$app->session->getFlash('error'),
         'showSeparator' => true,
-            // 'delay' => 2000
+//        'delay' => 2000
     ]);
 }
 ?>
