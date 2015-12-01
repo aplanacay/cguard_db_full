@@ -29,12 +29,19 @@ class UploadController extends Controller {
 
             if ($model->file && $model->validate()) {
                 $model->file->saveAs('uploads/' . $model->file->baseName . '.' . $model->file->extension);
-                UploadForm::writeCSV('uploads/' . $model->file->baseName . '.' . $model->file->extension);
+                $response = UploadForm::writeCSV('uploads/' . $model->file->baseName . '.' . $model->file->extension);
+                if ($response['success']) {
+                    $response_saveVariable = UploadForm::saveVariable($response['valid_variables'],$response['temporary_table']);
+                    UploadForm::saveData($response['temporary_table'], $response_saveVariable['iden'], $response_saveVariable['obs']);
+                    Yii::$app->session->setFlash('success', "Successfully uploaded.");
+                } else {
+                    Yii::$app->session->setFlash('error', $response['error_message']);
+                }
+                //return $this->redirect('upload');
             }
         }
 
         return $this->render('index', ['model' => $model]);
     }
-
 
 }
