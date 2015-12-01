@@ -224,8 +224,11 @@ EOD;
 
         //insert phl_no
         $user_id = \Yii::$app->user->getId();
+        $germplasm_metadata_inserted=array();
+        $germplasm_count_inserted=array();
+        $updated_records_count=array();
         $insert_sql = <<<EOD
-        INSERT INTO catalog.g1(phl_no,gb_no,old_acc_no,creation_timestamp,creator_id,crop_id) (SELECT phl_no,gb_no,old_acc_no,now() as creation_timestamp,{$user_id} as creator_id,1 as crop_id from $tbl_name where phl_no not in (select phl_no from catalog.g1) and gb_no not in (select gb_no from catalog.g1) and old_acc_no not in (select old_acc_no from catalog.g1)) returning g1.id
+        INSERT INTO catalog.germplasm(phl_no,gb_no,old_acc_no,creation_timestamp,creator_id,crop_id) (SELECT phl_no,gb_no,old_acc_no,now() as creation_timestamp,{$user_id} as creator_id,1 as crop_id from $tbl_name where phl_no not in (select phl_no from catalog.germplasm) and gb_no not in (select gb_no from catalog.germplasm) and old_acc_no not in (select old_acc_no from catalog.germplasm)) returning germplasm.id
 EOD;
         $query = \Yii::$app->db;
         \ChromePhp::log($insert_sql);
@@ -240,14 +243,14 @@ EOD;
                 }
                 if ($i !== count($iden) - 1) {
                     $columnStr .= "" . strtolower($abbrev) . "=t." . strtolower($abbrev) . ",";
-                    $condition.="g1." . strtolower($abbrev) . "<>t." . strtolower($abbrev) . " or ";
+                    $condition.="germplasm." . strtolower($abbrev) . "<>t." . strtolower($abbrev) . " or ";
                 } else {
                     $columnStr .= "" . strtolower($abbrev) . "=t." . strtolower($abbrev);
-                    $condition.="g1." . strtolower($abbrev) . "<>t." . strtolower($abbrev);
+                    $condition.="germplasm." . strtolower($abbrev) . "<>t." . strtolower($abbrev);
                 }
             }
             $insert_sql = <<<EOD
-                        update catalog.g1 set {$columnStr} from $tbl_name t where g1.phl_no=t.phl_no and g1.gb_no=t.gb_no and g1.old_acc_no=t.old_acc_no returning g1.phl_no; --and ({$condition});
+                        update catalog.germplasm set {$columnStr} from $tbl_name t where germplasm.phl_no=t.phl_no and germplasm.gb_no=t.gb_no and germplasm.old_acc_no=t.old_acc_no returning germplasm.phl_no; --and ({$condition});
 EOD;
             $query = \Yii::$app->db;
             \ChromePhp::log($insert_sql);
@@ -261,17 +264,17 @@ EOD;
                     $abbrev = '"' . $abbrev . '"';
                 }
                 $insert_sql = <<<EOD
-        INSERT INTO catalog.germplasm_attribute (value,variable_id,germplasm_id,creation_timestamp,creator_id) (SELECT t.{$abbrev} as value,{$var->id} as variable_id,g1.id as germplasm_id,now() as creation_timestamp,{$user_id} as creator_id from $tbl_name t,catalog.g1 where g1.phl_no=t.phl_no and t.gb_no=g1.gb_no and t.old_acc_no=g1.old_acc_no)
+        INSERT INTO catalog.germplasm_attribute (value,variable_id,germplasm_id,creation_timestamp,creator_id) (SELECT t.{$abbrev} as value,{$var->id} as variable_id,germplasm.id as germplasm_id,now() as creation_timestamp,{$user_id} as creator_id from $tbl_name t,catalog.germplasm where germplasm.phl_no=t.phl_no and t.gb_no=germplasm.gb_no and t.old_acc_no=germplasm.old_acc_no)
  returning germplasm_attribute.id
 EOD;
                 $query = \Yii::$app->db;
                 \ChromePhp::log($insert_sql);
-                $germplasm_count_inserted = $query->createCommand($insert_sql)->execute();
+                $germplasm_metadata_inserted = $query->createCommand($insert_sql)->execute();
             }
         }
         \ChromePhp::log("germplasm_count_inserted: " . count($germplasm_count_inserted));
         \ChromePhp::log("updated_records_count: " . count($updated_records_count));
-        return array('germplasm_count_inserted' => count($germplasm_count_inserted), 'updated_records_count' => count($updated_records_count));
+        return array('germplasm_count_inserted' => count($germplasm_count_inserted), 'updated_records_count' => count($updated_records_count), 'germplasm_metadata_inserted' => count($germplasm_metadata_inserted));
     }
 
 }

@@ -21,7 +21,7 @@ use yii\web\UploadedFile;
 class UploadController extends Controller {
 
     public function actionIndex() {
-
+        Yii::$app->session->set('curr_page', 'catalog-import');
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
@@ -31,9 +31,9 @@ class UploadController extends Controller {
                 $model->file->saveAs('uploads/' . $model->file->baseName . '.' . $model->file->extension);
                 $response = UploadForm::writeCSV('uploads/' . $model->file->baseName . '.' . $model->file->extension);
                 if ($response['success']) {
-                    $response_saveVariable = UploadForm::saveVariable($response['valid_variables'],$response['temporary_table']);
-                    UploadForm::saveData($response['temporary_table'], $response_saveVariable['iden'], $response_saveVariable['obs']);
-                    Yii::$app->session->setFlash('success', "Successfully uploaded.");
+                    $response_saveVariable = UploadForm::saveVariable($response['valid_variables'], $response['temporary_table']);
+                    $result = UploadForm::saveData($response['temporary_table'], $response_saveVariable['iden'], $response_saveVariable['obs']);
+                    Yii::$app->session->setFlash('success', $result['germplasm_count_inserted'] . ' germplasm are added in the database, ' . $result['updated_records_count'] . ' germplasm metadata have been updated and ' . $result['germplasm_metadata_inserted'] . ' germplasm attributes have been added in the database.');
                 } else {
                     Yii::$app->session->setFlash('error', $response['error_message']);
                 }
