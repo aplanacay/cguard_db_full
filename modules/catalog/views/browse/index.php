@@ -1,5 +1,3 @@
-<br><br><br>
-<br><br>
 <?php
 
 use kartik\dynagrid\DynaGrid;
@@ -44,7 +42,7 @@ use kartik\grid\GridView;
 echo "<div id='search-content-id'></div>";
 \yii\bootstrap\Modal::end();
 ?>
-
+<legend>Browse Corn Characterization</legend>
 <?php
 //$form->field($model, 'StudName', [
 //    'options' => ['enableAjaxValidation' => false]
