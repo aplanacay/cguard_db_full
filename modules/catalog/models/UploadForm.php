@@ -176,19 +176,20 @@ class UploadForm extends Model {
                 $dropColumnStr .= 'DROP COLUMN ' . $abbrev . ',';
             } else {
                 $var = Attributes::find()->where(['abbrev' => strtoupper($abbrev),])->one();
-
+                \ChromePhp::log($var);
                 if (empty($var) || is_null($var)) {
                     $new_var = new Attributes();
                     $new_var->abbrev = strtoupper($abbrev);
                     //$new_var->is_void = false;
                     $new_var->type = 'observation';
-                    $new_var->data_type = 'observation';
+                    $new_var->data_type = 'character varying';
 
                     $new_var->save();
                     $obs[] = $abbrev;
                 } else {
+                    \ChromePhp::log($var->id);
                     if ($var->type === 'identification') {
-                        if ($abbrev !== 'phl_no' || $abbrev !== 'gb_no' || $abbrev !== 'old_acc_no')
+                        if ($abbrev !== 'phl_no')
                             $iden[] = $abbrev;
                     } else {
                         $obs[] = $abbrev;
@@ -224,16 +225,17 @@ EOD;
 
         //insert phl_no
         $user_id = \Yii::$app->user->getId();
-        $germplasm_metadata_inserted=array();
-        $germplasm_count_inserted=array();
-        $updated_records_count=array();
+        $germplasm_metadata_inserted = array();
+        $germplasm_count_inserted = array();
+        $updated_records_count = array();
         $insert_sql = <<<EOD
         INSERT INTO catalog.germplasm(phl_no,gb_no,old_acc_no,creation_timestamp,creator_id,crop_id) (SELECT phl_no,gb_no,old_acc_no,now() as creation_timestamp,{$user_id} as creator_id,1 as crop_id from $tbl_name where phl_no not in (select phl_no from catalog.germplasm) and gb_no not in (select gb_no from catalog.germplasm) and old_acc_no not in (select old_acc_no from catalog.germplasm)) returning germplasm.id
 EOD;
         $query = \Yii::$app->db;
         \ChromePhp::log($insert_sql);
         $germplasm_count_inserted = $query->createCommand($insert_sql)->execute();
-
+        \ChromePhp::log('iden:');
+        \ChromePhp::log($iden);
         if (!empty($iden)) {
             $columnStr = '';
             $condition = '';
@@ -250,7 +252,7 @@ EOD;
                 }
             }
             $insert_sql = <<<EOD
-                        update catalog.germplasm set {$columnStr} from $tbl_name t where germplasm.phl_no=t.phl_no and germplasm.gb_no=t.gb_no and germplasm.old_acc_no=t.old_acc_no returning germplasm.phl_no; --and ({$condition});
+                        update catalog.germplasm set {$columnStr} from $tbl_name t where germplasm.phl_no=t.phl_no returning germplasm.phl_no; --and ({$condition});
 EOD;
             $query = \Yii::$app->db;
             \ChromePhp::log($insert_sql);
@@ -260,9 +262,28 @@ EOD;
             $columnStr = '';
             foreach ($obs as $i => $abbrev) {
                 $var = Attributes::find()->where(['abbrev' => strtoupper($abbrev),])->one();
+                $abbrev_up = strtoupper($abbrev);
+                $delete_sql = <<<EOD
+         delete from {$tbl_name} t
+                        using
+                 catalog.germplasm_attribute gm,
+                catalog.germplasm g,
+                master.variable v
+                where 
+                v.abbrev='{$abbrev_up}' and
+                v.id=gm.variable_id 
+                and gm.germplasm_id=g.id
+                and g.phl_no=t.phl_no
+EOD;
+                $query = \Yii::$app->db;
+                \ChromePhp::log($insert_sql);
+                $del = $query->createCommand($delete_sql)->execute();
                 if (strpos($abbrev, '/')) {
                     $abbrev = '"' . $abbrev . '"';
                 }
+
+
+
                 $insert_sql = <<<EOD
         INSERT INTO catalog.germplasm_attribute (value,variable_id,germplasm_id,creation_timestamp,creator_id) (SELECT t.{$abbrev} as value,{$var->id} as variable_id,germplasm.id as germplasm_id,now() as creation_timestamp,{$user_id} as creator_id from $tbl_name t,catalog.germplasm where germplasm.phl_no=t.phl_no and t.gb_no=germplasm.gb_no and t.old_acc_no=germplasm.old_acc_no)
  returning germplasm_attribute.id
