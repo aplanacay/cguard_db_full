@@ -101,10 +101,12 @@ if (!Yii::$app->user->isGuest) {
                             'items' => [
                                 // Important: you need to specify url as 'controller/action',
                                 // not just as 'controller' even if default action is used.
-                                ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site/home', 'type' => $type]), 'active' => ($item == 'home')],
+                                ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
                                 ['label' => 'Catalog', 'icon' => 'book', 'items' => [
-                                        ['label' => 'Browse', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
-                                        ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
+                                        ['label' => 'Corn', 'items' => [
+                                                ['label' => 'Browse', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
+                                                ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
+                                            ]],
 //                                    ['label' => 'Read Online', 'icon' => 'cloud', 'items' => [
 //                                            ['label' => 'Online 1', 'url' => Url::to(['/site/online-1', 'type' => $type]), 'active' => ($item == 'online-1')],
 //                                            ['label' => 'Online 2', 'url' => Url::to(['/site/online-2', 'type' => $type]), 'active' => ($item == 'online-2')]
