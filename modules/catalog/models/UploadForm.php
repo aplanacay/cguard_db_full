@@ -232,8 +232,9 @@ EOD;
         INSERT INTO catalog.germplasm(phl_no,gb_no,old_acc_no,creation_timestamp,creator_id,crop_id) (SELECT phl_no,gb_no,old_acc_no,now() as creation_timestamp,{$user_id} as creator_id,1 as crop_id from $tbl_name where phl_no not in (select phl_no from catalog.germplasm) and gb_no not in (select gb_no from catalog.germplasm) and old_acc_no not in (select old_acc_no from catalog.germplasm)) returning germplasm.id
 EOD;
         $query = \Yii::$app->db;
-        \ChromePhp::log($insert_sql);
+        \ChromePhp::log($insert_sql); 
         $germplasm_count_inserted = $query->createCommand($insert_sql)->execute();
+        \ChromePhp::log($germplasm_count_inserted); 
         \ChromePhp::log('iden:');
         \ChromePhp::log($iden);
         if (!empty($iden)) {
@@ -293,9 +294,10 @@ EOD;
                 $germplasm_metadata_inserted = $query->createCommand($insert_sql)->execute();
             }
         }
-        \ChromePhp::log("germplasm_count_inserted: " . count($germplasm_count_inserted));
-        \ChromePhp::log("updated_records_count: " . count($updated_records_count));
-        return array('germplasm_count_inserted' => count($germplasm_count_inserted), 'updated_records_count' => count($updated_records_count), 'germplasm_metadata_inserted' => count($germplasm_metadata_inserted));
+//        \ChromePhp::log($germplasm_count_inserted);
+//        \ChromePhp::log($germplasm_metadata_inserted);
+//        \ChromePhp::log($updated_records_count);
+        return array('germplasm_count_inserted' => $germplasm_count_inserted, 'updated_records_count' => count($updated_records_count), 'germplasm_metadata_inserted' => count($germplasm_metadata_inserted));
     }
 
 }
