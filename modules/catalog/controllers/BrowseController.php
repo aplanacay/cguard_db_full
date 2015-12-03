@@ -17,7 +17,7 @@ class BrowseController extends Controller {
         \Yii::$app->session->set('curr_page', 'catalog-browse');
         $query = \app\modules\catalog\models\Germplasm::find();
 
-        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
+        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->orderBy('id');
         $model = $model->with('attributes');
         $columns = $model->asArray()->all();
 
@@ -41,15 +41,27 @@ class BrowseController extends Controller {
 
         //$columns = array();
         $columns = array(
-            array('class' => 'kartik\grid\ActionColumn',
+            array(
+                'class' => 'kartik\grid\ActionColumn',
+                'template'=>'{view}',
+//                'buttons'=>[
+//                        'today_action' => function ($url, $model) {
+//                        return Html::a('<span class="glyphicon glyphicon-check"></span>', $url, 
+//                        [
+//                            'title' => Yii::t('app', 'Change today\'s lists'),
+//                        ]);
+//                    }
+//                ],
                 'dropdown' => false,
                 'urlCreator' => function($action, $model, $key, $index) {
-            return '#';
+            if ($action === 'view') {
+                return \yii\helpers\Url::to(['/catalog/view/index','id'=>$model->id]);
+            }
         },
-                'viewOptions' => ['title' => 'viewMsg', 'data-toggle' => 'tooltip'],
-                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
-                'deleteOptions' => ['title' => 'deleteMsg', 'data-toggle' => 'tooltip'],
-                'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_RIGHT),
+                'viewOptions' => ['title' => 'View information', 'data-toggle' => 'tooltip'],
+//                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
+//                'deleteOptions' => ['title' => 'deleteMsg', 'data-toggle' => 'tooltip'],
+                'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_LEFT),
             array(
                 'attribute' => 'id',
                 'vAlign' => 'middle',
