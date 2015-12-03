@@ -33,7 +33,7 @@ class UploadController extends Controller {
                 if ($response['success']) {
                     $response_saveVariable = UploadForm::saveVariable($response['valid_variables'], $response['temporary_table']);
                     $result = UploadForm::saveData($response['temporary_table'], $response_saveVariable['iden'], $response_saveVariable['obs']);
-                    Yii::$app->session->setFlash('success', $result['germplasm_count_inserted'] . ' germplasm are added in the database, ' . $result['updated_records_count'] . ' germplasm metadata have been updated and ' . $result['germplasm_metadata_inserted'] . ' germplasm attributes have been added in the database.');
+                    Yii::$app->session->setFlash('success', '<b>' . $result['germplasm_count_inserted'] . '</b> germplasm <b>added</b> in the database. <br><b>' . $result['updated_records_count'] . '</b> record <b>updated</b>. <br><b>' . $result['germplasm_metadata_inserted'] . '</b> attribute records <b>added</b> in the database.');
                 } else {
                     Yii::$app->session->setFlash('error', $response['error_message']);
                 }
