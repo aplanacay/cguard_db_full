@@ -27,7 +27,7 @@ class AttributeBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['data_type'], 'string'],
+            [['data_type','type'], 'string'],
             [['abbrev'], 'string', 'max' => 32],
             [['abbrev'], 'unique']
         ];
@@ -42,6 +42,7 @@ class AttributeBase extends \yii\db\ActiveRecord
             'id' => 'ID',
             'abbrev' => 'Abbrev',
             'data_type' => 'Data Type',
+            'type'=>'Type',
         ];
     }
 }
