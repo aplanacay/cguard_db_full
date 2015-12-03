@@ -17,7 +17,7 @@ class BrowseController extends Controller {
         \Yii::$app->session->set('curr_page', 'catalog-browse');
         $query = \app\modules\catalog\models\Germplasm::find();
 
-        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->orderBy('germplasm_id');
+        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
         $model = $model->with('attributes');
         $columns = $model->asArray()->all();
 
