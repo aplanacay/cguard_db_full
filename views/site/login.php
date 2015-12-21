@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'username')->textInput(array('placeholder' => 'Username'))->label(false);  ?>
 
-    <?= $form->field($model, 'password')->passwordInput()->textInput(array('placeholder' => 'Password'))->label(false);  ?>
+    <?= $form->field($model, 'password')->input('Password')->label(false);  ?>
 
  
 
