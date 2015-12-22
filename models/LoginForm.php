@@ -71,6 +71,7 @@ class LoginForm extends Model
     public function getUser()
     {
         \ChromePhp::log('nikki here');
+        \ChromePhp::log($this->username);
         if ($this->_user === false) {
             $this->_user = Users::findByUsername($this->username);
             \ChromePhp::log($this->_user);
