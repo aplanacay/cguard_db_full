@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
+use yii\base\Security;
 use yii\web\IdentityInterface;
 
 /**
@@ -23,25 +23,23 @@ use yii\web\IdentityInterface;
  * @property string $type
  * @property boolean $is_active
  */
-class Users extends \yii\db\ActiveRecord implements IdentityInterface
-{
-    
+class Users extends \yii\db\ActiveRecord implements IdentityInterface {
+
     public $auth_key;
     public $accessToken;
-    
+    public $passwordHashStrategy = 'crypt';
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'master.user';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['is_active'], 'boolean'],
             [['username', 'first_name', 'middle_name', 'last_name', 'email'], 'string', 'max' => 100],
@@ -55,8 +53,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'username' => 'Username',
@@ -71,39 +68,38 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
             'is_active' => 'Is Active',
         ];
     }
-    
-        /** INCLUDE USER LOGIN VALIDATION FUNCTIONS**/
-        /**
+
+    /** INCLUDE USER LOGIN VALIDATION FUNCTIONS* */
+
+    /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
-    {
+    public static function findIdentity($id) {
         return static::findOne($id);
     }
 
     /**
      * @inheritdoc
      */
-/* modified */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-          return static::findOne(['access_token' => $token]);
+    /* modified */
+    public static function findIdentityByAccessToken($token, $type = null) {
+        return static::findOne(['access_token' => $token]);
     }
- 
-/* removed
-    public static function findIdentityByAccessToken($token)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
-*/
+
+    /* removed
+      public static function findIdentityByAccessToken($token)
+      {
+      throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+      }
+     */
+
     /**
      * Finds user by username
      *
      * @param  string      $username
      * @return static|null
      */
-    public static function findByUsername($username)
-    {
+    public static function findByUsername($username) {
         return static::findOne(['username' => $username]);
     }
 
@@ -113,8 +109,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      * @param  string      $token password reset token
      * @return static|null
      */
-    public static function findByPasswordResetToken($token)
-    {
+    public static function findByPasswordResetToken($token) {
         $expire = \Yii::$app->params['user.passwordResetTokenExpire'];
         $parts = explode('_', $token);
         $timestamp = (int) end($parts);
@@ -124,31 +119,28 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
         }
 
         return static::findOne([
-            'password_reset_token' => $token
+                    'password_reset_token' => $token
         ]);
     }
 
     /**
      * @inheritdoc
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->getPrimaryKey();
     }
 
     /**
      * @inheritdoc
      */
-    public function getAuthKey()
-    {
+    public function getAuthKey() {
         return $this->auth_key;
     }
 
     /**
      * @inheritdoc
      */
-    public function validateAuthKey($authKey)
-    {
+    public function validateAuthKey($authKey) {
         return $this->getAuthKey() === $authKey;
     }
 
@@ -158,9 +150,10 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      * @param  string  $password password to validate
      * @return boolean if password provided is valid for current user
      */
-    public function validatePassword($password)
-    {
-        return $this->password === sha1($password);
+    public function validatePassword($password) {
+
+        return Security::validatePassword($password, $this->password);
+        //return $this->password === sha1($password);
     }
 
     /**
@@ -168,33 +161,41 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface
      *
      * @param string $password
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password_hash = Security::generatePasswordHash($password);
     }
 
     /**
      * Generates "remember me" authentication key
      */
-    public function generateAuthKey()
-    {
+    public function generateAuthKey() {
         $this->auth_key = Security::generateRandomKey();
     }
 
     /**
      * Generates new password reset token
      */
-    public function generatePasswordResetToken()
-    {
+    public function generatePasswordResetToken() {
         $this->password_reset_token = Security::generateRandomKey() . '_' . time();
     }
 
     /**
      * Removes password reset token
      */
-    public function removePasswordResetToken()
-    {
+    public function removePasswordResetToken() {
         $this->password_reset_token = null;
     }
-    /** EXTENSION MOVIE **/
+
+    public function compareString($expected, $actual) {
+        $expected .= "\0";
+        $actual .= "\0";
+        $expectedLength = \yii\helpers\StringHelper::byteLength($expected);
+        $actualLength = \yii\helpers\StringHelper::byteLength($actual);
+        $diff = $expectedLength - $actualLength;
+        for ($i = 0; $i < $actualLength; $i++) {
+            $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
+        }
+        return $diff === 0;
+    }
+
 }
