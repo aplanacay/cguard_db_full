@@ -20,40 +20,47 @@ use Yii;
 class Germplasm extends \app\models\GermplasmBase {
 
     /**
-     * @inheritdoc
+     * @return \yii\db\ActiveQuery
      */
     public function attributeLabels() {
         return [
             'id' => 'ID',
             'phl_no' => 'Phl No',
-            'creator_id' => 'ID that refers in the users table that created the record.',
-            'creation_timestamp' => 'Timestamp when the record is added.',
-            'modifier_id' => 'ID that refers in the users table that recently modified the record.',
-            'modification_timestamp' => 'Timestamp when the record is moified.',
-            'remarks' => 'Additional information about the record.',
+            'creator_id' => 'Creator ID',
+            'creation_timestamp' => 'Creation Timestamp',
+            'modifier_id' => 'Modifier ID',
+            'modification_timestamp' => 'Modification Timestamp',
+            'remarks' => 'Remarks',
             'Notes' => 'Notes',
             'is_void' => 'Is Void',
-            'NO_INT_B_A'=>'NO_INT_B_A'
-        ];
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function fields() {
-        return [
-            'id',
-            'phl_no',
-//            'creator_id' => function ($model) {
-//        return $model->creator->last_name . ', ' . $model->creator->first_name;
-//    },
-//            'creation_timestamp' => 'Timestamp when the record is added.',
-//            'modifier_id' => 'ID that refers in the users table that recently modified the record.',
-//            'modification_timestamp' => 'Timestamp when the record is moified.',
-            'remarks',
-            //'Notes' => 'Notes',
-            //'is_void' => 'Is Void',
-            'attributes', 
+            'crop_id' => 'Crop ID',
+            'old_acc_no' => 'Old Acc No',
+            'gb_no' => 'Gb No',
+            'collecting_no' => 'Collecting No',
+            'cultivar/variety_name/pedigree' => 'Local/Variety Name',
+            'dialect' => 'Dialect',
+            'source/grower' => 'Source/grower',
+            'scientific_name' => 'Scientific Name',
+            'count_coll' => 'Country',
+            'prov' => 'Province',
+            'town' => 'Town',
+            'barangay' => 'Barangay',
+            'sitio' => 'Sitio',
+            'acq_date' => 'Acq Date',
+            'latitude' => 'Latitude',
+            'longitude' => 'Longitude',
+            'altitude' => 'Altitude',
+            'coll_source' => 'Collecting Source',
+            'gen_stat' => 'Genetic Stat',
+            'sam_type' => 'Sam Type',
+            'sam_met' => 'Sam Met',
+            'mat' => 'Mat',
+            'topo' => 'Topo',
+            'site' => 'Site',
+            'soil_tex' => 'Soil Tex',
+            'drain' => 'Drain',
+            'soil_col' => 'Soil Col',
+            'ston' => 'Ston',
         ];
     }
 
@@ -62,13 +69,6 @@ class Germplasm extends \app\models\GermplasmBase {
      */
     public function getCreator() {
         return $this->hasOne(app\models\Users::className(), ['id' => 'creator_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAttributes() {
-        return $this->hasMany(GermplasmAttribute::className(), ['germplasm_id' => 'id']);
     }
 
 }
