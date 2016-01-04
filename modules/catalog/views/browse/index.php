@@ -138,7 +138,4 @@ if (substr($dynagrid->theme, 0, 6) == 'simple') {
 }
 DynaGrid::end();
 
-//$this->renderPartial('search/modal', $data);
 ?>
-
-</script>
