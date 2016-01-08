@@ -58,7 +58,7 @@ AppAsset::register($this);
                     'encodeLabels' => false,
                     'items' => [
                         ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'Catalog',
+                        ['label' => 'Resources',
                             'items' => [
                                 ['label' => 'Corn', 'url' => ['/catalog/browse']],
                             //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
@@ -97,21 +97,21 @@ if (!Yii::$app->user->isGuest) {
                         echo SideNav::widget([
                             'type' => SideNav::TYPE_SUCCESS,
                             'encodeLabels' => false,
-                            'heading' => $heading,
+                            //'heading' => $heading,
                             'items' => [
                                 // Important: you need to specify url as 'controller/action',
                                 // not just as 'controller' even if default action is used.
                                 ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
-                                ['label' => 'Catalog', 'icon' => 'book', 'items' => [
-                                        ['label' => 'Corn', 'items' => [
-                                                ['label' => 'Browse', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
-                                                ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
-                                            ]],
+                                //label' => 'Catalog', 'icon' => 'book', 'items' => [
+                                ['label' => 'Corn', 'items' => [
+                                        ['label' => 'Passport Data', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
+                                        ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
+                                    ]],
 //                                    ['label' => 'Read Online', 'icon' => 'cloud', 'items' => [
 //                                            ['label' => 'Online 1', 'url' => Url::to(['/site/online-1', 'type' => $type]), 'active' => ($item == 'online-1')],
 //                                            ['label' => 'Online 2', 'url' => Url::to(['/site/online-2', 'type' => $type]), 'active' => ($item == 'online-2')]
 //                                        ]],
-                                    ]],
+                            // ]],
 //                            ['label' => '<span class="pull-right badge">3</span> Categories', 'icon' => 'tags', 'items' => [
 //                                    ['label' => 'Fiction', 'url' => Url::to(['/site/fiction', 'type' => $type]), 'active' => ($item == 'fiction')],
 //                                    ['label' => 'Historical', 'url' => Url::to(['/site/historical', 'type' => $type]), 'active' => ($item == 'historical')],
