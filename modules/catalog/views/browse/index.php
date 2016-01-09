@@ -42,7 +42,7 @@ use kartik\grid\GridView;
 echo "<div id='search-content-id'></div>";
 \yii\bootstrap\Modal::end();
 ?>
-<legend>Browse Corn Characterization</legend>
+<legend>Browse Passport Data</legend>
 <?php
 //$form->field($model, 'StudName', [
 //    'options' => ['enableAjaxValidation' => false]
