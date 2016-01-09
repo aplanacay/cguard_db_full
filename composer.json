@@ -25,7 +25,8 @@
         "kartik-v/yii2-dynagrid": "^1.4.2",
         "kartik-v/yii2-editable": "^1.7",
         "kartik-v/yii2-sortable-input": "dev-master",
-        "phpoffice/phpexcel": "dev-develop"
+        "phpoffice/phpexcel": "dev-develop",
+        "kartik-v/yii2-tabs-x": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
