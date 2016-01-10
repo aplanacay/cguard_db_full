@@ -15,7 +15,9 @@ class BrowseController extends Controller {
 
     public function actionIndex() {
         \Yii::$app->session->set('curr_page', 'catalog-browse');
+        // $query = \app\modules\catalog\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");
         $query = \app\modules\catalog\models\Germplasm::find();
+        $query->joinWith(['crop']);
 
         $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
         $model = $model->with('attributes');
@@ -25,8 +27,13 @@ class BrowseController extends Controller {
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        $dataProvider->sort->attributes['crop'] = [
 
-//         foreach($model as $row){
+            'asc' => ['crop' => SORT_ASC],
+            'desc' => ['crop' => SORT_DESC],
+            'label' => 'Crop',
+            'default' => SORT_ASC
+        ]; //         foreach($model as $row){
 //            echo '<br>';
 //            print_r($row['attributes']['abbrev']);
 //        }
@@ -136,7 +143,7 @@ class BrowseController extends Controller {
 //                'format' => 'raw'
             ),
             array(
-                'attribute' => 'crop_id',
+                'attribute' => 'crop',
                 'vAlign' => 'middle',
                 'width' => '250px',
                 'value' => function ($model, $key, $index, $widget) {
@@ -145,7 +152,7 @@ class BrowseController extends Controller {
 //                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
 //            ]);
 
-            return $model->crop_id;
+            return $model->crop->name;
         },
 //                 'filterType' => GridView::FILTER_SELECT2,
 //                'filter' => \app\modules\catalog\models\Germplasm::find()->orderBy('phl_no')->asArray()->all(),
@@ -165,7 +172,6 @@ class BrowseController extends Controller {
 //                'title'=>'View author detail', 
 //                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
 //            ]);
-
             //return $model->cultivar/variety_name/pedigree';
         },
 //                 'filterType' => GridView::FILTER_SELECT2,
@@ -177,7 +183,6 @@ class BrowseController extends Controller {
 //                'format' => 'raw'
             ),
             array(
-                
                 'attribute' => 'count_coll',
                 'vAlign' => 'middle',
                 'width' => '250px',
@@ -191,7 +196,6 @@ class BrowseController extends Controller {
         },
             ),
             array(
-                
                 'attribute' => 'prov',
                 'vAlign' => 'middle',
                 'width' => '250px',
@@ -204,8 +208,7 @@ class BrowseController extends Controller {
             return $model->prov;
         },
             ),
-                array(
-                
+            array(
                 'attribute' => 'town',
                 'vAlign' => 'middle',
                 'width' => '250px',

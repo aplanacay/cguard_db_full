@@ -65,7 +65,7 @@ class GermplasmBase extends \yii\db\ActiveRecord
         return [
             [['phl_no', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'cultivar/variety_name/pedigree', 'dialect', 'source/grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'string'],
             [['creator_id', 'modifier_id', 'crop_id'], 'integer'],
-            [['creation_timestamp', 'modification_timestamp'], 'safe'],
+            [['creation_timestamp', 'modification_timestamp','crop'], 'safe'],
             [['is_void'], 'boolean'],
             [['crop_id'], 'required']
         ];

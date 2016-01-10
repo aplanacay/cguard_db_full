@@ -19,6 +19,11 @@ use Yii;
  */
 class Germplasm extends \app\models\GermplasmBase {
 
+    public function rules() {
+        $rules = parent::rules();
+        return \yii\helpers\ArrayHelper::merge($rules, [[['crop'], 'safe'],]);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -61,14 +66,15 @@ class Germplasm extends \app\models\GermplasmBase {
             'drain' => 'Drain',
             'soil_col' => 'Soil Col',
             'ston' => 'Ston',
+                // 'crop'=> 'Crop'
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCreator() {
-        return $this->hasOne(app\models\Users::className(), ['id' => 'creator_id']);
+    public function getCrop() {
+        return $this->hasOne(Crop::className(), ['id' => 'crop_id']);
     }
 
 }
