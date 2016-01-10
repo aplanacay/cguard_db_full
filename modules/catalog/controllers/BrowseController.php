@@ -16,7 +16,7 @@ class BrowseController extends Controller {
     public function actionIndex() {
         \Yii::$app->session->set('curr_page', 'catalog-browse');
         // $query = \app\modules\catalog\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");
-        $query = \app\modules\catalog\models\Germplasm::find();
+        $query = \app\modules\catalog\models\Germplasm::find()->select(['germplasm.*', 'variety_name' => 'cultivar/variety_name/pedigree']);
         $query->joinWith(['crop']);
 
         $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
@@ -33,10 +33,14 @@ class BrowseController extends Controller {
             'desc' => ['crop' => SORT_DESC],
             'label' => 'Crop',
             'default' => SORT_ASC
-        ]; //         foreach($model as $row){
-//            echo '<br>';
-//            print_r($row['attributes']['abbrev']);
-//        }
+        ];
+        $dataProvider->sort->attributes['variety_name'] = [
+
+            'asc' => ['variety_name' => SORT_ASC],
+            'desc' => ['crop' => SORT_DESC],
+            'label' => 'Variety Name',
+            //'default' => SORT_ASC
+        ];
         return $this->render('index', [
                     // 'model' => $model,
                     'dataProvider' => $dataProvider,
@@ -164,7 +168,7 @@ class BrowseController extends Controller {
             ),
             array(
                 //'header' => 'Local/ Variety Name',
-                'attribute' => 'cultivar/variety_name/pedigree',
+                'attribute' => 'variety_name',
                 'vAlign' => 'middle',
                 'width' => '250px',
                 'value' => function ($model, $key, $index, $widget) {
@@ -172,7 +176,7 @@ class BrowseController extends Controller {
 //                'title'=>'View author detail', 
 //                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
 //            ]);
-            //return $model->cultivar/variety_name/pedigree';
+            return $model->variety_name;
         },
 //                 'filterType' => GridView::FILTER_SELECT2,
 //                'filter' => \app\modules\catalog\models\Germplasm::find()->orderBy('phl_no')->asArray()->all(),

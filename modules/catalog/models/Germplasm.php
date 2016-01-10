@@ -19,9 +19,11 @@ use Yii;
  */
 class Germplasm extends \app\models\GermplasmBase {
 
+    public $variety_name;
+
     public function rules() {
         $rules = parent::rules();
-        return \yii\helpers\ArrayHelper::merge($rules, [[['crop'], 'safe'],]);
+        return \yii\helpers\ArrayHelper::merge($rules, [[['crop','variety_name'], 'safe'],]);
     }
 
     /**
