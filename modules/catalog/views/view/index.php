@@ -22,9 +22,15 @@ $bordered = false;
     $contentA = \kartik\detail\DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                    'crop_id',
+                    [ 'label' => 'Crop name',
+                        'value' => $model->crop->name,
+                    ],
+                    [ 'label' => 'Local name',
+                        //'value' => $model->variety_name,
+                        'value' => $model->variety_name != null ? $model->variety_name : '',
+                    ],
                     // 'cultivar/variety_name/pedigree',
-                    ['attribute' => 'scientific_name', 'type' => DetailView::INPUT_TEXT],
+                    'scientific_name',
                 ],
                 'mode' => 'view',
                 'bordered' => $bordered,
@@ -118,16 +124,16 @@ $bordered = false;
     ]);
     $content1 = '<div class="catalog-view-index">
     <h1></h1>' . $contentA . $contentB . $contentC . '</div>';
-$tab='3';
+    $tab = '3';
     $items = [
         [
             'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
             'content' => $content1,
-             'active' => $tab === 1,
+            'active' => $tab === 1,
         ],
         [
             'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
-            'linkOptions'=>['data-url'=>\yii\helpers\Url::to(['view/char-data','id'=>$id])]
+            'linkOptions' => ['data-url' => \yii\helpers\Url::to(['view/char-data', 'id' => $id])]
 //            'items' => [
 //                [
 //                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
@@ -143,13 +149,13 @@ $tab='3';
         ],
         [
             'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
-           // 'headerOptions' => ['class' => 'disabled'],
-             'active' => $tab === 2,
+            // 'headerOptions' => ['class' => 'disabled'],
+            'active' => $tab === 2,
         ],
         [
             'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
             'headerOptions' => ['class' => 'disabled'],
-             'active' => $tab === 3,
+            'active' => $tab === 3,
         ],
     ];
 // Above
@@ -157,7 +163,7 @@ $tab='3';
         'items' => $items,
         'position' => TabsX::POS_ABOVE,
         'encodeLabels' => false,
-        'containerOptions'=>['id'=>'view-passport-tabs-id']
+        'containerOptions' => ['id' => 'view-passport-tabs-id']
     ]);
     ?>
 </div>
