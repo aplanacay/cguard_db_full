@@ -53,22 +53,43 @@ AppAsset::register($this);
                     ],
                 ]);
             } else {
-                echo Nav::widget([
-                    'options' => ['class' => 'navbar-nav navbar-right'],
-                    'encodeLabels' => false,
-                    'items' => [
-                        ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'Resources',
-                            'items' => [
-                                ['label' => 'Corn', 'url' => ['/catalog/browse']],
-                            //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+                $user_id = Yii::$app->user->getId();
+                $user = \app\models\Users::findOne($user_id);
+                if ($user->type === 'admin') {
+                    echo Nav::widget([
+                        'options' => ['class' => 'navbar-nav navbar-right'],
+                        'encodeLabels' => false,
+                        'items' => [
+                            ['label' => 'Home', 'url' => ['/site/index']],
+                            ['label' => 'Resources',
+                                'items' => [
+                                    ['label' => 'Corn', 'url' => ['/catalog/browse']],
+                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+                                ],
                             ],
+                            ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                                'url' => ['/site/logout'],
+                                'linkOptions' => ['data-method' => 'post']],
                         ],
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                    ],
-                ]);
+                    ]);
+                } else {
+                    echo Nav::widget([
+                        'options' => ['class' => 'navbar-nav navbar-right'],
+                        'encodeLabels' => false,
+                        'items' => [
+                            ['label' => 'Home', 'url' => ['/site/index']],
+                            ['label' => 'Resources',
+                                'items' => [
+                                    ['label' => 'Corn', 'url' => ['/characterizationData/browse']],
+                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+                                ],
+                            ],
+                            ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                                'url' => ['/site/logout'],
+                                'linkOptions' => ['data-method' => 'post']],
+                        ],
+                    ]);
+                }
             }
             NavBar::end();
             ?>
@@ -86,32 +107,35 @@ AppAsset::register($this);
                     use yii\helpers\Url;
 
 if (!Yii::$app->user->isGuest) {
-                        Breadcrumbs::widget([
-                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                        ]);
+                        $user_id = Yii::$app->user->getId();
+                        $user = \app\models\Users::findOne($user_id);
+                        if ($user->type === 'admin') {
+                            Breadcrumbs::widget([
+                                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                            ]);
 
-                        $heading = '<i class="glyphicon glyphicon-cog"></i> Operations';
-                        $type = 'success';
-                        $item = Yii::$app->session->get('curr_page');
-                        $type = '';
-                        echo SideNav::widget([
-                            'type' => SideNav::TYPE_SUCCESS,
-                            'encodeLabels' => false,
-                            //'heading' => $heading,
-                            'items' => [
-                                // Important: you need to specify url as 'controller/action',
-                                // not just as 'controller' even if default action is used.
-                                ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
-                                //label' => 'Catalog', 'icon' => 'book', 'items' => [
-                                ['label' => 'Corn', 'items' => [
-                                        ['label' => 'Passport Data', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
-                                        ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
-                                    ]],
+                            $heading = '<i class="glyphicon glyphicon-cog"></i> Operations';
+                            $type = 'success';
+                            $item = Yii::$app->session->get('curr_page');
+                            $type = '';
+                            echo SideNav::widget([
+                                'type' => SideNav::TYPE_SUCCESS,
+                                'encodeLabels' => false,
+                                //'heading' => $heading,
+                                'items' => [
+                                    // Important: you need to specify url as 'controller/action',
+                                    // not just as 'controller' even if default action is used.
+                                    ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
+                                    //label' => 'Catalog', 'icon' => 'book', 'items' => [
+                                    ['label' => 'Corn', 'items' => [
+                                            ['label' => 'Passport Data', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
+                                            ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
+                                        ]],
 //                                    ['label' => 'Read Online', 'icon' => 'cloud', 'items' => [
 //                                            ['label' => 'Online 1', 'url' => Url::to(['/site/online-1', 'type' => $type]), 'active' => ($item == 'online-1')],
 //                                            ['label' => 'Online 2', 'url' => Url::to(['/site/online-2', 'type' => $type]), 'active' => ($item == 'online-2')]
 //                                        ]],
-                            // ]],
+                                // ]],
 //                            ['label' => '<span class="pull-right badge">3</span> Categories', 'icon' => 'tags', 'items' => [
 //                                    ['label' => 'Fiction', 'url' => Url::to(['/site/fiction', 'type' => $type]), 'active' => ($item == 'fiction')],
 //                                    ['label' => 'Historical', 'url' => Url::to(['/site/historical', 'type' => $type]), 'active' => ($item == 'historical')],
@@ -121,8 +145,32 @@ if (!Yii::$app->user->isGuest) {
 //                                        ]],
 //                                ]],
 //                            ['label' => 'Profile', 'icon' => 'user', 'url' => Url::to(['/site/profile', 'type' => $type]), 'active' => ($item == 'profile')],
-                            ],
-                        ]);
+                                ],
+                            ]);
+                        } else {
+                            Breadcrumbs::widget([
+                                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                            ]);
+
+                            $heading = '<i class="glyphicon glyphicon-cog"></i> Operations';
+                            $type = 'success';
+                            $item = Yii::$app->session->get('curr_page');
+                            $type = '';
+                            echo SideNav::widget([
+                                'type' => SideNav::TYPE_SUCCESS,
+                                'encodeLabels' => false,
+                                //'heading' => $heading,
+                                'items' => [
+                                    // Important: you need to specify url as 'controller/action',
+                                    // not just as 'controller' even if default action is used.
+                                    ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
+                                    //label' => 'Catalog', 'icon' => 'book', 'items' => [
+                                    ['label' => 'Corn', 'items' => [
+                                            ['label' => 'Characterization Data', 'url' => Url::to(['/characterizationData/view/index']), 'active' => ($item == 'characterization-data-browse')],
+                                        ]],
+                                ],
+                            ]);
+                        }
                     }
                     ?>
                 </div>
