@@ -6,6 +6,7 @@ use yii\web\Controller;
 use \yii\data\ActiveDataProvider;
 use kartik\grid\GridView;
 use ChromePhp;
+use Yii;
 
 class BrowseController extends Controller {
 
@@ -15,34 +16,18 @@ class BrowseController extends Controller {
 
     public function actionIndex() {
         \Yii::$app->session->set('curr_page', 'catalog-browse');
-        // $query = \app\modules\catalog\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");
-        $query = \app\modules\catalog\models\Germplasm::find()->select(['germplasm.*', 'variety_name' => 'cultivar/variety_name/pedigree']);
-        $query->joinWith(['crop']);
+        // $query = \app\modules\catalog\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");\
+             $searchModel = new \app\modules\catalog\models\GermplasmSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
 
         $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
         $model = $model->with('attributes');
         $columns = $model->asArray()->all();
-
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        $dataProvider->sort->attributes['crop'] = [
-
-            'asc' => ['crop' => SORT_ASC],
-            'desc' => ['crop' => SORT_DESC],
-            'label' => 'Crop',
-            'default' => SORT_ASC
-        ];
-        $dataProvider->sort->attributes['variety_name'] = [
-
-            'asc' => ['variety_name' => SORT_ASC],
-            'desc' => ['crop' => SORT_DESC],
-            'label' => 'Variety Name',
-            //'default' => SORT_ASC
-        ];
+    
         return $this->render('index', [
                     // 'model' => $model,
+             'searchModel'=> $searchModel,
                     'dataProvider' => $dataProvider,
                     'columns' => $this->prepareDataProvider($columns),
         ]);
@@ -73,19 +58,19 @@ class BrowseController extends Controller {
 //                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
 //                'deleteOptions' => ['title' => 'deleteMsg', 'data-toggle' => 'tooltip'],
                 'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_LEFT),
-            array(
-                'attribute' => 'id',
-                'vAlign' => 'middle',
-                'width' => '250px',
-                'value' => function ($model, $key, $index, $widget) {
-//            return Html::a($model->author->name, '#', [
-//                'title'=>'View author detail', 
-//                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
-//            ]);
-
-            return $model->id;
-        },
-            ),
+//            array(
+//                'attribute' => 'id',
+//                'vAlign' => 'middle',
+//                'width' => '250px',
+//                'value' => function ($model, $key, $index, $widget) {
+////            return Html::a($model->author->name, '#', [
+////                'title'=>'View author detail', 
+////                'onclick'=>'alert("This will open the author page.\n\nDisabled for this demo!")'
+////            ]);
+//
+//            return $model->id;
+//        },
+//            ),
             array(
                 'attribute' => 'phl_no',
                 'vAlign' => 'middle',
