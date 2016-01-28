@@ -46,7 +46,7 @@ class SiteController extends Controller {
     }
 
     public function actionIndex() {
-         Yii::$app->session->set('curr_page', 'home');
+        Yii::$app->session->set('curr_page', 'home');
         return $this->render('index');
     }
 
@@ -57,8 +57,13 @@ class SiteController extends Controller {
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
-            return $this->redirect(\yii\helpers\Url::to(['/catalog/browse'], true));
+            $user_id = Yii::$app->user->getId();
+            $user = \app\models\Users::findOne($user_id);
+            if ($user->type === 'admin') {
+                return $this->redirect(\yii\helpers\Url::to(['/catalog/browse'], true));
+            } else {
+                return $this->redirect(\yii\helpers\Url::to(['/characterizationData/view'], true));
+            }
             //return $this->goBack();
         } else {
             return $this->render('login', [
