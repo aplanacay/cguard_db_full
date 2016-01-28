@@ -9,7 +9,7 @@ use kartik\grid\GridView;
     'header' => '<i class="glyphicon glyphicon-search"></i> Advanced Search</h4>',
     'id' => 'stud-info',
     'closeButton' => ['id' => 'close-button'],
-    'size' => 'modal-md',
+    'size' => 'modal-lg',
 ]);
 ?>
 
@@ -19,11 +19,23 @@ use kartik\grid\GridView;
 
     use yii\widgets\ActiveForm;
     use yii\helpers\ArrayHelper;
-
-echo $this->render('@app/modules/catalog/views/browse/search/_search', ['model' => $searchModel]);
     ?>
-</div>
 
+    <div class="population-form">
+        <?php $form = ActiveForm::begin(); ?>
+
+        <?php
+        //$model->name='IN';
+        $model = \app\modules\catalog\models\Attributes::find()->asArray()->all();
+        //
+        $listData = ArrayHelper::map($model, 'id', 'abbrev');
+        //print_r($listData);
+        // echo $form->field($model, '')->dropDownList($model, ['prompt' => 'Choose...']);
+        ?>
+
+        <?php ActiveForm::end(); ?>
+    </div>
+</div>
 <div class="modal-footer">
 </div>
 <?php
@@ -35,14 +47,15 @@ echo "<div id='search-content-id'></div>";
 //$form->field($model, 'StudName', [
 //    'options' => ['enableAjaxValidation' => false]
 //])->textInput();
-//$searchModel = new \app\modules\catalog\models\GermplasmSearch;
 
+
+$searchModel = new \app\modules\catalog\models\GermplasmSearch;
 $viewMsg = 'view';
 $updateMsg = 'update';
 $deleteMsg = 'delete';
 $dynagrid = DynaGrid::begin([
             'columns' => $columns,
-            'theme' => 'panel-success',
+            'theme' => 'panel-primary',
             'showPersonalize' => true,
             'storage' => 'cookie',
             'gridOptions' => [
@@ -104,19 +117,15 @@ $dynagrid = DynaGrid::begin([
 //                    ],
                 'toolbar' => [
                     ['content' =>
-                        Html::button('<i class="glyphicon glyphicon-search"></i>', [
-                            //'value' => yii\helpers\Url::to('catalog/browse/search'),
-                            'data' => [
-                                'toggle' => 'modal',
-                                'target' => '#stud-info',
-                            ],
-                            'id' => 'search-btn-id',
-                            'type' => 'button',
-                            'title' => 'Advanced search',
-                            'class' => 'btn btn-success',
-                                //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
-                        ]) . ' ' .
-                        Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['index'], ['data-pjax' => 0, 'class' => 'btn btn-default', 'title' => 'Reset Grid'])
+//                        Html::button('<i class="glyphicon glyphicon-search"></i>', [
+//                            'value' => yii\helpers\Url::to('catalog/browse/search'),
+//                            'id' => 'search-btn-id',
+//                            'type' => 'button',
+//                            'title' => 'Advanced search',
+//                            'class' => 'btn btn-success',
+//                                //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
+//                        ]) . ' ' .
+                        Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['dynagrid-demo'], ['data-pjax' => 0, 'class' => 'btn btn-default', 'title' => 'Reset Grid'])
                     ],
                     ['content' => '{dynagridFilter}{dynagridSort}{dynagrid}'],
                     '{export}',
@@ -128,4 +137,5 @@ if (substr($dynagrid->theme, 0, 6) == 'simple') {
     $dynagrid->gridOptions['panel'] = false;
 }
 DynaGrid::end();
+
 ?>
