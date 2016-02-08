@@ -6,29 +6,77 @@ use yii\web\Controller;
 use \yii\data\ActiveDataProvider;
 use kartik\grid\GridView;
 use ChromePhp;
+use Yii;
 
 class ViewController extends Controller {
 
     public function actionIndex($id) {
         \Yii::$app->session->set('curr_page', 'catalog-browse');
-        $query = \app\modules\catalog\models\Germplasm::find();
+        //$query = \app\modules\catalog\models\Germplasm::find();
+        $phl_no_str="'(^[0-9]+)'";
+$phl_no_str2="'([^0-9_].*$)'";
+        $query = \app\modules\catalog\models\Germplasm::find()->select(['germplasm.*'])->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
 
 //        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
 //        $model = $model->with('attributes');
 //        $columns = $model->asArray()->all();
-
+        //\ChromePhp::log(\app\modules\catalog\models\Germplasm::find()->select(['germplasm.*'])->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})")->limit(1)->asArray()->all());
         $model = \app\modules\catalog\models\Germplasm::findOne($id); //->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
         // $columns =\app\modules\catalog\models\Germplasm::find()->where(["id" => $id])->all();
 
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            ChromePhp::log(Yii::$app->request->post());
+            // Yii::$app->session->setFlash('div-id-success-notif', 'Success Message');
+            //return $this->redirect(['index', 'id' => $model->id]);
+        }else{
+            ChromePhp::log($model->getErrors());
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $model,
         ]);
+        
         return $this->render('index', [
                     'model' => $model,
                     'dataProvider' => $dataProvider,
                     'id' => $id
                         //  'columns' => $this->prepareDataProvider($columns),
         ]);
+    }
+    
+    /**
+     * Updates an existing GermplasmBase model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            ChromePhp::log(Yii::$app->request->post());
+           return $this->redirect(['index', 'id' => $model->id]);
+        } else {
+            \ChromePhp::log($model->getErrors());
+//            return $this->render('update', [
+//                'model' => $model,
+//            ]);
+        }
+    }
+     /**
+     * Finds the GermplasmBase model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return GermplasmBase the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = \app\models\GermplasmBase::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     public function actionCharData($id) {
@@ -83,7 +131,7 @@ class ViewController extends Controller {
         $columns = [
             //'columns' => [
             //'id',
-            'cultivar/variety_name/pedigree',
+            'variety_name',
             'scientific_name',
                 //  ],
 //            'columns' => [
