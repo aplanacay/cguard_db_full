@@ -19,13 +19,13 @@ use Yii;
  */
 class Germplasm extends \app\models\GermplasmBase {
 
-    public $variety_name;
+    //public $variety_name;
     public $crop;
    // public $grower;
 
     public function rules() {
         $rules = parent::rules();
-        return \yii\helpers\ArrayHelper::merge($rules, [[['crop', 'variety_name'], 'safe'],]);
+        return \yii\helpers\ArrayHelper::merge($rules, [[['crop',], 'safe'],]);
     }
 
     /**
@@ -46,30 +46,30 @@ class Germplasm extends \app\models\GermplasmBase {
             'old_acc_no' => 'Old Acc No',
             'gb_no' => 'Gb No',
             'collecting_no' => 'Collecting No',
-            'cultivar/variety_name/pedigree' => 'Local/Variety Name',
+            'variety_name' => 'Local/Variety Name',
             'dialect' => 'Dialect',
-            'source/grower' => 'Source/grower',
+            'grower' => 'Source/grower',
             'scientific_name' => 'Scientific Name',
             'count_coll' => 'Country',
             'prov' => 'Province',
             'town' => 'Town',
             'barangay' => 'Barangay',
             'sitio' => 'Sitio',
-            'acq_date' => 'Acq Date',
+            'acq_date' => 'Acquisition Date',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
             'altitude' => 'Altitude',
             'coll_source' => 'Collecting Source',
-            'gen_stat' => 'Genetic Stat',
-            'sam_type' => 'Sam Type',
-            'sam_met' => 'Sam Met',
-            'mat' => 'Mat',
-            'topo' => 'Topo',
+            'gen_stat' => 'Genetic Status',
+            'sam_type' => 'Sample Type',
+            'sam_met' => 'Sampling Method',
+            'mat' => 'Material Collected',
+            'topo' => 'Topography',
             'site' => 'Site',
             'soil_tex' => 'Soil Tex',
-            'drain' => 'Drain',
-            'soil_col' => 'Soil Col',
-            'ston' => 'Ston',
+            'drain' => 'Drainage',
+            'soil_col' => 'Soil Color',
+            'ston' => 'Stoniness',
                 // 'crop'=> 'Crop'
         ];
     }
