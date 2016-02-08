@@ -129,7 +129,8 @@ if (!Yii::$app->user->isGuest) {
                                     //label' => 'Catalog', 'icon' => 'book', 'items' => [
                                     ['label' => 'Corn', 'items' => [
                                             ['label' => 'Passport Data', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
-                                            ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
+                                            ['label' => 'Import File', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
+                                            ['label' => 'Add Corn Germplasm', 'url' => Url::to(['/catalog/browse/add']), 'active' => ($item == 'catalog-add')],
                                         ]],
 //                                    ['label' => 'Read Online', 'icon' => 'cloud', 'items' => [
 //                                            ['label' => 'Online 1', 'url' => Url::to(['/site/online-1', 'type' => $type]), 'active' => ($item == 'online-1')],
