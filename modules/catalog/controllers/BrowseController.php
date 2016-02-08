@@ -17,17 +17,17 @@ class BrowseController extends Controller {
     public function actionIndex() {
         \Yii::$app->session->set('curr_page', 'catalog-browse');
         // $query = \app\modules\catalog\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");\
-             $searchModel = new \app\modules\catalog\models\GermplasmSearch();
+        $searchModel = new \app\modules\catalog\models\GermplasmSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+
 
         $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
         $model = $model->with('attributes');
         $columns = $model->asArray()->all();
-    
+
         return $this->render('index', [
                     // 'model' => $model,
-             'searchModel'=> $searchModel,
+                    'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
                     'columns' => $this->prepareDataProvider($columns),
         ]);
@@ -252,6 +252,33 @@ class BrowseController extends Controller {
         // print_r($columns);
 
         return $columns;
+    }
+
+    /**
+     * Creates a new GermplasmBase model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate() {
+        \ChromePhp::log('hello');
+        $model = new \app\modules\catalog\models\Germplasm();
+        $model->load(Yii::$app->request->post());
+        $model->setAttribute('crop_id', 1);
+        if ($model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                        'model' => $model,
+            ]);
+        }
+    }
+    public function actionAdd() {
+        $model = new \app\modules\catalog\models\Germplasm();
+        
+            return $this->render('create', [
+                        'model' => $model,
+            ]);
+        
     }
 
 }
