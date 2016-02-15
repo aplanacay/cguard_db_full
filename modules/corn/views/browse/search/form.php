@@ -13,8 +13,8 @@
             <span>Variable</span><span class="required">*</span>
         </label>
         <div class="controls">
-            <?= Html::activeDropDownList(new app\modules\catalog\models\Attributes(), 'id',
-      ArrayHelper::map(app\modules\catalog\models\Attributes::find()->all(), 'id', 'abbrev'));
+            <?= Html::activeDropDownList(new app\modules\corn\models\Attributes(), 'id',
+      ArrayHelper::map(app\modules\corn\models\Attributes::find()->all(), 'id', 'abbrev'));
 ?>
     <?php
     

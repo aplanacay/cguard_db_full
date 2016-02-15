@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\corn\models;
 
 use Yii;
 
 /**
- * This is the model class for table "catalog.germplasm".
+ * This is the model class for table "corn.germplasm".
  *
  * @property integer $id
  * @property string $phl_no

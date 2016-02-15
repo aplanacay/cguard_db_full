@@ -60,7 +60,7 @@ class SiteController extends Controller {
             $user_id = Yii::$app->user->getId();
             $user = \app\models\Users::findOne($user_id);
             if ($user->type === 'admin') {
-                return $this->redirect(\yii\helpers\Url::to(['/catalog/browse'], true));
+                return $this->redirect(\yii\helpers\Url::to(['/corn/browse'], true));
             } else {
                 return $this->redirect(\yii\helpers\Url::to(['/characterizationData/view'], true));
             }

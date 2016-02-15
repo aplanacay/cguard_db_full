@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\catalog\models\GermplasmSearch */
+/* @var $model app\modules\corn\models\GermplasmSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

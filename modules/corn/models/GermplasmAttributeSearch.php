@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\corn\models;
 
 use Yii;
 use yii\base\Model;

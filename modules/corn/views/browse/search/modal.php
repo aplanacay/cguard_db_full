@@ -9,9 +9,9 @@ $form = ActiveForm::begin();
 ?>
 
 <?php
-//$model = \app\modules\catalog\models\Attributes::find()->all();
+//$model = \app\modules\corn\models\Attributes::find()->all();
 //$listData = ArrayHelper::map($model, 'id', 'abbrev');
-//echo $form->field(new \app\modules\catalog\models\Attributes(), 'abbrev')->dropDownList($listData, ['prompt' => 'Select Column']);
+//echo $form->field(new \app\modules\corn\models\Attributes(), 'abbrev')->dropDownList($listData, ['prompt' => 'Select Column']);
 //
 ?>
 <br>
@@ -30,11 +30,11 @@ $form = ActiveForm::begin();
             <?php
             //  $query = new \yii\db\Query;             
             $connection = \Yii::$app->db;
-            $command = $connection->createCommand('select distinct(ga.variable_id),v.abbrev from catalog.germplasm_attribute ga, master.variable v where v.id=ga.variable_id and ga.is_void=false');
+            $command = $connection->createCommand('select distinct(ga.variable_id),v.abbrev from corn.germplasm_attribute ga, master.variable v where v.id=ga.variable_id and ga.is_void=false');
             $models = $command->queryAll();
             $models = ArrayHelper::map($models, 'variable_id', 'abbrev');
 
-            echo $form->field(new app\modules\catalog\models\Attributes(), 'abbrev')->dropDownList($models, ['prompt' => 'Select an attribute']);
+            echo $form->field(new app\modules\corn\models\Attributes(), 'abbrev')->dropDownList($models, ['prompt' => 'Select an attribute']);
 echo '</div id="input-0"></div>';
 
             echo '<form class="form-horizontal" method="get" data-parsley-validate id="fd-form">';

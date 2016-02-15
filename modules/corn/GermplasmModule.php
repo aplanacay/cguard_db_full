@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\catalog;
+namespace app\modules\corn;
 
 class GermplasmModule extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\catalog\controllers';
+    public $controllerNamespace = 'app\modules\corn\controllers';
 
     public function init()
     {

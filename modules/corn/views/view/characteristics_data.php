@@ -15,7 +15,7 @@
     <div class="modal-body-small form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
         <p class="instruction" id="sel-records"></p>
         <?php
-        //  echo $this->render('@app/modules/catalog/views/browse/search/_search', ['model' => $searchModel]);
+        //  echo $this->render('@app/modules/corn/views/browse/search/_search', ['model' => $searchModel]);
         ?>
     </div>
 
@@ -478,7 +478,7 @@
         'encodeLabels' => false
     ]);
 
-    //    $query = \app\modules\catalog\models\Germplasm::find();
+    //    $query = \app\modules\corn\models\Germplasm::find();
     //    $pagination = new yii\data\Pagination(['totalCount' => $query->count(), 'pageSize' => 1]);
     echo \yii\widgets\LinkPager::widget([
         'pagination' => $dataProvider->pagination,

@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\catalog\controllers;
+namespace app\modules\corn\controllers;
 
 use yii\web\Controller;
 use Yii;
-use app\modules\catalog\models\UploadForm;
+use app\modules\corn\models\UploadForm;
 use yii\web\UploadedFile;
 
 /*
@@ -21,7 +21,7 @@ use yii\web\UploadedFile;
 class UploadController extends Controller {
 
     public function actionIndex() {
-        Yii::$app->session->set('curr_page', 'catalog-import');
+        Yii::$app->session->set('curr_page', 'corn-import');
         $model = new UploadForm();
 
         if (Yii::$app->request->isPost) {
@@ -44,4 +44,8 @@ class UploadController extends Controller {
         return $this->render('index', ['model' => $model]);
     }
 
+    
+    public function actionImport(){
+        UploadForm::prepare();
+    }
 }

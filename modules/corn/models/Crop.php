@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\corn\models;
 
 use Yii;
 
@@ -20,7 +20,7 @@ use Yii;
  * @property string $notes
  * @property boolean $is_void
  *
- * @property CatalogGermplasm[] $catalogGermplasms
+ * @property CatalogGermplasm[] $cornGermplasms
  */
 class Crop extends \app\models\CropBase
 {

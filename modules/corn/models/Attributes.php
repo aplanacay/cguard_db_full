@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\corn\models;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
