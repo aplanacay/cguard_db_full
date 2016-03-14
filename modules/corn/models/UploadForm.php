@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\corn\models;
 
 use yii\base\Model;
 use yii\web\UploadedFile;
@@ -219,6 +219,10 @@ EOD;
         $query->createCommand($delete_sql)->execute();
         return array('iden' => $iden, 'obs' => $obs);
     }
+    
+    public function prepare(){
+        UploadForm::saveData('temporary_data.corncharconsolidatedjan2009b',array('phl_no','gb_no','old_scc_no'),array("days_to_emergence","days_to_tasseling","days_to_slking","days_to_harvest","tillering_index","stem_color","sheath_pubescence","total_number_of_leaves_per_plant","leaf_length","leaf_width","leaf_orientation","presence_of_leaf_ligule","venation_index","tassel_type","silk_color","tassel_color","plant_height","ear_height","foliage","number_of_leaves_above_upper_ear","number_of_leaves_below_upper_ear","number_of_internodes_below_uppermost_ear","number_of_internodes_on_the_whole_stem","stem_diameter_at_the_base","stem_diameter_below_uppermost_ear","tassel_length","tassel_peduncle_length","tassel_branching_space","number_of_primary_branches_on_tassel","number_of_secondary_branches_on_tassel","number_of_tertiary_branches_on_tassel","stay_green","days_to_ear_leaf_inflorescence","stalk_lodging","husk_cover","husk_fitting","husk_tip_shape","ear_shape","ear_tip_shape","ear_orientation","ear_length","ear_diameter","cob_diameter","rachs_diameter","peduncle_length","number_of_bracts","kernel_row_arrangement","number_of_kernel_rows","number_of_kernels__per_row","cob_color","grain_shedding","kernel_type","kernel_color","kernel_length","kernel_width","kernel_thickness","shape_of_upper_kernel_surface","pericarp_color","aleurone_color","endosperm_color","unshelled_weight","shelled_weight","kernel_weight","shellpc"));
+    }
 
     public function saveData($tbl_name, $iden, $obs) {
         \ChromePhp::log('save data');
@@ -229,7 +233,7 @@ EOD;
         $germplasm_count_inserted = array();
         $updated_records_count = array();
         $insert_sql = <<<EOD
-        INSERT INTO catalog.germplasm(phl_no,gb_no,old_acc_no,creation_timestamp,creator_id,crop_id) (SELECT phl_no,gb_no,old_acc_no,now() as creation_timestamp,{$user_id} as creator_id,1 as crop_id from $tbl_name where phl_no not in (select phl_no from catalog.germplasm) and gb_no not in (select gb_no from catalog.germplasm) and old_acc_no not in (select old_acc_no from catalog.germplasm)) returning germplasm.id
+        INSERT INTO corn.germplasm(phl_no,gb_no,old_acc_no,creation_timestamp,creator_id,crop_id) (SELECT phl_no,gb_no,old_acc_no,now() as creation_timestamp,{$user_id} as creator_id,1 as crop_id from $tbl_name where phl_no not in (select phl_no from corn.germplasm) and gb_no not in (select gb_no from corn.germplasm) and old_acc_no not in (select old_acc_no from corn.germplasm)) returning germplasm.id
 EOD;
         $query = \Yii::$app->db;
         \ChromePhp::log($insert_sql); 
@@ -253,7 +257,7 @@ EOD;
                 }
             }
             $insert_sql = <<<EOD
-                        update catalog.germplasm set {$columnStr} from $tbl_name t where germplasm.phl_no=t.phl_no returning germplasm.phl_no; --and ({$condition});
+                        update corn.germplasm set {$columnStr} from $tbl_name t where germplasm.phl_no=t.phl_no returning germplasm.phl_no; --and ({$condition});
 EOD;
             $query = \Yii::$app->db;
             \ChromePhp::log($insert_sql);
@@ -262,13 +266,15 @@ EOD;
         if (!empty($obs)) {
             $columnStr = '';
             foreach ($obs as $i => $abbrev) {
-                $var = Attributes::find()->where(['abbrev' => strtoupper($abbrev),])->one();
+                \ChromePhp::log('abbrev: '.$abbrev);
+                $var = Attributes::find()->where(['label' => strtolower($abbrev),])->one();
+                \ChromePhp::log($var);
                 $abbrev_up = strtoupper($abbrev);
                 $delete_sql = <<<EOD
          delete from {$tbl_name} t
                         using
-                 catalog.germplasm_attribute gm,
-                catalog.germplasm g,
+                 corn.germplasm_attribute gm,
+                corn.germplasm g,
                 master.variable v
                 where 
                 v.abbrev='{$abbrev_up}' and
@@ -286,7 +292,7 @@ EOD;
 
 
                 $insert_sql = <<<EOD
-        INSERT INTO catalog.germplasm_attribute (value,variable_id,germplasm_id,creation_timestamp,creator_id) (SELECT t.{$abbrev} as value,{$var->id} as variable_id,germplasm.id as germplasm_id,now() as creation_timestamp,{$user_id} as creator_id from $tbl_name t,catalog.germplasm where germplasm.phl_no=t.phl_no and t.gb_no=germplasm.gb_no and t.old_acc_no=germplasm.old_acc_no)
+        INSERT INTO corn.germplasm_attribute (value,variable_id,germplasm_id,creation_timestamp,creator_id) (SELECT t.{$abbrev} as value,{$var->id} as variable_id,germplasm.id as germplasm_id,now() as creation_timestamp,{$user_id} as creator_id from $tbl_name t,corn.germplasm where germplasm.phl_no=t.phl_no or t.gb_no::text=germplasm.gb_no or t.old_acc_no::text=germplasm.old_acc_no)
  returning germplasm_attribute.id
 EOD;
                 $query = \Yii::$app->db;

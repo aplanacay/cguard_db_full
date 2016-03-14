@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\catalog\controllers;
+namespace app\modules\corn\controllers;
 
 use yii\web\Controller;
 use \yii\data\ActiveDataProvider;
@@ -11,51 +11,172 @@ use Yii;
 class ViewController extends Controller {
 
     public function actionIndex($id) {
-        \Yii::$app->session->set('curr_page', 'catalog-browse');
-        //$query = \app\modules\catalog\models\Germplasm::find();
-        $phl_no_str="'(^[0-9]+)'";
-$phl_no_str2="'([^0-9_].*$)'";
-        $query = \app\modules\catalog\models\Germplasm::find()->select(['germplasm.*'])->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
-
-//        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
-//        $model = $model->with('attributes');
-//        $columns = $model->asArray()->all();
-        //\ChromePhp::log(\app\modules\catalog\models\Germplasm::find()->select(['germplasm.*'])->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})")->limit(1)->asArray()->all());
-        $model = \app\modules\catalog\models\Germplasm::findOne($id); //->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
-        // $columns =\app\modules\catalog\models\Germplasm::find()->where(["id" => $id])->all();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            ChromePhp::log(Yii::$app->request->post());
-            // Yii::$app->session->setFlash('div-id-success-notif', 'Success Message');
-            //return $this->redirect(['index', 'id' => $model->id]);
-        }else{
-            ChromePhp::log($model->getErrors());
+        \Yii::$app->session->set('curr_page', 'corn-browse');
+        $data = Yii::$app->request->get('GermplasmSearch');
+        $search = false;
+        if (isset($data)) {
+            foreach ($data as $key => $val) {
+                if (!empty($val)) {
+                    $search = true;
+                    break;
+                }
+            }
         }
-        $dataProvider = new ActiveDataProvider([
-            'query' => $model,
-        ]);
-        
+        $phl_no_str = "'(^[0-9]+)'";
+        $phl_no_str2 = "'([^0-9_].*$)'";
+
+        if (!$search && $id) {
+
+            $query = \app\modules\corn\models\Germplasm::find()->where(['id' => $id])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
+            $countQuery = clone $query;
+
+            $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+            \ChromePhp::log($pages);
+            $model = $query->offset($pages->offset)
+                    ->limit($pages->limit)
+                    ->one();
+            $searchModel = new \app\modules\corn\models\GermplasmSearch();
+            $dataProvider = new ActiveDataProvider([
+                'query' => $model,
+                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+                'pagination' => $pages,
+            ]);
+
+            $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
+
+            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $model->id]]);
+
+            $countQueryCharacterization = clone $characterizationQuery;
+
+            $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
+
+            $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
+                    ->limit($pagesCharacterization->limit)
+                    ->one();
+        } else {
+            $searchModel = new \app\modules\corn\models\GermplasmSearch();
+            $query = $searchModel->search(Yii::$app->request->get());
+
+            $model = $query->one();
+            ChromePhp::log($model);
+            $countQuery = clone $query;
+            $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+
+            $model = $query->offset($pages->offset)
+                    ->limit($pages->limit)
+                    ->one();
+
+            // $searchModel = new CharacterizationSearch();
+            $dataProvider = new ActiveDataProvider([
+                'query' => $model,
+                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+                'pagination' => $pages,
+            ]);
+
+            $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
+
+            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $model->id]]);
+
+            $countQueryCharacterization = clone $characterizationQuery;
+
+            $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
+
+            $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
+                    ->limit($pagesCharacterization->limit)
+                    ->one();
+        }
+
+
         return $this->render('index', [
+                    'characterizationQuery' => $modelCharacterization,
                     'model' => $model,
                     'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
                     'id' => $id
                         //  'columns' => $this->prepareDataProvider($columns),
         ]);
     }
-    
+function actionPass($id){
+     \Yii::$app->session->set('curr_page', 'corn-browse');
+        //$data = Yii::$app->request->get('GermplasmSearch');
+        //$search = false;
+       
+        $phl_no_str = "'(^[0-9]+)'";
+        $phl_no_str2 = "'([^0-9_].*$)'";
+
+     
+
+            $query = \app\modules\corn\models\Germplasm::find()->where(['id' => $id])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
+            $countQuery = clone $query;
+
+            $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+            \ChromePhp::log($pages);
+            $model = $query->offset($pages->offset)
+                    ->limit($pages->limit)
+                    ->one();
+            $searchModel = new \app\modules\corn\models\GermplasmSearch();
+            $dataProvider = new ActiveDataProvider([
+                'query' => $model,
+                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+                'pagination' => $pages,
+            ]);
+
+
+ $html = $this->renderPartial('passport_data',[
+                   // 'characterizationQuery' => $modelCharacterization,
+                    'model' => $model,
+                    'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'id' => $id
+                        //  'columns' => $this->prepareDataProvider($columns),
+        ],false,true);
+    return \yii\helpers\Json::encode($html);
+//        return $this->render('index', [
+//                    'characterizationQuery' => $modelCharacterization,
+//                    'model' => $model,
+//                    'dataProvider' => $dataProvider,
+//                    'searchModel' => $searchModel,
+//                    'id' => $id
+//                        //  'columns' => $this->prepareDataProvider($columns),
+//        ]);
+}
+function actionCharacterizationData($id){
+    $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
+
+            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $id]]);
+
+            $countQueryCharacterization = clone $characterizationQuery;
+
+            $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
+
+            $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
+                    ->limit($pagesCharacterization->limit)
+                    ->one();
+     //       $this->renderPartial
+ $html = $this->renderPartial('characteristics_data',['model'=> $modelCharacterization
+        ],false,true);
+    return \yii\helpers\Json::encode($html);
+//        return $this->render('index', [
+//                    'characterizationQuery' => $modelCharacterization,
+//                    'model' => $model,
+//                    'dataProvider' => $dataProvider,
+//                    'searchModel' => $searchModel,
+//                    'id' => $id
+//                        //  'columns' => $this->prepareDataProvider($columns),
+//        ]);
+}
     /**
      * Updates an existing GermplasmBase model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             ChromePhp::log(Yii::$app->request->post());
-           return $this->redirect(['index', 'id' => $model->id]);
+            return $this->redirect(['index', 'id' => $model->id]);
         } else {
             \ChromePhp::log($model->getErrors());
 //            return $this->render('update', [
@@ -63,15 +184,15 @@ $phl_no_str2="'([^0-9_].*$)'";
 //            ]);
         }
     }
-     /**
+
+    /**
      * Finds the GermplasmBase model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return GermplasmBase the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = \app\models\GermplasmBase::findOne($id)) !== null) {
             return $model;
         } else {
@@ -80,15 +201,15 @@ $phl_no_str2="'([^0-9_].*$)'";
     }
 
     public function actionCharData($id) {
-        \Yii::$app->session->set('curr_page', 'catalog-browse');
-        $query = \app\modules\catalog\models\Germplasm::find();
+        \Yii::$app->session->set('curr_page', 'corn-browse');
+        $query = \app\modules\corn\models\Germplasm::find();
 
-//        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
+//        $model = \app\modules\corn\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
 //        $model = $model->with('attributes');
 //        $columns = $model->asArray()->all();
 
-        $model = \app\modules\catalog\models\Germplasm::findOne($id); //->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
-        // $columns =\app\modules\catalog\models\Germplasm::find()->where(["id" => $id])->all();
+        $model = \app\modules\corn\models\Germplasm::findOne($id); //->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
+        // $columns =\app\modules\corn\models\Germplasm::find()->where(["id" => $id])->all();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $model,
@@ -103,15 +224,15 @@ $phl_no_str2="'([^0-9_].*$)'";
     }
 
     public function actionVarietyName($id) {
-        \Yii::$app->session->set('curr_page', 'catalog-browse');
-        $query = \app\modules\catalog\models\Germplasm::find();
+        \Yii::$app->session->set('curr_page', 'corn-browse');
+        $query = \app\modules\corn\models\Germplasm::find();
 
-//        $model = \app\modules\catalog\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
+//        $model = \app\modules\corn\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
 //        $model = $model->with('attributes');
 //        $columns = $model->asArray()->all();
 
-        $model = \app\modules\catalog\models\Germplasm::findOne($id); //->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
-        // $columns =\app\modules\catalog\models\Germplasm::find()->where(["id" => $id])->all();
+        $model = \app\modules\corn\models\Germplasm::findOne($id); //->select('distinct(germplasm_attribute.variable_id)')->where(['id' => $id]);
+        // $columns =\app\modules\corn\models\Germplasm::find()->where(["id" => $id])->all();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $model,

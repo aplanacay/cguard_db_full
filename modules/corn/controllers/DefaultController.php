@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\catalog\controllers;
+namespace app\modules\corn\controllers;
 
 use yii\web\Controller;
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace app\modules\corn\models;
-
+use yii\web\UploadedFile;
 use Yii;
 
 /**
@@ -20,10 +20,14 @@ use Yii;
 class Germplasm extends \app\models\GermplasmBase {
 
     public $variety_name;
+    public $image;
 
     public function rules() {
         $rules = parent::rules();
-        return \yii\helpers\ArrayHelper::merge($rules, [[['crop','variety_name'], 'safe'],]);
+       return $rules = \yii\helpers\ArrayHelper::merge($rules, [[['crop', 'variety_name'], 'safe'],]);
+//        return $rules = \yii\helpers\ArrayHelper::merge($rules, [[['avatar', 'filename', 'image'], 'safe'],
+//                   [ ['image'], 'file', 'extensions' => 'jpg, gif, png']
+//        ]);
     }
 
     /**
@@ -77,6 +81,76 @@ class Germplasm extends \app\models\GermplasmBase {
      */
     public function getCrop() {
         return $this->hasOne(Crop::className(), ['id' => 'crop_id']);
+    }
+    
+    /**
+     * fetch stored image file name with complete path 
+     * @return string
+     */
+    public function getImageFile() {
+        return isset($this->avatar) ? Yii::$app->params['uploadPath'] . $this->avatar : null;
+    }
+
+    /**
+     * fetch stored image url
+     * @return string
+     */
+    public function getImageUrl() {
+        // return a default image placeholder if your source avatar is not found
+        $avatar = isset($this->avatar) ? $this->avatar : 'default_img.gif';
+        return Yii::$app->params['uploadPath'] . $avatar;
+    }
+
+    /**
+     * Process upload of image
+     *
+     * @return mixed the uploaded image instance
+     */
+    public function uploadImage() {
+        // get the uploaded file instance. for multiple file uploads
+        // the following data will return an array (you may need to use
+        // getInstances method)
+        $image = UploadedFile::getInstance($this, 'image');
+
+        // if no image was uploaded abort the upload
+        if (empty($image)) {
+            return false;
+        }
+
+        // store the source file name
+        $this->filename = $image->name;
+        $ext = end((explode(".", $image->name)));
+
+        // generate a unique file name
+        $this->avatar = Yii::$app->security->generateRandomString() . ".{$ext}";
+
+        // the uploaded image instance
+        return $image;
+    }
+
+    /**
+     * Process deletion of image
+     *
+     * @return boolean the status of deletion
+     */
+    public function deleteImage() {
+        $file = $this->getImageFile();
+
+        // check if file exists on server
+        if (empty($file) || !file_exists($file)) {
+            return false;
+        }
+
+        // check if uploaded file can be deleted on server
+        if (!unlink($file)) {
+            return false;
+        }
+
+        // if deletion successful, reset your file attributes
+        $this->avatar = null;
+        $this->filename = null;
+
+        return true;
     }
 
 }

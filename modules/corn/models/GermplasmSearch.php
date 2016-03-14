@@ -1,14 +1,14 @@
 <?php
 
-namespace app\modules\catalog\models;
+namespace app\modules\corn\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\catalog\models\Germplasm;
+use app\modules\corn\models\Germplasm;
 
 /**
- * GermplasmSearch represents the model behind the search form about `app\modules\catalog\models\Germplasm`.
+ * GermplasmSearch represents the model behind the search form about `app\modules\corn\models\Germplasm`.
  */
 class GermplasmSearch extends Germplasm {
 
@@ -41,10 +41,10 @@ class GermplasmSearch extends Germplasm {
      */
     public function search($params) {
 
-$phl_no_str="'(^[0-9]+)'";
-$phl_no_str2="'([^0-9_].*$)'";
-        $query = \app\modules\catalog\models\Germplasm::find()->select(['germplasm.*'])->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
-       // $query->joinWith(['crop']);
+        $phl_no_str = "'(^[0-9]+)'";
+        $phl_no_str2 = "'([^0-9_].*$)'";
+        $query = \app\modules\corn\models\Germplasm::find()->select(['germplasm.*']);
+        // $query->joinWith(['crop']);
 
 
 
@@ -58,6 +58,7 @@ $phl_no_str2="'([^0-9_].*$)'";
             'label' => 'Crop',
             'default' => SORT_ASC
         ];
+        
 
 
         $this->load($params);
@@ -75,7 +76,7 @@ $phl_no_str2="'([^0-9_].*$)'";
             'modifier_id' => $this->modifier_id,
             'modification_timestamp' => $this->modification_timestamp,
             'is_void' => $this->is_void,
-      //      'crop_id' => $this->crop_id,
+                //      'crop_id' => $this->crop_id,
         ]);
 
         $query->andFilterWhere(['like', 'phl_no', $this->phl_no])
@@ -111,7 +112,7 @@ $phl_no_str2="'([^0-9_].*$)'";
                 ->andFilterWhere(['like', 'crop.name', $this->crop]);
         //->andFilterWhere(['like', 'tbl_country.name', $this->country]);
 
-        return $dataProvider;
+        return $query;
     }
 
 }

@@ -16,11 +16,7 @@ use kartik\grid\GridView;
 <div class="modal-body-small form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
     <p class="instruction" id="sel-records"></p>
     <?php
-
-    use yii\widgets\ActiveForm;
-    use yii\helpers\ArrayHelper;
-
-echo $this->render('@app/modules/catalog/views/browse/search/_search', ['model' => $searchModel]);
+    echo $this->render('@app/modules/corn/views/browse/search/_search', ['model' => $searchModel]);
     ?>
 </div>
 
@@ -35,13 +31,78 @@ echo "<div id='search-content-id'></div>";
 //$form->field($model, 'StudName', [
 //    'options' => ['enableAjaxValidation' => false]
 //])->textInput();
-//$searchModel = new \app\modules\catalog\models\GermplasmSearch;
+//$searchModel = new \app\modules\corn\models\GermplasmSearch;
 
 $viewMsg = 'view';
 $updateMsg = 'update';
 $deleteMsg = 'delete';
+//$url=\yii\helpers\Url::to(['/corn/upload/image', 'id' => $model]);
 $dynagrid = DynaGrid::begin([
-            'columns' => $columns,
+            'columns' => [
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'template' => '{view} {delete}',
+                    'buttons' => [
+                       'upload' => function ($action, $model) {
+//if ($action === 'upload') {
+                      $url=  \yii\helpers\Url::to(['/corn/upload/image', 'id' => $model->id]);
+                        return Html::a('<span class="glyphicon glyphicon-upload"></span>', $url, [
+                                'title' => Yii::t('app', 'Upload image'),
+                            ]);
+  //                  }
+                    
+                }
+                    ],
+                    'dropdown' => false,
+                    'urlCreator' => function($action, $model, $key, $index) {
+                if ($action === 'view') {
+                    return \yii\helpers\Url::to(['/corn/view/index', 'id' => $model->id]);
+                }
+                
+            },
+                    'viewOptions' => ['title' => 'View more information', 'data-toggle' => 'tooltip'],
+//                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
+                    'deleteOptions' => ['title' => 'Delete record', 'data-toggle' => 'tooltip'],
+                    'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_LEFT],
+//            'id',
+                'phl_no',
+//            'creator_id',
+//            'creation_timestamp',
+//            'modifier_id',
+                // 'modification_timestamp',
+                // 'remarks:ntext',
+                // 'Notes:ntext',
+                // 'is_void:boolean',
+                // 'crop_id',
+                'old_acc_no',
+                'gb_no',
+                'collecting_no',
+                'variety_name',
+                'dialect',
+                'grower',
+                'scientific_name',
+                'count_coll',
+                'prov',
+                'town',
+                'barangay',
+                'sitio',
+                'acq_date',
+                'remarks:ntext',
+                'latitude',
+                'longitude',
+                'altitude',
+                'coll_source',
+                'gen_stat',
+                'sam_type',
+                'sam_met',
+                'mat',
+                'topo',
+                'site',
+                'soil_tex',
+                'drain',
+                'soil_col',
+                'ston',
+            ],
             'theme' => 'panel-success',
             'showPersonalize' => true,
             'storage' => 'cookie',
@@ -104,8 +165,9 @@ $dynagrid = DynaGrid::begin([
 //                    ],
                 'toolbar' => [
                     ['content' =>
+                        //Html::a('Create Germplasm Base', ['add'], ['class' => 'btn btn-success']).
                         Html::button('<i class="glyphicon glyphicon-search"></i>', [
-                            //'value' => yii\helpers\Url::to('catalog/browse/search'),
+                            //'value' => yii\helpers\Url::to('corn/browse/search'),
                             'data' => [
                                 'toggle' => 'modal',
                                 'target' => '#stud-info',
