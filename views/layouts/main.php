@@ -154,7 +154,7 @@ AppAsset::register($this);
                                             ]
                                         ],
                                         ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
-                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item === '' )],
+                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === '' )],
                                                 ['label' => 'Viewer', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'guest-characterization-tabs')],
                                                 ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'guest-characterization-search')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
@@ -200,7 +200,7 @@ AppAsset::register($this);
                                             ]
                                         ],
                                         ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
-                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item === '' )],
+                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === '' )],
                                                 ['label' => 'Viewer', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'guest-characterization-tabs')],
                                                 ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'guest-characterization-search')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')

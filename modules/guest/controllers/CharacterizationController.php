@@ -117,8 +117,10 @@ class CharacterizationController extends Controller {
      */
     public function actionIndex() {
         $searchModel = new CharacterizationSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $query = $searchModel->search(Yii::$app->request->queryParams);
+ $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
         return $this->render('index', [
                     'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
