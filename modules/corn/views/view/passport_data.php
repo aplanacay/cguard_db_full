@@ -107,15 +107,15 @@
 <!--  <div id="div-id-success-notif" class="alert alert-success"></div>-->
 
 <?php
-\Yii::$app->session->set('curr_page', 'guest-view-pass-data');
+
 
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use \kartik\widgets\Select2;
 use yii\bootstrap\Modal;
 $form = ActiveForm::begin([
-            'method' => 'get',
-            'action' => ['view?id=' . $id],
+            'method' => 'post',
+            'action' => ['browse/update?id=' . $id],
             'layout' => 'horizontal',
             'fieldConfig' => [
                 'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
@@ -209,7 +209,7 @@ echo $form->field($model, 'longitude');
 echo $form->field($model, 'altitude');
 
 echo $form->field($model, 'coll_source')->label('Collecting source')->widget(\kartik\widgets\Select2::classname(), [
-    'data' => ['FARMLAND' => 'farmland', 'backyard/ home garden' => 'backyard/ home garden', 'farm store/ threshing place' => 'farm store/ threshing place', 'village market' => 'village market', 'commercial seed shop' => 'commercial seed shop', 'agricultural institute' => 'agricultural institute', 'bordering field' => 'bordering field', 'natural vagetation/ wild' => 'natural vagetation/ wild', 'others' => 'others'],
+    'data' => ['farmland' => 'farmland', 'backyard/ home garden' => 'backyard/ home garden', 'farm store/ threshing place' => 'farm store/ threshing place', 'village market' => 'village market', 'commercial seed shop' => 'commercial seed shop', 'agricultural institute' => 'agricultural institute', 'bordering field' => 'bordering field', 'natural vagetation/ wild' => 'natural vagetation/ wild', 'others' => 'others'],
     'options' => ['placeholder' => 'Select collecting source...'],
     'pluginOptions' => [
         'allowClear' => true

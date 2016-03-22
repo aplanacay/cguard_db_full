@@ -11,7 +11,15 @@ use Yii;
 class BrowseController extends Controller {
 
     public function actionSearch() {
-        return $this->render('search/modal');
+        \Yii::$app->session->set('curr_page', 'corn-search');
+        $searchModel = new \app\modules\corn\models\GermplasmSearch();
+        $model = new \app\modules\corn\models\Germplasm;
+        return $this->render('search/search', [
+                    'model' => $searchModel,
+                    'searchModel' => $searchModel,
+                        // 'dataProvider' => $dataProvider,
+                        // 'columns' => $this->prepareDataProvider($columns),
+        ]);
     }
 
     public function actionIndex() {
@@ -289,13 +297,54 @@ class BrowseController extends Controller {
             ]);
         }
     }
+
     public function actionAdd() {
         $model = new \app\modules\corn\models\Germplasm();
+
+        return $this->render('create', [
+                    'model' => $model,
+        ]);
+    }
+
+    public function actionUpdate($id) {
+        $model = \app\modules\corn\models\Germplasm::findOne($id);
+        $model->load(Yii::$app->request->post());
+        //$model->setAttribute('crop_id', 1);
+        \ChromePhp::log($model->id);
+        if ($model->save()) {
+            \Yii::$app->getSession()->setFlash('success', 'Successfully updated passport data.');
+            return $this->redirect(['/corn/view/index', 'id' => $id]);
+        } else {
+            $error_str = '';
+            $error_arr = $model->getErrors();
+
+            foreach ($error_arr as $err) {
+                $error_str .= '. ' . $err;
+            }
+            \Yii::$app->getSession()->setFlash('error', 'Failed to update passport data. Errors: ' . $error_str);
+            return $this->redirect(['/corn/view/index', 'id' => $id]);
+        }
+    }
+
+    public function actionModify($id) {
+
+        $model = \app\models\CharacterizationBase::find()->where(['germplasm_id' => $id])->one();
         
-            return $this->render('create', [
-                        'model' => $model,
-            ]);
-        
+        $model->load(Yii::$app->request->post());
+
+        if ($model->save()) {
+            \Yii::$app->getSession()->setFlash('success', 'Successfully updated characterization data.');
+            return $this->redirect(['/corn/view/index', 'id' => $id]);
+        } else {
+            $error_str = '';
+            $error_arr = $model->getErrors();
+
+            foreach ($error_arr as $err) {
+                $error_str .= '. ' . $err;
+            }
+            \Yii::$app->getSession()->setFlash('error', 'Failed to update characterization data. Errors: ' . $error_str);
+            return $this->redirect(['/corn/view/index', 'id' => $id]);
+        }
     }
 
 }
