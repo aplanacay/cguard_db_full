@@ -5,7 +5,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use kartik\widgets\SideNav;
+//use kartik\widgets\SideNav;
 use yii\helpers\Url;
 ?>
 
@@ -36,7 +36,7 @@ AppAsset::register($this);
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     //'style'=>'height:80;width:100',
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    'class' => 'navbar-inverse navbar-fixed-top navbar-lg',
                 //'class' => 'navbar-black navbar-fixed-top nav-condensed',
                 ],
             ]);
@@ -46,7 +46,7 @@ AppAsset::register($this);
                     'items' => [
                         ['label' => 'Home', 'url' => ['/site/index']],
                         ['label' => 'ABOUT US', 'url' => ['/site/about']],
-                        ['label' => 'OUR PEOPLE', 'url' => ['/site/people']],
+                       // ['label' => 'OUR PEOPLE', 'url' => ['/site/people']],
                         ['label' => 'OUR WORK', 'url' => ['/site/work']],
                         ['label' => 'Login', 'url' => ['/site/login']],
                     ],
@@ -61,17 +61,18 @@ AppAsset::register($this);
                         'items' => [
                             ['label' => 'Home', 'url' => ['/site/index']],
                             ['label' => 'ABOUT US', 'url' => ['/site/about']],
-                            ['label' => 'OUR PEOPLE', 'url' => ['/site/people']],
+                           // ['label' => 'OUR PEOPLE', 'url' => ['/site/people']],
                             ['label' => 'OUR WORK', 'url' => ['/site/work']],
                             ['label' => 'Crop Group',
                                 'items' => [
-                                    ['label' => 'Cereal',
-                                        'items' => [
-                                            ['label' => 'Corn', 'url' => ['/corn/browse']],
+                                    //label' => 'Cereal',
+                                    //    'items' => [
+                                            ['label' => 'Corn', 'url' => ['/corn/browse']
+                                                //],
                                         //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
-                                        ]
+                                      //  ]
                                     ]
-                                ],
+                                ],//
                             ],
                             ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                                 'url' => ['/site/logout'],
@@ -141,20 +142,22 @@ AppAsset::register($this);
                             'type' => SideNav::TYPE_DEFAULT,
                             'encodeLabels' => false,
                             //'heading' => $heading,
+                            'indItem' => '',
                             'items' => [
 
                                 ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
                                 ['label' => 'Corn', 'items' => [
                                         ['label' => 'Passport Data', 'icon' => 'leaf', 'items' => [
                                                 ['label' => 'Browser', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')],
-                                                ['label' => 'Viewer', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-view')],
+                                                ['label' => 'Viewer', 'url' => Url::to(['/corn/view/index']), 'active' => ($item == 'corn-view')],
                                                 ['label' => 'Import File', 'url' => Url::to(['/corn/upload/index']), 'active' => ($item == 'corn-import')],
                                                 ['label' => 'Add Record', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
-//                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
+                                                ['label' => 'Search', 'url' => Url::to(['/corn/browse/search']), 'active' => ($item == 'corn-search')],
+//\\                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                             ]
                                         ],
                                         ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
-                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === '' )],
+                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === 'guest-characterization-browser' )],
                                                 ['label' => 'Viewer', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'guest-characterization-tabs')],
                                                 ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'guest-characterization-search')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
@@ -173,7 +176,7 @@ AppAsset::register($this);
                     </div>
                     <?php
                 } else {
-                    if (\Yii::$app->session->get('curr_page') === 'guest-view-pass-data' || \Yii::$app->session->get('curr_page') === 'guest-view-char-data' || \Yii::$app->session->get('curr_page') === 'guest-characterization-search' || \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' || \Yii::$app->session->get('curr_page') === 'guest-browse') {
+                    if (\Yii::$app->session->get('curr_page') === 'guest-view'|| \Yii::$app->session->get('curr_page') === 'guest-search'|| \Yii::$app->session->get('curr_page') === 'guest-view-char-data' || \Yii::$app->session->get('curr_page') === 'guest-characterization-search' || \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' || \Yii::$app->session->get('curr_page') === 'guest-browse' || \Yii::$app->session->get('curr_page') === 'guest-characterization-browse') {
                         echo '<div class="col-sm-2">';
                         Breadcrumbs::widget([
                             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -188,19 +191,20 @@ AppAsset::register($this);
                             'type' => SideNav::TYPE_DEFAULT,
                             'encodeLabels' => false,
                             //'heading' => $heading,
+                            'indItem' => '',
                             'items' => [
 
                                 ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
                                 ['label' => 'Corn', 'items' => [
                                         ['label' => 'Passport Data', 'icon' => 'leaf', 'items' => [
                                                 ['label' => 'Browser', 'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' )],
-                                                ['label' => 'Viewer', 'url' => Url::to(['/guest/view/index']), 'active' => ( $item === 'guest-view-char-data')],
-                                                ['label' => 'Search', 'url' => Url::to(['/guest/browse/index']), 'active' => ''],
+                                                ['label' => 'Viewer', 'url' => Url::to(['/guest/view/index']), 'active' => ( $item === 'guest-view')],
+                                                ['label' => 'Search', 'url' => Url::to(['/guest/browse/search']), 'active' =>( $item === 'guest-search')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                             ]
                                         ],
                                         ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
-                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === '' )],
+                                                ['label' => 'Browser', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === 'guest-characterization-browse' )],
                                                 ['label' => 'Viewer', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'guest-characterization-tabs')],
                                                 ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'guest-characterization-search')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
