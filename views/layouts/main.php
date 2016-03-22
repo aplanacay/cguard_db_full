@@ -5,7 +5,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-//use kartik\widgets\SideNav;
+use kartik\widgets\SideNav;
 use yii\helpers\Url;
 ?>
 
@@ -109,7 +109,7 @@ AppAsset::register($this);
             <div class="container-fluid">
 
                 <?php
-                if (!Yii::$app->user->isGuest) {
+                if (!Yii::$app->user->isGuest && !( \Yii::$app->session->get('curr_page') === 'home' || \Yii::$app->session->get('curr_page') === 'work' || \Yii::$app->session->get('curr_page') === 'about')) {
                     ?>
                     <div class="col-sm-2">
                         <?php

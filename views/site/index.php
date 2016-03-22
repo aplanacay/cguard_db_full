@@ -48,19 +48,26 @@ $this->title = 'CGUARD';
                 </div>
             </div>
             <div class="col-lg-4">
-                <div align="center"><a href="<?php echo \yii\helpers\Url::to(['/guest/browse/index']); ?>" class="btn-m btn-m-info btn-m-material-light-green btn-m-lg btn-m-fab btn-m-raised glyphicon glyphicon-leaf"></a>
+                <?php 
+                if (Yii::$app->user->isGuest){
+                    $mode='guest';
+                }else{
+                    $mode='corn';
+                }
+                ?>
+                <div align="center"><a href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/browse/index']); ?>" class="btn-m btn-m-info btn-m-material-light-green btn-m-lg btn-m-fab btn-m-raised glyphicon glyphicon-leaf"></a>
                     <h2>Passport Data</h2>
                     <p>Browse the collection of germplasm on cereals, vegetables, food legumes, feed and industrial crops, medicinal plants, fruits, and in-vitro culture.</p>
-                    <p><a class="btn btn-default" href="<?php echo \yii\helpers\Url::to(['/guest/browse/index']); ?>">Browse &raquo;</a></p>
+                    <p><a class="btn btn-default" href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/browse/index']); ?>">Browse &raquo;</a></p>
                 </div>
             </div>
 
             <div class="col-lg-4">
-                <div align="center"><a href="<?php echo \yii\helpers\Url::to(['/guest/characterization/tabs']); ?>" class="btn-m btn-m-info btn-m-material-deep-orange btn-m-lg btn-m-fab btn-m-raised glyphicon glyphicon-list"></a>
+                <div align="center"><a href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/characterization/tabs']); ?>" class="btn-m btn-m-info btn-m-material-deep-orange btn-m-lg btn-m-fab btn-m-raised glyphicon glyphicon-list"></a>
                     <h2>Characterization Data</h2>
 
                     <p>Browse and search germplasm characteristics.</p>
-                    <p><a class="btn btn-default" href="<?php echo \yii\helpers\Url::to(['/guest/characterization/tabs']); ?>">Browse &raquo;</a></p>
+                    <p><a class="btn btn-default" href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/characterization/tabs']); ?>">Browse &raquo;</a></p>
                 </div>
 
             </div>

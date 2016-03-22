@@ -8,7 +8,7 @@
     <?php
     $flashMessages = Yii::$app->session->allFlashes;
     if ($flashMessages) {
-       
+
         foreach ($flashMessages as $key => $message) {
             ?>
             <div class="alert alert-<?php echo $key; ?>" role="alert">
@@ -18,7 +18,6 @@
             </div>
             <?php
         }
-       
     }
     ?>
     <?php
@@ -31,7 +30,7 @@ $content1 = '';
     $content2 = 'b';
     $content3 = 'c';
     $content4 = 'd';
- 
+
     $bordered = false;
     $striped = false;
     $condensed = true;
@@ -47,7 +46,7 @@ $content1 = '';
     ?>
     <div class="row">
         <?php
-        $tab = '3';
+        $tab = '';
         $items = [
             [
                 'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
@@ -89,15 +88,35 @@ $content1 = '';
                 'headerOptions' => ['class' => 'disabled'],
                 'active' => $tab === 3,
             ],
-            
+//            [
+//                'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
+//                'content' => $this->render('passport_data', [
+//                    'model' => $model,
+//                    'dataProvider' => $dataProvider,
+//                    'id' => $id
+//                ]),
+//                'active' => $tab === 4,
+//            ],
             [
                 'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
                 'content' => $this->render('germplasm_location', [
-                    'model' => $model,
-                    'dataProvider' => $dataProvider,
+                    'model' => $characterizationQuery,
+                    //'dataProvider' => $dataProvider,
                     'id' => $id
                 ]),
-                'active' => $tab === 4,
+                'active' => $tab === 5,
+//            'items' => [
+//                [
+//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
+//                    'encode' => false,
+//                    'content' => $content3,
+//                ],
+//                [
+//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 2',
+//                    'encode' => false,
+//                    'content' => $content4,
+//                ],
+//            ],
             ],
         ];
         ?>

@@ -93,10 +93,12 @@ class SiteController extends Controller {
     }
 
     public function actionAbout() {
+        Yii::$app->session->set('curr_page', 'about');
         return $this->render('about');
     }
 
     public function actionWork() {
+        Yii::$app->session->set('curr_page', 'work');
         return $this->render('work');
     }
 
