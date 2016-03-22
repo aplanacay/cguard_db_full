@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\guest\controllers;
+namespace app\modules\corn\controllers;
 
 use Yii;
 use app\models\CharacterizationBase;
@@ -43,7 +43,7 @@ class CharacterizationController extends Controller {
     }
 
     public function actionTabs($id = null) {
-        \Yii::$app->session->set('curr_page', 'guest-characterization-tabs');
+        \Yii::$app->session->set('curr_page', 'corn-characterization-tabs');
         \ChromePhp::log(Yii::$app->request->get());
         $data = Yii::$app->request->get('CharacterizationSearch');
         $search = false;
