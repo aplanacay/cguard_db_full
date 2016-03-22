@@ -32,7 +32,7 @@ AppAsset::register($this);
         <div class="wrapper">
             <?php
             NavBar::begin([
-                'brandLabel' => 'CGUARD',
+                'brandLabel' => 'CornBase',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     //'style'=>'height:80;width:100',
