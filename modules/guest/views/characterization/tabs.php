@@ -1,3 +1,4 @@
+
 <style>
     body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -81,6 +82,9 @@
         margin: 0px 0;
         border-radius: 4px;
     }
+    .panel-title:hover {
+        cursor: pointer;
+    }
 </style>
 <?php
 
@@ -97,6 +101,7 @@ use kartik\select2\Select2;
 ?>
 
 <div class="characterization-base-search container-fluid">
+
     <?php
     echo \yii\widgets\LinkPager::widget([
         'pagination' => $dataProvider->pagination,
@@ -107,47 +112,52 @@ use kartik\select2\Select2;
         'lastPageLabel' => true,
         'options' => ['class' => 'pagination pull-right']
     ]);
-    echo Html::a('Show browser', ['characterization/index','CharacterizationSearch'=>Yii::$app->request->getQueryParam('CharacterizationSearch')], ['class'=>'btn btn-primary']) ;
+    echo Html::a('Show browser', ['characterization/index', 'CharacterizationSearch' => Yii::$app->request->getQueryParam('CharacterizationSearch')], ['class' => 'btn btn-success']);
 //    use kartik\export\ExportMenu;
 //    echo ExportMenu::widget([
 //    'dataProvider' => $dataProvider,
 //    'columns' => $gridColumns,
 //    'fontAwesome' => true,
 //]);
-
     ?>
-    <?php  ?>
-    <?php
-    echo '<div class="pull-right" style="margin-top:7px;">';
-   
-    if ($dataProvider->pagination->totalCount === '0') {
-        echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
-        // $model= new \app\modules\corn\models\CharacterizationSearch();
-    } else {
-        echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
-    }
-  
-    echo '</div>';
+    <div class = "form-group pull-right" >
 
-    echo '<br><br><br>';
+        <?php ?>
 
-    $form = ActiveForm::begin([
-                'layout' => 'horizontal',
-                'fieldConfig' => [
-                    'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-                    'horizontalCssClasses' => [
-                        ['label' => 'col-sm-6',
-                            'offset' => 'col-sm-offset-4',
-                            'wrapper' => 'col-sm-6',
-                            'error' => '',
-                            'hint' => '',
+</div>
+        <br/><br/>
+        
+        <?php
+        echo '<div class="pull-right" style="margin-top:7px;">';
+
+        if ($dataProvider->pagination->totalCount === '0') {
+            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
+            // $model= new \app\modules\corn\models\CharacterizationSearch();
+        } else {
+            echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
+        }
+echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']); 
+        echo '</div>';
+
+        echo '<br><br><br>';
+
+        $form = ActiveForm::begin([
+                    'layout' => 'horizontal',
+                    'fieldConfig' => [
+                        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+                        'horizontalCssClasses' => [
+                            ['label' => 'col-sm-6',
+                                'offset' => 'col-sm-offset-4',
+                                'wrapper' => 'col-sm-6',
+                                'error' => '',
+                                'hint' => '',
+                            ],
                         ],
                     ],
-                ],
-    ]);
-    ?>
+        ]);
+        ?>
 
-    <div class="panel panel-default">
+       <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingZero">
             <h4 class="panel-title">
                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseZero" aria-expanded="false" aria-controls="collapseZero">
@@ -155,58 +165,59 @@ use kartik\select2\Select2;
                 </a>
             </h4>
         </div>
-        <div id="collapseZero" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingZero">
-            <div class="panel-body passport-data" >
-                <?php
-                echo '<div class="col-md-4">';
-                if ($dataProvider->pagination->totalCount !== '0') {
-                    echo $form->field($model->germplasm, 'phl_no')->textInput(['readonly' => true]);
-                    echo $form->field($model->germplasm, 'variety_name')->textInput(['readonly' => true]);
+        <div id="collapseZero" class="collapse in" role="tabpanel" aria-labelledby="headingZero">
+                <div class="panel-body passport-data" >
+                    <?php
+                    echo '<div class="col-md-4">';
+                    if ($dataProvider->pagination->totalCount !== '0') {
+                        echo $form->field($model->germplasm, 'phl_no')->textInput(['readonly' => true]);
+                        echo $form->field($model->germplasm, 'variety_name')->textInput(['readonly' => true]);
 
 
-                    echo '</div><div class="col-md-4">';
-                    echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
+                        echo '</div><div class="col-md-4">';
+                        echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
 
-                    echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
-                    echo '</div><div class="col-md-4">';
-                    echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
+                        echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
+                        echo '</div><div class="col-md-4">';
+                        echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
+                        echo '</div>';
+                    }
+                    ActiveForm::end();
                     echo '</div>';
-                }
-                ActiveForm::end();
-                echo '</div>';
-                ?>  
+                    ?>  
+                </div>
             </div>
         </div>
-    </div>
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <div class="panel panel-group" id="accordion">
+            <!-- First Panel -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"
+                        data-toggle="collapse" 
+                        data-target="#collapseOne">
                         I. Plant Data
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body" >
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
 
-                    <?php
-                    $form = ActiveForm::begin([
-                                'layout' => 'horizontal',
-                                'fieldConfig' => [
-                                    'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-                                    'horizontalCssClasses' => [
-                                        ['label' => 'col-sm-6',
-                                            'offset' => 'col-sm-offset-4',
-                                            'wrapper' => 'col-sm-6',
-                                            'error' => '',
-                                            'hint' => '',
+                        <?php
+                        $form = ActiveForm::begin([
+                                    'layout' => 'horizontal',
+                                    'fieldConfig' => [
+                                        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+                                        'horizontalCssClasses' => [
+                                            ['label' => 'col-sm-6',
+                                                'offset' => 'col-sm-offset-4',
+                                                'wrapper' => 'col-sm-6',
+                                                'error' => '',
+                                                'hint' => '',
+                                            ],
                                         ],
                                     ],
-                                ],
-                    ]);
+                        ]);
 //                    echo '<legend >I. Plant Data</legend>';
-                    if ($dataProvider->pagination->totalCount !== '0') {
+                        //  if ($dataProvider->pagination->totalCount !== '0') {
                         echo '<div class="col-md-4">';
 
                         echo $form->field($model, 'days_to_emergence')->textInput(['readonly' => true]);
@@ -283,116 +294,120 @@ use kartik\select2\Select2;
 
                         echo $form->field($model, 'stalk_lodging')->textInput(['readonly' => true]);
                         echo '</div>';
-                    }
-                    ?>
+                        // }
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingTwo">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        II. Ear Data
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
-                    <?php
+            <div class="panel panel-group" id="accordion">
+                <!-- First Panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"
+                            data-toggle="collapse" 
+                            data-target="#collapseTwo">
+                            II. Ear Data
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <?php
 //  echo '<legend>II. Ear Data</legend>';
-                    if ($dataProvider->pagination->totalCount !== '0') {
-                        echo '<div class="col-md-4">';
-                        echo $form->field($model, 'husk_cover')->textInput(['readonly' => true]);
+//                    if ($dataProvider->pagination->totalCount !== '0') {
+                            echo '<div class="col-md-4">';
+                            echo $form->field($model, 'husk_cover')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'husk_fitting')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'husk_fitting')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'husk_tip_shape')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'husk_tip_shape')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'ear_shape')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'ear_shape')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'ear_tip_shape')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'ear_tip_shape')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'ear_orientation')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'ear_orientation')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'ear_length')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'ear_length')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'ear_diameter')->textInput(['readonly' => true]);
-                        echo '</div><div class="col-md-6">';
-                        echo $form->field($model, 'cob_diameter')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'ear_diameter')->textInput(['readonly' => true]);
+                            echo '</div><div class="col-md-6">';
+                            echo $form->field($model, 'cob_diameter')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'rachs_diameter')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'rachs_diameter')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'peduncle_length')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'peduncle_length')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'number_of_bracts')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'number_of_bracts')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'kernel_row_arrangement')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'kernel_row_arrangement')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'number_of_kernel_rows')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'number_of_kernel_rows')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'number_of_kernels__per_row')->textInput(['readonly' => true]);
+                            echo $form->field($model, 'number_of_kernels__per_row')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'cob_color')->textInput(['readonly' => true]);
-                        echo '</div>';
-                    }
-                    ?>
+                            echo $form->field($model, 'cob_color')->textInput(['readonly' => true]);
+                            echo '</div>';
+//                    }
+                            ?>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        III. Kernel Data
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
-                    <?php
+                <div class="panel panel-group" id="accordion">
+                    <!-- First Panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"
+                                data-toggle="collapse" 
+                                data-target="#collapseThree">
+                                III. Kernel Data
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <?php
 // echo '<legend>III. Kernel Data</legend>';
-                    if ($dataProvider->pagination->totalCount !== '0') {
-                        echo '<div class="col-md-6">';
-                        echo $form->field($model, 'grain_shedding')->label('% Grain shielding')->textInput(['readonly' => true]);
+//                    if ($dataProvider->pagination->totalCount !== '0') {
+                                echo '<div class="col-md-6">';
+                                echo $form->field($model, 'grain_shedding')->label('% Grain shielding')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'kernel_type[]')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'kernel_type[]')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'kernel_color[]')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'kernel_color[]')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'kernel_length')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'kernel_length')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'kernel_width')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'kernel_width')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'kernel_thickness')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'kernel_thickness')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'shape_of_upper_kernel_surface')->textInput(['readonly' => true]);
-                        echo '</div>';
+                                echo $form->field($model, 'shape_of_upper_kernel_surface')->textInput(['readonly' => true]);
+                                echo '</div>';
 
-                        echo '<div class="col-md-6">';
-                        echo $form->field($model, 'pericarp_color')->textInput(['readonly' => true]);
+                                echo '<div class="col-md-6">';
+                                echo $form->field($model, 'pericarp_color')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'aleurone_color')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'aleurone_color')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'endosperm_color')->textInput(['readonly' => true]);
-                        echo $form->field($model, 'unshelled_weight')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'endosperm_color')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'unshelled_weight')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'shelled_weight')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'shelled_weight')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'kernel_weight')->textInput(['readonly' => true]);
+                                echo $form->field($model, 'kernel_weight')->textInput(['readonly' => true]);
 
-                        echo $form->field($model, 'shellpc')->textInput(['readonly' => true]);
-                        echo '</div>';
-                    }
-                    ?>
+                                echo $form->field($model, 'shellpc')->textInput(['readonly' => true]);
+                                echo '</div>';
+//                    }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
 
-    <?php
-    echo '</div>';
-    echo '<legend></legend>';
+                <?php
+                echo '</div>';
+                echo '<legend></legend>';
 // echo $form->field($model, 'creator_id')->textInput(['readonly' => true]);
 //     echo $form->field($model, 'creation_timestamp')->textInput(['readonly' => true]);
 //
@@ -405,20 +420,32 @@ use kartik\select2\Select2;
 //     echo $form->field($model, 'Notes')->textInput(['readonly' => true]);
 //
 //     echo $form->field($model, 'is_void')->checkbox();
-    ?>
+                ?>
 
 
-    <?php
-    echo \yii\widgets\LinkPager::widget([
-        'pagination' => $dataProvider->pagination,
-        'maxButtonCount' => 1,
-        'nextPageLabel' => 'Next Record&raquo;',
-        'prevPageLabel' => '&laquo; Previous Record',
-        'firstPageLabel' => true,
-        'lastPageLabel' => true,
-        'options' => ['class' => 'pagination pull-right'],
-    ]);
-    ActiveForm::end();
-    ?>
+            </div>
 
-</div>
+            <?php
+//$this->registerJs($this->renderPartial('@app/js/characterization_search.js'));
+//$this->registerJsFile('@web/js/characterization_search.js');
+//$this->registerJsFile(
+//        '@web/js/characterization_search.js', 
+//   [ 'depends' => ['\yii\web\JqueryAsset'], 'position' => '\yii\web\View::POS_END', ],
+//);
+
+            $this->registerJsFile('@web/js/characterization_search.js', [ 'depends' => ['app\assets\AppAsset'], 'position' => \yii\web\View::POS_END,]);
+            ?>
+            <?php
+            echo \yii\widgets\LinkPager::widget([
+                'pagination' => $dataProvider->pagination,
+                'maxButtonCount' => 1,
+                'nextPageLabel' => 'Next Record&raquo;',
+                'prevPageLabel' => '&laquo; Previous Record',
+                'firstPageLabel' => true,
+                'lastPageLabel' => true,
+                'options' => ['class' => 'pagination pull-right'],
+            ]);
+            ActiveForm::end();
+            ?>
+
+        </div>

@@ -165,11 +165,11 @@ use yii\bootstrap\ActiveForm;
 
     echo $form->field($model, 'acq_date');
     echo '</div><div class="col-md-4">';
-    echo $form->field($model, 'latitude');
-//
-    echo $form->field($model, 'longitude');
-//
-    echo $form->field($model, 'altitude');
+//    echo $form->field($model, 'latitude');
+
+//    echo $form->field($model, 'longitude');
+
+//    echo $form->field($model, 'altitude');
 
     echo $form->field($model, 'coll_source')->label('Collecting source')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['farmland' => 'farmland', 'backyard/ home garden' => 'backyard/ home garden', 'farm store/ threshing place' => 'farm store/ threshing place', 'village market' => 'village market', 'commercial seed shop' => 'commercial seed shop', 'agricultural institute' => 'agricultural institute', 'bordering field' => 'bordering field', 'natural vagetation/ wild' => 'natural vagetation/ wild', 'others' => 'others'],
