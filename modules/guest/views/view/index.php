@@ -149,5 +149,29 @@ $bordered = false;
 
 <div class="modal-footer">
 </div>
+        <?php yii\bootstrap\Modal::end(); ?>
+        
+        <?php
+    \yii\bootstrap\Modal::begin([
+        'header' => '<i class="glyphicon glyphicon-photo"></i> View Photo</h4>',
+        'id' => 'germplasm-photo-modal-id',
+        //'header' => '<h2></h2>',
+        //'toggleButton' => ['label' => 'View Photo'],
+        'closeButton' => ['id' => 'close-view-photo-button'],
+        'size' => 'modal-lg',
+    ]);
+    ?>
+
+    <div class="modal-body-large form-horizontal" id='germplasm-photo-modal-id-form-body' style="padding:10px 10px 20px 10px;">
+        <p class="instruction" id="sel-records"></p>
+        <?php
+        echo $this->render('@app/modules/guest/views/view/_photo', ['id' => $id, 'model' => $model]);
+        ?>
+    </div>
+
+    <div class="modal-footer">
+    </div>
+</div>
+<?php yii\bootstrap\Modal::end(); ?>
     </div>
 
