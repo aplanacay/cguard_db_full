@@ -10,7 +10,7 @@ use Yii;
 
 class ViewController extends Controller {
 
-    public function actionIndex($id=null) {
+    public function actionIndex($id = null) {
         \Yii::$app->session->set('curr_page', 'corn-view');
         $data = Yii::$app->request->get('Germplasm');
         $search = false;
@@ -26,12 +26,12 @@ class ViewController extends Controller {
         $phl_no_str2 = "'([^0-9_].*$)'";
 
         if (!$search && $id) {
-            
+
             $query = \app\modules\corn\models\Germplasm::find()->where(['id' => $id])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
             $countQuery = clone $query;
 
             $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
-           // \ChromePhp::log($pages);
+            // \ChromePhp::log($pages);
             $model = $query->offset($pages->offset)
                     ->limit($pages->limit)
                     ->one();
@@ -54,12 +54,12 @@ class ViewController extends Controller {
                     ->limit($pagesCharacterization->limit)
                     ->one();
         } else {
-            \ChromePhp::log('here');
-            \ChromePhp::log(Yii::$app->request->get());
+
             $searchModel = new \app\modules\corn\models\GermplasmSearch();
             $query = $searchModel->search(Yii::$app->request->get());
 
             $model = $query->one();
+            $id = $model->id;
             //ChromePhp::log($model);
             $countQuery = clone $query;
             $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
@@ -101,41 +101,42 @@ class ViewController extends Controller {
                         //  'columns' => $this->prepareDataProvider($columns),
         ]);
     }
-function actionPass($id){
-     \Yii::$app->session->set('curr_page', 'corn-browse');
+
+    function actionPass($id) {
+        \Yii::$app->session->set('curr_page', 'corn-browse');
         //$data = Yii::$app->request->get('GermplasmSearch');
         //$search = false;
-       
+
         $phl_no_str = "'(^[0-9]+)'";
         $phl_no_str2 = "'([^0-9_].*$)'";
 
-     
-
-            $query = \app\modules\corn\models\Germplasm::find()->where(['id' => $id])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
-            $countQuery = clone $query;
-
-            $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
-            \ChromePhp::log($pages);
-            $model = $query->offset($pages->offset)
-                    ->limit($pages->limit)
-                    ->one();
-            $searchModel = new \app\modules\corn\models\GermplasmSearch();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $model,
-                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
-                'pagination' => $pages,
-            ]);
 
 
- $html = $this->renderPartial('passport_data',[
-                   // 'characterizationQuery' => $modelCharacterization,
-                    'model' => $model,
-                    'dataProvider' => $dataProvider,
-                    'searchModel' => $searchModel,
-                    'id' => $id
-                        //  'columns' => $this->prepareDataProvider($columns),
-        ],false,true);
-    return \yii\helpers\Json::encode($html);
+        $query = \app\modules\corn\models\Germplasm::find()->where(['id' => $id])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
+        $countQuery = clone $query;
+
+        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+        \ChromePhp::log($pages);
+        $model = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->one();
+        $searchModel = new \app\modules\corn\models\GermplasmSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+            'pagination' => $pages,
+        ]);
+
+
+        $html = $this->renderPartial('passport_data', [
+            // 'characterizationQuery' => $modelCharacterization,
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'id' => $id
+                //  'columns' => $this->prepareDataProvider($columns),
+                ], false, true);
+        return \yii\helpers\Json::encode($html);
 //        return $this->render('index', [
 //                    'characterizationQuery' => $modelCharacterization,
 //                    'model' => $model,
@@ -144,23 +145,24 @@ function actionPass($id){
 //                    'id' => $id
 //                        //  'columns' => $this->prepareDataProvider($columns),
 //        ]);
-}
-function actionCharacterizationData($id){
-    $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
+    }
 
-            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $id]]);
+    function actionCharacterizationData($id) {
+        $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
 
-            $countQueryCharacterization = clone $characterizationQuery;
+        $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $id]]);
 
-            $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
+        $countQueryCharacterization = clone $characterizationQuery;
 
-            $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
-                    ->limit($pagesCharacterization->limit)
-                    ->one();
-     //       $this->renderPartial
- $html = $this->renderPartial('characteristics_data',['model'=> $modelCharacterization
-        ],false,true);
-    return \yii\helpers\Json::encode($html);
+        $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
+
+        $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
+                ->limit($pagesCharacterization->limit)
+                ->one();
+        //       $this->renderPartial
+        $html = $this->renderPartial('characteristics_data', ['model' => $modelCharacterization
+                ], false, true);
+        return \yii\helpers\Json::encode($html);
 //        return $this->render('index', [
 //                    'characterizationQuery' => $modelCharacterization,
 //                    'model' => $model,
@@ -169,7 +171,8 @@ function actionCharacterizationData($id){
 //                    'id' => $id
 //                        //  'columns' => $this->prepareDataProvider($columns),
 //        ]);
-}
+    }
+
     /**
      * Updates an existing GermplasmBase model.
      * If update is successful, the browser will be redirected to the 'view' page.

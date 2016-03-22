@@ -58,6 +58,7 @@ $phl_no_str2="'([^0-9_].*$)'";
             $query = $searchModel->search(Yii::$app->request->get());
             
             $model = $query->one();
+            $id=$model->id;
             ChromePhp::log($model);
             $countQuery = clone $query;
  $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);

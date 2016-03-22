@@ -73,6 +73,15 @@ $bordered = false;
                 'headerOptions' => ['class' => 'disabled'],
                 'active' => $tab === 3,
             ],
+            [
+                'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
+                'content' => $this->render('germplasm_location', [
+                    'model' => $model,
+                    'dataProvider' => $dataProvider,
+                    'id' => $id
+                ]),
+                'active' => $tab === 5,
+            ],
         ];
         ?>
         <?php

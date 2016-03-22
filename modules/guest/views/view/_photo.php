@@ -8,7 +8,7 @@ use kartik\widgets\FileInput;
 <?php
 
 $model = \app\modules\corn\models\Image::find()->where(['germplasm_id' => $id])->one();
-//ChromePhp::log($model);
+ChromePhp::log($id);
 if ($model !== null) {
     echo kartik\helpers\Html::img('@web/uploads/' . $model->avatar);
 }  else {

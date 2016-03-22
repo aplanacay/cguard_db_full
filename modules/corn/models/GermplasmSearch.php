@@ -43,7 +43,7 @@ class GermplasmSearch extends Germplasm {
 
         $phl_no_str = "'(^[0-9]+)'";
         $phl_no_str2 = "'([^0-9_].*$)'";
-        $query = \app\modules\corn\models\Germplasm::find()->select(['germplasm.*']);
+        $query = \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
         // $query->joinWith(['crop']);
 
 
