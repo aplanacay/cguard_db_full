@@ -15,9 +15,7 @@ $content1 = '';
     $content2 = 'b';
     $content3 = 'c';
     $content4 = 'd';
-
-
-
+ 
     $bordered = false;
     $striped = false;
     $condensed = true;
@@ -74,6 +72,16 @@ $content1 = '';
                 'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
                 'headerOptions' => ['class' => 'disabled'],
                 'active' => $tab === 3,
+            ],
+            
+            [
+                'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
+                'content' => $this->render('germplasm_location', [
+                    'model' => $model,
+                    'dataProvider' => $dataProvider,
+                    'id' => $id
+                ]),
+                'active' => $tab === 4,
             ],
         ];
         ?>
