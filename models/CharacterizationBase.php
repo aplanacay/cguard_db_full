@@ -107,12 +107,12 @@ class CharacterizationBase extends \yii\db\ActiveRecord {
 
     public function fields() {
         return array_merge(parent::fields, array(
-            'germplasm'=>function($model){
-            if($model->germplasm===null){
-                return null;
-            }
-            }
-            ));
+            'germplasm' => function($model) {
+        if ($model->germplasm === null) {
+            return null;
+        }
+    }
+        ));
     }
 
     /**
@@ -201,6 +201,26 @@ class CharacterizationBase extends \yii\db\ActiveRecord {
      */
     public function getGermplasm() {
         return $this->hasOne(\app\modules\corn\models\Germplasm::className(), ['id' => 'germplasm_id']);
+    }
+
+    public function save($runValidation = true, $attributeNames = null) {
+        if ($this->getIsNewRecord()) {
+            return $this->insert($runValidation, $attributeNames);
+        } else {
+            if (!empty($this->stem_color)) {
+                $this->stem_color = implode(' ', $this->stem_color);
+            }
+            if (!empty($this->sheath_pubescence)) {
+                $this->sheath_pubescence = implode(' ', $this->sheath_pubescence);
+            }
+            if (!empty($this->kernel_type)) {
+                $this->kernel_type = implode(' ', $this->kernel_type);
+            }
+            if (!empty($this->kernel_color)) {
+                $this->kernel_color = implode(' ', $this->kernel_color);
+            }
+            return $this->update($runValidation, $attributeNames) !== false;
+        }
     }
 
 }

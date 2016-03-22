@@ -106,10 +106,9 @@
         margin: 0px 0;
         border-radius: 4px;
     }
-   
+
 </style>
 <?php
-\Yii::$app->session->set('curr_page', 'guest-view-char-data');
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -124,16 +123,11 @@ use kartik\select2\Select2;
 ?>
 
 <div class="characterization-base-search container-fluid">
-    <div class = "form-group pull-right" >
 
-        <?php echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']); ?>
-        <?php echo Html::submitButton('Update', ['class' => 'btn btn-success']); ?>
-
-    </div>
-    <br/><br/>
-    <br/>
     <?php
     $form = ActiveForm::begin([
+                'action' => ['browse/modify?id='.$id],
+                'method' => 'post',
                 'layout' => 'horizontal',
                 'fieldConfig' => [
                     'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
@@ -148,7 +142,14 @@ use kartik\select2\Select2;
                 ],
     ]);
     ?>
+    <div class = "form-group pull-right" >
 
+        <?php echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']); ?>
+        <?php echo Html::submitButton('Update', ['class' => 'btn btn-success']); ?>
+
+    </div>
+    <br/><br/>
+    <br/>
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingZero">
             <h4 class="panel-title">

@@ -9,11 +9,11 @@ use kartik\grid\GridView;
     'header' => '<i class="glyphicon glyphicon-search"></i> Advanced Search</h4>',
     'id' => 'stud-info',
     'closeButton' => ['id' => 'close-button'],
-    'size' => 'modal-md',
+    'size' => 'modal-lg',
 ]);
 ?>
 
-<div class="modal-body-small form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
+<div class="modal-body-large form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
     <p class="instruction" id="sel-records"></p>
     <?php
     echo $this->render('@app/modules/corn/views/browse/search/_search', ['model' => $searchModel]);

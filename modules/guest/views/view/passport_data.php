@@ -86,7 +86,7 @@
 <!--  <div id="div-id-success-notif" class="alert alert-success"></div>-->
 
 <?php
-\Yii::$app->session->set('curr_page', 'guest-view-pass-data');
+
 use yii\bootstrap\ActiveForm;
 
 $form = ActiveForm::begin([
@@ -104,6 +104,24 @@ $form = ActiveForm::begin([
             ],
         ]);
 ?>
+<div class = "form-group pull-right" >
+    <?php
+    echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-picture"></i> View Photo', [
+    //'value' => yii\helpers\Url::to('guest/browse/search'),
+    'data' => [
+    'toggle' => 'modal',
+    'target' => '#germplasm-photo-modal-id',
+    ],
+    'id' => 'image-btn-id',
+    'type' => 'button',
+    'title' => 'View photo',
+    'class' => 'btn btn-primary',
+    //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
+    ]).'&emsp;';
+
+    ?>
+</div>
+<br><br><br>
 <div class="panel-body passport-data" >
     <?php
     echo '<div class="col-md-4">';

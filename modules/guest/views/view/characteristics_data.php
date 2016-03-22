@@ -4,7 +4,7 @@
     }
 </style>
 <?php
- \Yii::$app->session->set('curr_page', 'guest-view-char-data');
+ 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 //use kartik\widgets\ActiveForm;

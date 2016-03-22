@@ -6,6 +6,22 @@
     <h1></h1>
     <!--  <div id="div-id-success-notif" class="alert alert-success"></div>-->
     <?php
+    $flashMessages = Yii::$app->session->allFlashes;
+    if ($flashMessages) {
+       
+        foreach ($flashMessages as $key => $message) {
+            ?>
+            <div class="alert alert-<?php echo $key; ?>" role="alert">
+                <?php
+                echo Yii::$app->session->getFlash($key);
+                ?>
+            </div>
+            <?php
+        }
+       
+    }
+    ?>
+    <?php
 
     use kartik\tabs\TabsX;
     use \yii\bootstrap\Modal;
@@ -95,7 +111,19 @@ $content1 = '';
             'lastPageLabel' => true,
             'options' => ['class' => 'pagination pull-right']
         ]);
+        echo \kartik\helpers\Html::a('Show browser', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-primary']);
+        echo '<div class="pull-right" style="margin-top:7px;">';
 
+        if ($dataProvider->pagination->totalCount === '0') {
+            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
+            // $model= new \app\modules\corn\models\CharacterizationSearch();
+        } else {
+            echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
+        }
+
+        echo '</div>';
+
+        echo '<br><br>';
 //    use kartik\export\ExportMenu;
 //    echo ExportMenu::widget([
 //    'dataProvider' => $dataProvider,
@@ -115,7 +143,6 @@ $content1 = '';
         ?>
 
         <?php
-
         echo TabsX::widget([
             'items' => $items,
             'position' => TabsX::POS_ABOVE,
@@ -135,31 +162,31 @@ $content1 = '';
 
         <div class="modal-body-large form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
             <p class="instruction" id="sel-records"></p>
-        <?php
-        echo $this->render('@app/modules/guest/views/browse/search/_search', ['model' => $searchModel]);
-        ?>
+            <?php
+            echo $this->render('@app/modules/guest/views/browse/search/_search', ['model' => $searchModel]);
+            ?>
         </div>
 
         <div class="modal-footer">
         </div>
     </div>
-<?php Modal::end(); ?>
-<?php
-\yii\bootstrap\Modal::begin([
-    'header' => '<i class="glyphicon glyphicon-photo"></i> View Photo</h4>',
-    'id' => 'germplasm-photo-modal-id',
-    //'header' => '<h2></h2>',
-    //'toggleButton' => ['label' => 'View Photo'],
-    'closeButton' => ['id' => 'close-view-photo-button'],
-    'size' => 'modal-lg',
-]);
-?>
+    <?php Modal::end(); ?>
+    <?php
+    \yii\bootstrap\Modal::begin([
+        'header' => '<i class="glyphicon glyphicon-photo"></i> View Photo</h4>',
+        'id' => 'germplasm-photo-modal-id',
+        //'header' => '<h2></h2>',
+        //'toggleButton' => ['label' => 'View Photo'],
+        'closeButton' => ['id' => 'close-view-photo-button'],
+        'size' => 'modal-lg',
+    ]);
+    ?>
 
     <div class="modal-body-large form-horizontal" id='germplasm-photo-modal-id-form-body' style="padding:10px 10px 20px 10px;">
         <p class="instruction" id="sel-records"></p>
-    <?php
-    echo $this->render('@app/modules/corn/views/view/_photo', ['id' => $id, 'model' => $model]);
-    ?>
+        <?php
+        echo $this->render('@app/modules/corn/views/view/_photo', ['id' => $id, 'model' => $model]);
+        ?>
     </div>
 
     <div class="modal-footer">

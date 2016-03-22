@@ -114,7 +114,8 @@ use kartik\select2\Select2;
 //    'columns' => $gridColumns,
 //    'fontAwesome' => true,
 //]);
-
+    
+    ChromePhp::log();
     ?>
     <?php  ?>
     <?php

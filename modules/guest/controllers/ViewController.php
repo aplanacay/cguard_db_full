@@ -11,7 +11,7 @@ use Yii;
 class ViewController extends Controller {
 
     public function actionIndex($id=null) {
-        \Yii::$app->session->set('curr_page', 'guest-browse');
+        \Yii::$app->session->set('curr_page', 'guest-view');
         $data = Yii::$app->request->get('GermplasmSearch');
         $search = false;
         if (isset($data)) {

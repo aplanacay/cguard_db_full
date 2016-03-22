@@ -7,16 +7,11 @@ use Yii;
 use app\modules\corn\models\UploadForm;
 use yii\web\UploadedFile;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Imports excel files then converts to csv for database import.
  *
- * @author NCarumba
+ * @author Nikki Carumba <n.carumba@irri.org>
+ * 
  */
 class UploadController extends Controller {
 
@@ -54,27 +49,26 @@ class UploadController extends Controller {
      * @return mixed
      */
     public function actionImage($id) {
-        
-       
-$model = \app\modules\corn\models\Image::find()->where(['germplasm_id' => $id])->one();
 
-if ($model !== null) {
- $model = new \app\modules\corn\models\Image();
- $model = $this->findModel($id);
 
-        // validate deletion and on failure process any exception 
-        // e.g. display an error message 
-        if ($model->delete()) {
-            if (!$model->deleteImage()) {
-                Yii::$app->session->setFlash('error', 'Error deleting image');
+        $model = \app\modules\corn\models\Image::find()->where(['germplasm_id' => $id])->one();
+
+        if ($model !== null) {
+            $model = new \app\modules\corn\models\Image();
+            $model = $this->findModel($id);
+
+            // validate deletion and on failure process any exception 
+            // e.g. display an error message 
+            if ($model->delete()) {
+                if (!$model->deleteImage()) {
+                    Yii::$app->session->setFlash('error', 'Error deleting image');
+                }
             }
+        } else {
+            $model = new \app\modules\corn\models\Image();
         }
-}else{
- $model = new \app\modules\corn\models\Image();
- 
-}        
-if ($model->load(Yii::$app->request->post())) {
-        //    ChromePhp::log('here');
+        if ($model->load(Yii::$app->request->post())) {
+            //    ChromePhp::log('here');
             // process uploaded image file instance
             //$model = \app\modules\corn\models\Germplasm::find($id);
             $image = $model->uploadImage();
@@ -88,16 +82,16 @@ if ($model->load(Yii::$app->request->post())) {
                     \ChromePhp::log($path);
                     $image->saveAs($path);
                 }
-                 $this->redirect(['/corn/view', 'id' => $id]);
+                $this->redirect(['/corn/view', 'id' => $id]);
                 //return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 \ChromePhp::log($model->getErrors());
                 // error in saving model
             }
         }
-        
-        
-        
+
+
+
 
 //        return $this->render('_form', [
 //                    'model' => $model,
@@ -132,7 +126,7 @@ if ($model->load(Yii::$app->request->post())) {
                     $path = $model->getImageFile();
                     $image->saveAs($path);
                 }
-               // return $this->redirect(['view', 'id' => $model->_id]);
+                // return $this->redirect(['view', 'id' => $model->_id]);
             } else {
                 // error in saving model
             }
@@ -174,9 +168,9 @@ if ($model->load(Yii::$app->request->post())) {
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        \ChromePhp::log( $id);
-        if (($model = \app\modules\corn\models\Image::findOne(['germplasm_id'=>intval($id)])) !== null) {
-            
+        \ChromePhp::log($id);
+        if (($model = \app\modules\corn\models\Image::findOne(['germplasm_id' => intval($id)])) !== null) {
+
             return $model;
         } else {
             throw new \yii\web\NotFoundHttpException('The requested page does not exist.');

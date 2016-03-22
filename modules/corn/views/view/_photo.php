@@ -52,15 +52,7 @@ ActiveForm::end();
 ?>
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 $model = \app\modules\corn\models\Image::find()->where(['germplasm_id' => $id])->one();
-ChromePhp::log($model);
 if ($model !== null) {
     echo kartik\helpers\Html::img('@web/uploads/' . $model->avatar);
 }

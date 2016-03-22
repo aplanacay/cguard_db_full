@@ -10,9 +10,9 @@ use Yii;
 
 class ViewController extends Controller {
 
-    public function actionIndex($id) {
-        \Yii::$app->session->set('curr_page', 'corn-browse');
-        $data = Yii::$app->request->get('GermplasmSearch');
+    public function actionIndex($id=null) {
+        \Yii::$app->session->set('curr_page', 'corn-view');
+        $data = Yii::$app->request->get('Germplasm');
         $search = false;
         if (isset($data)) {
             foreach ($data as $key => $val) {
@@ -26,12 +26,12 @@ class ViewController extends Controller {
         $phl_no_str2 = "'([^0-9_].*$)'";
 
         if (!$search && $id) {
-
+            
             $query = \app\modules\corn\models\Germplasm::find()->where(['id' => $id])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
             $countQuery = clone $query;
 
             $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
-            \ChromePhp::log($pages);
+           // \ChromePhp::log($pages);
             $model = $query->offset($pages->offset)
                     ->limit($pages->limit)
                     ->one();
@@ -54,11 +54,13 @@ class ViewController extends Controller {
                     ->limit($pagesCharacterization->limit)
                     ->one();
         } else {
+            \ChromePhp::log('here');
+            \ChromePhp::log(Yii::$app->request->get());
             $searchModel = new \app\modules\corn\models\GermplasmSearch();
             $query = $searchModel->search(Yii::$app->request->get());
 
             $model = $query->one();
-            ChromePhp::log($model);
+            //ChromePhp::log($model);
             $countQuery = clone $query;
             $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
 
@@ -74,8 +76,11 @@ class ViewController extends Controller {
             ]);
 
             $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
-
-            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $model->id]]);
+            if (!is_null($model)) {
+                $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $model->id]]);
+            } else {
+                $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => null]);
+            }
 
             $countQueryCharacterization = clone $characterizationQuery;
 

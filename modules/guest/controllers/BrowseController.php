@@ -11,7 +11,15 @@ use Yii;
 class BrowseController extends Controller {
 
     public function actionSearch() {
-        return $this->render('search/modal');
+        \Yii::$app->session->set('curr_page', 'guest-search');
+        $searchModel = new \app\modules\corn\models\GermplasmSearch();
+        $model = new \app\modules\corn\models\Germplasm;
+        return $this->render('search/search', [
+                    'model' => $searchModel,
+                    'searchModel' => $searchModel,
+                        // 'dataProvider' => $dataProvider,
+                        // 'columns' => $this->prepareDataProvider($columns),
+        ]);
     }
 
     public function actionIndex() {
