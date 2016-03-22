@@ -120,8 +120,8 @@ class GermplasmBase extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCrop()
-    {
-        return $this->hasOne(MasterCrop::className(), ['id' => 'crop_id']);
-    }
+//    public function getCrop()
+//    {
+//        return $this->hasOne(MasterCrop::className(), ['id' => 'crop_id']);
+//    }
 }
