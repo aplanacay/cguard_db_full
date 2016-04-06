@@ -150,20 +150,20 @@ echo $form->field($model, 'grower')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'count_coll')->textInput(['readonly' => true]);
 
-//echo $form->field($model, 'prov');
-//
-//echo $form->field($model, 'town');
-//
-//echo $form->field($model, 'barangay');
-//echo $form->field($model, 'sitio');
+echo $form->field($model, 'prov');
+
+echo $form->field($model, 'town');
+
+echo $form->field($model, 'barangay');
+echo $form->field($model, 'sitio');
 
 echo $form->field($model, 'acq_date')->textInput(['readonly' => true]);
 echo '</div><div class="col-md-4">';
-//echo $form->field($model, 'latitude');
-//
-//echo $form->field($model, 'longitude');
-//
-//echo $form->field($model, 'altitude');
+echo $form->field($model, 'latitude');
+
+echo $form->field($model, 'longitude');
+
+echo $form->field($model, 'altitude');
 
 echo $form->field($model, 'coll_source')->label('Collecting source')->textInput(['readonly' => true]);
 
