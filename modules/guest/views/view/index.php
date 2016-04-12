@@ -49,7 +49,7 @@ $bordered = false;
                     //'dataProvider' => $dataProvider,
                     'id' => $id
                 ]),
-                 'active' => $tab === 2,
+                'active' => $tab === 2,
 //            'items' => [
 //                [
 //                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
@@ -65,7 +65,7 @@ $bordered = false;
             ],
             [
                 'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
-                 'headerOptions' => ['class' => 'disabled'],
+                'headerOptions' => ['class' => 'disabled'],
                 'active' => $tab === 2,
             ],
             [
@@ -94,7 +94,19 @@ $bordered = false;
             'lastPageLabel' => true,
             'options' => ['class' => 'pagination pull-right']
         ]);
-        
+        echo \kartik\helpers\Html::a('Show Tabular view', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
+        echo '<div class="pull-right" style="margin-top:7px;">';
+
+        if ($dataProvider->pagination->totalCount === '0') {
+            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
+            // $model= new \app\modules\corn\models\CharacterizationSearch();
+        } else {
+            echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
+        }
+
+        echo '</div>';
+
+        echo '';
 //    use kartik\export\ExportMenu;
 //    echo ExportMenu::widget([
 //    'dataProvider' => $dataProvider,
@@ -115,23 +127,11 @@ $bordered = false;
 //                                //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
 //                        ]).'&emsp;';
 //         echo '</div>';
-       
-        echo '<div class="pull-right" style="margin-top:7px;">';
-        
-        if ($dataProvider->pagination->totalCount === '0') {
-            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
-            // $model= new \app\modules\corn\models\CharacterizationSearch();
-        } else {
-            echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
-        }
-        
-        echo '</div>';
-       
+
         ?>
-        
+
         <?php
-         
-          echo '<br><br>';
+        echo '<br><br>';
         echo TabsX::widget([
             'items' => $items,
             'position' => TabsX::POS_ABOVE,
@@ -142,45 +142,45 @@ $bordered = false;
         ?>
         <?php
         \yii\bootstrap\Modal::begin([
-    'header' => '<i class="glyphicon glyphicon-search"></i> Advanced Search</h4>',
-    'id' => 'stud-info',
-    'closeButton' => ['id' => 'close-button'],
-    'size' => 'modal-lg',
-]);
-?>
-
-<div class="modal-body-large form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
-    <p class="instruction" id="sel-records"></p>
-    <?php
-    echo $this->render('@app/modules/guest/views/browse/search/_search', ['model' => $searchModel]);
-    ?>
-</div>
-
-<div class="modal-footer">
-</div>
-        <?php yii\bootstrap\Modal::end(); ?>
-        
-        <?php
-    \yii\bootstrap\Modal::begin([
-        'header' => '<i class="glyphicon glyphicon-photo"></i> View Photo</h4>',
-        'id' => 'germplasm-photo-modal-id',
-        //'header' => '<h2></h2>',
-        //'toggleButton' => ['label' => 'View Photo'],
-        'closeButton' => ['id' => 'close-view-photo-button'],
-        'size' => 'modal-lg',
-    ]);
-    ?>
-
-    <div class="modal-body-large form-horizontal" id='germplasm-photo-modal-id-form-body' style="padding:10px 10px 20px 10px;">
-        <p class="instruction" id="sel-records"></p>
-        <?php
-        echo $this->render('@app/modules/guest/views/view/_photo', ['id' => $id, 'model' => $model]);
+            'header' => '<i class="glyphicon glyphicon-search"></i> Advanced Search</h4>',
+            'id' => 'stud-info',
+            'closeButton' => ['id' => 'close-button'],
+            'size' => 'modal-lg',
+        ]);
         ?>
-    </div>
 
-    <div class="modal-footer">
-    </div>
-</div>
+        <div class="modal-body-large form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
+            <p class="instruction" id="sel-records"></p>
+<?php
+echo $this->render('@app/modules/guest/views/browse/search/_search', ['model' => $searchModel]);
+?>
+        </div>
+
+        <div class="modal-footer">
+        </div>
 <?php yii\bootstrap\Modal::end(); ?>
+
+        <?php
+        \yii\bootstrap\Modal::begin([
+            'header' => '<i class="glyphicon glyphicon-photo"></i> View Photo</h4>',
+            'id' => 'germplasm-photo-modal-id',
+            //'header' => '<h2></h2>',
+            //'toggleButton' => ['label' => 'View Photo'],
+            'closeButton' => ['id' => 'close-view-photo-button'],
+            'size' => 'modal-lg',
+        ]);
+        ?>
+
+        <div class="modal-body-large form-horizontal" id='germplasm-photo-modal-id-form-body' style="padding:10px 10px 20px 10px;">
+            <p class="instruction" id="sel-records"></p>
+<?php
+echo $this->render('@app/modules/guest/views/view/_photo', ['id' => $id, 'model' => $model]);
+?>
+        </div>
+
+        <div class="modal-footer">
+        </div>
     </div>
+<?php yii\bootstrap\Modal::end(); ?>
+</div>
 
