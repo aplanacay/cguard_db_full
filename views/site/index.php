@@ -32,7 +32,7 @@ $this->title = 'CGUARD';
             ?>
             <h1>Welcome to CornBase</h1>
 
-            <p class="lead">The corn genetic resources database system containing passport, characterization, conservation and management and seed access data of the different corn germplasm.
+            <p class="lead">The corn genetic resources database system containing passport, characterization, conservation and management and seed accession data of the different corn germplasm.
             </p>
         </div>
         <div class="row">
