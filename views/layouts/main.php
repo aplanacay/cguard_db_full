@@ -157,9 +157,9 @@ AppAsset::register($this);
                                             ]
                                         ],
                                         ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
-                                                ['label' => 'Tabular view', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === 'corn-characterization-browser' )],
-                                                ['label' => 'Grid view', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'corn-characterization-tabs')],
-                                                ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'corn-characterization-search')],
+                                                ['label' => 'Tabular view', 'url' => Url::to(['/corn/characterization/index']), 'active' => ($item === 'corn-characterization-browser' )],
+                                                ['label' => 'Grid view', 'url' => Url::to(['/corn/characterization/tabs']), 'active' => ( $item === 'corn-characterization-tabs')],
+                                                ['label' => 'Search', 'url' => Url::to(['/corn/characterization/search']), 'active' => ($item === 'corn-characterization-search')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                             ]
                                         ],
