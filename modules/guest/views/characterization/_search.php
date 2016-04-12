@@ -225,13 +225,13 @@ use kartik\select2\Select2;
 
 
                     echo $form->field($model, 'ear_height')->label('Ear height (cm)');
+                    echo $form->field($model, 'number_of_leaves_above_upper_ear')->label('Number of leaves above uppermost ear including ear leaf');
 
+                    echo $form->field($model, 'number_of_leaves_below_upper_ear')->label('Number of leaves below uppermost ear including ear leaf');
                     //echo $form->field($model, 'foliage');
                     echo '</div>';
                     echo '<div class="col-md-3">';
-                    echo $form->field($model, 'number_of_leaves_above_upper_ear')->label('Number of leaves above uppermost ear including ear leaf');
 
-                    echo $form->field($model, 'number_of_leaves_below_upper_ear')->label('Number of leaves blow uppermost ear including ear leaf');
 
                     echo $form->field($model, 'number_of_internodes_below_uppermost_ear')->label('Number of internodes below uppermost ear');
 
@@ -242,10 +242,11 @@ use kartik\select2\Select2;
                     echo $form->field($model, 'stem_diameter_below_uppermost_ear');
 
                     echo $form->field($model, 'tassel_length')->label('Tassel length (cm)');
+                    echo $form->field($model, 'tassel_peduncle_length')->label('Tassel peduncle length (cm)');
                     echo '</div>';
                     echo '<div class="col-md-3">';
 
-                    echo $form->field($model, 'tassel_peduncle_length')->label('Tassel peduncle length (cm)');
+                    
 
                     echo $form->field($model, 'tassel_branching_space')->label('Tassel branching space (cm)');
 
@@ -465,7 +466,7 @@ use kartik\select2\Select2;
         <div class = "form-group pull-right">
             <?php //echo Html::submitButton('Search', ['class' => 'btn btn-primary']); ?>
             <?php //echo Html::resetButton('Reset', ['class' => 'btn btn-default']); ?>
-            
+
         </div>
 
         <?php
@@ -483,5 +484,5 @@ use kartik\select2\Select2;
 //   [ 'depends' => ['\yii\web\JqueryAsset'], 'position' => '\yii\web\View::POS_END', ],
 //);
 
-$this->registerJsFile('@web/js/characterization_search.js', [ 'depends' => ['app\assets\AppAsset'], 'position' => \yii\web\View::POS_END, ]);
+$this->registerJsFile('@web/js/characterization_search.js', [ 'depends' => ['app\assets\AppAsset'], 'position' => \yii\web\View::POS_END,]);
 ?>

@@ -124,7 +124,7 @@ use yii\bootstrap\ActiveForm;
     ]);
     ?>
     <div class="form-group pull-right">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Search', ['class' => 'btn btn-success']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
     </div>
     <br><br>

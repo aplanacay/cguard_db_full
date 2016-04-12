@@ -76,14 +76,17 @@ class GermplasmSearch extends Germplasm {
             'modifier_id' => $this->modifier_id,
             'modification_timestamp' => $this->modification_timestamp,
             'is_void' => $this->is_void,
+            'phl_no' => $this->phl_no,
+            'gb_no' => $this->gb_no,
+            'old_acc_no' => $this->old_acc_no,
                 //      'crop_id' => $this->crop_id,
         ]);
 
-        $query->andFilterWhere(['like', 'phl_no', $this->phl_no])
-                ->andFilterWhere(['like', 'remarks', $this->remarks])
+      //  $query->andFilterWhere(['like', 'phl_no', $this->phl_no])
+           $query->andFilterWhere(['like', 'remarks', $this->remarks])
                 ->andFilterWhere(['like', 'Notes', $this->Notes])
-                ->andFilterWhere(['like', 'old_acc_no', $this->old_acc_no])
-                ->andFilterWhere(['like', 'gb_no', $this->gb_no])
+           //     ->andFilterWhere(['like', 'old_acc_no', $this->old_acc_no])
+           //     ->andFilterWhere(['like', 'gb_no', $this->gb_no])
                 ->andFilterWhere(['like', 'collecting_no', $this->collecting_no])
                 ->andFilterWhere(['like', 'variety_name', $this->variety_name])
                 ->andFilterWhere(['like', 'dialect', $this->dialect])

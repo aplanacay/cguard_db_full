@@ -59,7 +59,11 @@ class ViewController extends Controller {
             $query = $searchModel->search(Yii::$app->request->get());
 
             $model = $query->one();
-            $id = $model->id;
+            if (!empty($model)) {
+                $id = $model->id;
+            } else {
+                $id = -1;
+            }
             //ChromePhp::log($model);
             $countQuery = clone $query;
             $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
@@ -76,19 +80,35 @@ class ViewController extends Controller {
             ]);
 
             $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
-            if (!is_null($model)) {
-                $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $model->id]]);
-            } else {
-                $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => null]);
-            }
+            // \ChromePhp::log($id);
+//            if (!is_null($model) ) {
+//                \ChromePhp::log('lll');
+            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $id]]);
+//            } else {
+//                $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => null]);
+//            }
 
             $countQueryCharacterization = clone $characterizationQuery;
-
+            // \ChromePhp::log('count'.$countQueryCharacterization->count());
             $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
 
             $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
                     ->limit($pagesCharacterization->limit)
                     ->one();
+            $dataProviderCharacterization = new ActiveDataProvider([
+                'query' => $modelCharacterization,
+                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+                'pagination' => $pagesCharacterization,
+            ]);
+            return $this->render('index', [
+                        'characterizationQuery' => $modelCharacterization,
+                        'model' => $model,
+                        'dataProvider' => $dataProvider,
+                        'dataProviderCharacterization' => $dataProviderCharacterization,
+                        'searchModel' => $searchModel,
+                        'id' => $id
+                            //  'columns' => $this->prepareDataProvider($columns),
+            ]);
         }
 
 

@@ -120,177 +120,67 @@ use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\modules\corn\models\CharacterizationSearch */
 /* @var $form yii\widgets\ActiveForm */
-?>
+if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->totalCount === 0) {
+    
+} else {
+    ?>
 
-<div class="characterization-base-search container-fluid">
+    <div class="characterization-base-search container-fluid">
 
-    <?php
-    $form = ActiveForm::begin([
-                'action' => ['browse/modify?id='.$id],
-                'method' => 'post',
-                'layout' => 'horizontal',
-                'fieldConfig' => [
-                    'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-                    'horizontalCssClasses' => [
-                        ['label' => 'col-sm-6',
-                            'offset' => 'col-sm-offset-4',
-                            'wrapper' => 'col-sm-6',
-                            'error' => '',
-                            'hint' => '',
+        <?php
+        $form = ActiveForm::begin([
+                    'action' => ['browse/modify?id=' . $id],
+                    'method' => 'post',
+                    'layout' => 'horizontal',
+                    'fieldConfig' => [
+                        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+                        'horizontalCssClasses' => [
+                            ['label' => 'col-sm-6',
+                                'offset' => 'col-sm-offset-4',
+                                'wrapper' => 'col-sm-6',
+                                'error' => '',
+                                'hint' => '',
+                            ],
                         ],
                     ],
-                ],
-    ]);
-    ?>
-    <div class = "form-group pull-right" >
+        ]);
+        ?>
+        <div class = "form-group pull-right" >
 
-        <?php echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']); ?>
-        <?php echo Html::submitButton('Update', ['class' => 'btn btn-success']); ?>
+            <?php echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']); ?>
+            <?php echo Html::submitButton('Update', ['class' => 'btn btn-success']); ?>
 
-    </div>
-    <br/><br/>
-    <br/>
-    <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="headingZero">
-            <h4 class="panel-title">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseZero" aria-expanded="false" aria-controls="collapseZero">
-                    Variety Name and Number
-                </a>
-            </h4>
         </div>
-        <div id="collapseZero" class="collapse in" role="tabpanel" aria-labelledby="headingZero">
-            <div class="panel-body passport-data" >
-                <?php
-                echo '<div class="col-md-4">';
-                // if ($dataProvider->pagination->totalCount !== '0') {
-                echo $form->field($model->germplasm, 'phl_no')->textInput(['readonly' => true]);
-                echo $form->field($model->germplasm, 'variety_name')->textInput(['readonly' => true]);
-
-
-                echo '</div><div class="col-md-4">';
-                echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
-
-                echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
-                echo '</div><div class="col-md-4">';
-                echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
-                echo '</div>';
-                // }
-                // ActiveForm::end();
-                // echo '</div>';
-                ?>   
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-group" id="accordion">
-        <!-- First Panel -->
+        <br/><br/>
+        <br/>
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title"
-                    data-toggle="collapse" 
-                    data-target="#collapseOne">
-                    I. Plant Data
+            <div class="panel-heading" role="tab" id="headingZero">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseZero" aria-expanded="false" aria-controls="collapseZero">
+                        Variety Name and Number
+                    </a>
                 </h4>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse">
-                <div class="panel-body">
-
+            <div id="collapseZero" class="collapse in" role="tabpanel" aria-labelledby="headingZero">
+                <div class="panel-body passport-data" >
                     <?php
-                    $form = ActiveForm::begin([
-                                'method' => 'get',
-                                'action' => ['characterization/tabs'],
-                                'layout' => 'horizontal',
-                                'fieldConfig' => [
-                                    'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-                                    'horizontalCssClasses' => [
-                                        ['label' => 'col-sm-6',
-                                            'offset' => 'col-sm-offset-4',
-                                            'wrapper' => 'col-sm-6',
-                                            'error' => '',
-                                            'hint' => '',
-                                        ],
-                                    ],
-                                ],
-                    ]);
-//                    echo '<legend >I. Plant Data</legend>';
-                    //  if ($dataProvider->pagination->totalCount !== '0') {
                     echo '<div class="col-md-4">';
-
-                    echo $form->field($model, 'days_to_emergence');
-
-                    echo $form->field($model, 'days_to_tasseling');
-
-                    echo $form->field($model, 'days_to_slking');
-
-                    echo $form->field($model, 'days_to_harvest');
-
-                    echo $form->field($model, 'tillering_index');
-
-                    echo $form->field($model, 'stem_color');
-
-                    echo $form->field($model, 'sheath_pubescence');
-
-                    echo $form->field($model, 'total_number_of_leaves_per_plant');
-
-                    echo $form->field($model, 'leaf_length')->label('Leaf length(cm)');
-
-                    echo $form->field($model, 'leaf_width')->label('Leaf width(cm)');
-
-                    echo $form->field($model, 'leaf_orientation');
-
-                    echo $form->field($model, 'presence_of_leaf_ligule');
-
-                    echo $form->field($model, 'venation_index');
-                    echo '</div>';
-                    echo '<div class="col-md-4">';
-                    echo $form->field($model, 'tassel_type');
-
-                    echo $form->field($model, 'silk_color');
-
-                    echo $form->field($model, 'tassel_color');
-
-                    echo $form->field($model, 'plant_height')->label('Plant height (cm)');
+                    // if ($dataProvider->pagination->totalCount !== '0') {
+                    echo $form->field($model->germplasm, 'phl_no')->textInput(['readonly' => true]);
+                    echo $form->field($model->germplasm, 'variety_name')->textInput(['readonly' => true]);
 
 
-                    echo $form->field($model, 'ear_height')->label('Ear height (cm)');
+                    echo '</div><div class="col-md-4">';
+                    echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
 
-//echo $form->field($model, 'foliage');
-
-                    echo $form->field($model, 'number_of_leaves_above_upper_ear')->label('Number of leaves above uppermost ear including ear leaf');
-
-                    echo $form->field($model, 'number_of_leaves_below_upper_ear')->label('Number of leaves below uppermost ear including ear leaf');
-//    echo '</div>';
-//    echo '<div class="col-md-3">';
-                    echo $form->field($model, 'number_of_internodes_below_uppermost_ear')->label('Number of internodes below uppermost ear');
-
-                    echo $form->field($model, 'number_of_internodes_on_the_whole_stem')->label('Number of internodes on the whole stem');
-
-                    echo $form->field($model, 'stem_diameter_at_the_base')->label('Stem diameter at the base (cm)');
-                    echo '</div>';
-                    echo '<div class="col-md-4">';
-                    echo $form->field($model, 'stem_diameter_below_uppermost_ear');
-
-                    echo $form->field($model, 'tassel_length')->label('Tassel length (cm)');
-
-
-                    echo $form->field($model, 'tassel_peduncle_length')->label('Tassel peduncle length (cm)');
-//    echo '</div>';
-//    echo '<div class="col-md-3">';
-                    echo $form->field($model, 'tassel_branching_space')->label('Tassel branching space (cm)');
-
-                    echo $form->field($model, 'number_of_primary_branches_on_tassel');
-
-                    echo $form->field($model, 'number_of_secondary_branches_on_tassel');
-
-                    echo $form->field($model, 'number_of_tertiary_branches_on_tassel');
-
-                    echo $form->field($model, 'stay_green');
-
-                    echo $form->field($model, 'days_to_ear_leaf_inflorescence');
-
-                    echo $form->field($model, 'stalk_lodging');
+                    echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
+                    echo '</div><div class="col-md-4">';
+                    echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
                     echo '</div>';
                     // }
-                    ?>
+                    // ActiveForm::end();
+                    // echo '</div>';
+                    ?>   
                 </div>
             </div>
         </div>
@@ -300,49 +190,109 @@ use kartik\select2\Select2;
                 <div class="panel-heading">
                     <h4 class="panel-title"
                         data-toggle="collapse" 
-                        data-target="#collapseTwo">
-                        II. Ear Data
+                        data-target="#collapseOne">
+                        I. Plant Data
                     </h4>
                 </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
+                <div id="collapseOne" class="panel-collapse collapse">
                     <div class="panel-body">
+
                         <?php
-//  echo '<legend>II. Ear Data</legend>';
-//                    if ($dataProvider->pagination->totalCount !== '0') {
+                        $form = ActiveForm::begin([
+                                    'method' => 'get',
+                                    'action' => ['characterization/tabs'],
+                                    'layout' => 'horizontal',
+                                    'fieldConfig' => [
+                                        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
+                                        'horizontalCssClasses' => [
+                                            ['label' => 'col-sm-6',
+                                                'offset' => 'col-sm-offset-4',
+                                                'wrapper' => 'col-sm-6',
+                                                'error' => '',
+                                                'hint' => '',
+                                            ],
+                                        ],
+                                    ],
+                        ]);
+//                    echo '<legend >I. Plant Data</legend>';
+                        //  if ($dataProvider->pagination->totalCount !== '0') {
                         echo '<div class="col-md-4">';
-                        echo $form->field($model, 'husk_cover');
 
-                        echo $form->field($model, 'husk_fitting');
+                        echo $form->field($model, 'days_to_emergence');
 
-                        echo $form->field($model, 'husk_tip_shape');
+                        echo $form->field($model, 'days_to_tasseling');
 
-                        echo $form->field($model, 'ear_shape');
+                        echo $form->field($model, 'days_to_slking');
 
-                        echo $form->field($model, 'ear_tip_shape');
+                        echo $form->field($model, 'days_to_harvest');
 
-                        echo $form->field($model, 'ear_orientation');
+                        echo $form->field($model, 'tillering_index');
 
-                        echo $form->field($model, 'ear_length');
+                        echo $form->field($model, 'stem_color');
 
-                        echo $form->field($model, 'ear_diameter');
-                        echo '</div><div class="col-md-6">';
-                        echo $form->field($model, 'cob_diameter');
+                        echo $form->field($model, 'sheath_pubescence');
 
-                        echo $form->field($model, 'rachs_diameter');
+                        echo $form->field($model, 'total_number_of_leaves_per_plant');
 
-                        echo $form->field($model, 'peduncle_length');
+                        echo $form->field($model, 'leaf_length')->label('Leaf length(cm)');
 
-                        echo $form->field($model, 'number_of_bracts');
+                        echo $form->field($model, 'leaf_width')->label('Leaf width(cm)');
 
-                        echo $form->field($model, 'kernel_row_arrangement');
+                        echo $form->field($model, 'leaf_orientation');
 
-                        echo $form->field($model, 'number_of_kernel_rows');
+                        echo $form->field($model, 'presence_of_leaf_ligule');
 
-                        echo $form->field($model, 'number_of_kernels__per_row');
-
-                        echo $form->field($model, 'cob_color');
+                        echo $form->field($model, 'venation_index');
                         echo '</div>';
-//                    }
+                        echo '<div class="col-md-4">';
+                        echo $form->field($model, 'tassel_type');
+
+                        echo $form->field($model, 'silk_color');
+
+                        echo $form->field($model, 'tassel_color');
+
+                        echo $form->field($model, 'plant_height')->label('Plant height (cm)');
+
+
+                        echo $form->field($model, 'ear_height')->label('Ear height (cm)');
+
+//echo $form->field($model, 'foliage');
+
+                        echo $form->field($model, 'number_of_leaves_above_upper_ear')->label('Number of leaves above uppermost ear including ear leaf');
+
+                        echo $form->field($model, 'number_of_leaves_below_upper_ear')->label('Number of leaves below uppermost ear including ear leaf');
+//    echo '</div>';
+//    echo '<div class="col-md-3">';
+                        echo $form->field($model, 'number_of_internodes_below_uppermost_ear')->label('Number of internodes below uppermost ear');
+
+                        echo $form->field($model, 'number_of_internodes_on_the_whole_stem')->label('Number of internodes on the whole stem');
+
+                        echo $form->field($model, 'stem_diameter_at_the_base')->label('Stem diameter at the base (cm)');
+                        echo '</div>';
+                        echo '<div class="col-md-4">';
+                        echo $form->field($model, 'stem_diameter_below_uppermost_ear');
+
+                        echo $form->field($model, 'tassel_length')->label('Tassel length (cm)');
+
+
+                        echo $form->field($model, 'tassel_peduncle_length')->label('Tassel peduncle length (cm)');
+//    echo '</div>';
+//    echo '<div class="col-md-3">';
+                        echo $form->field($model, 'tassel_branching_space')->label('Tassel branching space (cm)');
+
+                        echo $form->field($model, 'number_of_primary_branches_on_tassel');
+
+                        echo $form->field($model, 'number_of_secondary_branches_on_tassel');
+
+                        echo $form->field($model, 'number_of_tertiary_branches_on_tassel');
+
+                        echo $form->field($model, 'stay_green');
+
+                        echo $form->field($model, 'days_to_ear_leaf_inflorescence');
+
+                        echo $form->field($model, 'stalk_lodging');
+                        echo '</div>';
+                        // }
                         ?>
                     </div>
                 </div>
@@ -353,56 +303,109 @@ use kartik\select2\Select2;
                     <div class="panel-heading">
                         <h4 class="panel-title"
                             data-toggle="collapse" 
-                            data-target="#collapseThree">
-                            III. Kernel Data
+                            data-target="#collapseTwo">
+                            II. Ear Data
                         </h4>
                     </div>
-                    <div id="collapseThree" class="panel-collapse collapse">
+                    <div id="collapseTwo" class="panel-collapse collapse">
                         <div class="panel-body">
                             <?php
-// echo '<legend>III. Kernel Data</legend>';
+//  echo '<legend>II. Ear Data</legend>';
 //                    if ($dataProvider->pagination->totalCount !== '0') {
-                            echo '<div class="col-md-6">';
-                            echo $form->field($model, 'grain_shedding')->label('% Grain shielding');
+                            echo '<div class="col-md-4">';
+                            echo $form->field($model, 'husk_cover');
 
-                            echo $form->field($model, 'kernel_type[]');
+                            echo $form->field($model, 'husk_fitting');
 
-                            echo $form->field($model, 'kernel_color[]');
+                            echo $form->field($model, 'husk_tip_shape');
 
-                            echo $form->field($model, 'kernel_length');
+                            echo $form->field($model, 'ear_shape');
 
-                            echo $form->field($model, 'kernel_width');
+                            echo $form->field($model, 'ear_tip_shape');
 
-                            echo $form->field($model, 'kernel_thickness');
+                            echo $form->field($model, 'ear_orientation');
 
-                            echo $form->field($model, 'shape_of_upper_kernel_surface');
-                            echo '</div>';
+                            echo $form->field($model, 'ear_length');
 
-                            echo '<div class="col-md-6">';
-                            echo $form->field($model, 'pericarp_color');
+                            echo $form->field($model, 'ear_diameter');
+                            echo '</div><div class="col-md-6">';
+                            echo $form->field($model, 'cob_diameter');
 
-                            echo $form->field($model, 'aleurone_color');
+                            echo $form->field($model, 'rachs_diameter');
 
-                            echo $form->field($model, 'endosperm_color');
-                            echo $form->field($model, 'unshelled_weight');
+                            echo $form->field($model, 'peduncle_length');
 
-                            echo $form->field($model, 'shelled_weight');
+                            echo $form->field($model, 'number_of_bracts');
 
-                            echo $form->field($model, 'kernel_weight');
+                            echo $form->field($model, 'kernel_row_arrangement');
 
-                            echo $form->field($model, 'shellpc');
+                            echo $form->field($model, 'number_of_kernel_rows');
+
+                            echo $form->field($model, 'number_of_kernels__per_row');
+
+                            echo $form->field($model, 'cob_color');
                             echo '</div>';
 //                    }
                             ?>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="panel panel-group" id="accordion">
+                    <!-- First Panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"
+                                data-toggle="collapse" 
+                                data-target="#collapseThree">
+                                III. Kernel Data
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <?php
+// echo '<legend>III. Kernel Data</legend>';
+//                    if ($dataProvider->pagination->totalCount !== '0') {
+                                echo '<div class="col-md-6">';
+                                echo $form->field($model, 'grain_shedding')->label('% Grain shielding');
+
+                                echo $form->field($model, 'kernel_type[]');
+
+                                echo $form->field($model, 'kernel_color[]');
+
+                                echo $form->field($model, 'kernel_length');
+
+                                echo $form->field($model, 'kernel_width');
+
+                                echo $form->field($model, 'kernel_thickness');
+
+                                echo $form->field($model, 'shape_of_upper_kernel_surface');
+                                echo '</div>';
+
+                                echo '<div class="col-md-6">';
+                                echo $form->field($model, 'pericarp_color');
+
+                                echo $form->field($model, 'aleurone_color');
+
+                                echo $form->field($model, 'endosperm_color');
+                                echo $form->field($model, 'unshelled_weight');
+
+                                echo $form->field($model, 'shelled_weight');
+
+                                echo $form->field($model, 'kernel_weight');
+
+                                echo $form->field($model, 'shellpc');
+                                echo '</div>';
+//                    }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-            <?php
-            echo '</div>';
-            echo '<legend></legend>';
+                <?php
+                echo '</div>';
+                echo '<legend></legend>';
 // echo $form->field($model, 'creator_id')->textInput(['readonly' => true]);
 //     echo $form->field($model, 'creation_timestamp')->textInput(['readonly' => true]);
 //
@@ -415,16 +418,16 @@ use kartik\select2\Select2;
 //     echo $form->field($model, 'Notes')->textInput(['readonly' => true]);
 //
 //     echo $form->field($model, 'is_void')->checkbox();
-            ?>
+                ?>
 
+
+                <?php
+                ActiveForm::end();
+                ?>
+
+            </div>
 
             <?php
-            ActiveForm::end();
-            ?>
-
-        </div>
-
-        <?php
 //$this->registerJs($this->renderPartial('@app/js/characterization_search.js'));
 //$this->registerJsFile('@web/js/characterization_search.js');
 //$this->registerJsFile(
@@ -432,5 +435,6 @@ use kartik\select2\Select2;
 //   [ 'depends' => ['\yii\web\JqueryAsset'], 'position' => '\yii\web\View::POS_END', ],
 //);
 
-        return $this->registerJsFile('@web/js/characterization_search.js', [ 'depends' => ['app\assets\AppAsset'], 'position' => \yii\web\View::POS_END,]);
+            return $this->registerJsFile('@web/js/characterization_search.js', [ 'depends' => ['app\assets\AppAsset'], 'position' => \yii\web\View::POS_END,]);
+        }
         ?>

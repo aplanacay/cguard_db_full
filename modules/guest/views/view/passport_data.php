@@ -107,18 +107,17 @@ $form = ActiveForm::begin([
 <div class = "form-group pull-right" >
     <?php
     echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-picture"></i> View Photo', [
-    //'value' => yii\helpers\Url::to('guest/browse/search'),
-    'data' => [
-    'toggle' => 'modal',
-    'target' => '#germplasm-photo-modal-id',
-    ],
-    'id' => 'image-btn-id',
-    'type' => 'button',
-    'title' => 'View photo',
-    'class' => 'btn btn-primary',
-    //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
-    ]).'&emsp;';
-
+        //'value' => yii\helpers\Url::to('guest/browse/search'),
+        'data' => [
+            'toggle' => 'modal',
+            'target' => '#germplasm-photo-modal-id',
+        ],
+        'id' => 'image-btn-id',
+        'type' => 'button',
+        'title' => 'View photo',
+        'class' => 'btn btn-primary',
+            //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
+    ]) . '&emsp;';
     ?>
 </div>
 <br><br><br>
@@ -157,8 +156,8 @@ echo $form->field($model, 'town');
 echo $form->field($model, 'barangay');
 echo $form->field($model, 'sitio');
 
-echo $form->field($model, 'acq_date')->textInput(['readonly' => true]);
 echo '</div><div class="col-md-4">';
+echo $form->field($model, 'acq_date')->textInput(['readonly' => true]);
 echo $form->field($model, 'latitude');
 
 echo $form->field($model, 'longitude');
@@ -171,10 +170,11 @@ echo $form->field($model, 'gen_stat')->label('Genetic status')->textInput(['read
 
 echo $form->field($model, 'sam_type')->label('Sample type')->textInput(['readonly' => true]);
 
+
+echo '</div><div class="col-md-4">';
 echo $form->field($model, 'sam_met')->label('Sampling methods')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'mat')->label('Material collected')->textInput(['readonly' => true]);
-echo '</div><div class="col-md-4">';
 echo $form->field($model, 'topo')->label('Topography')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'site');
@@ -190,6 +190,8 @@ echo '</div>';
 ?>
 
 
+<br><br><br>
+<br><br><br>
 <br><br><br>
 <br><br><br>
 <br><br><br>
