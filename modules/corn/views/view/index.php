@@ -130,7 +130,7 @@ $content1 = '';
             'lastPageLabel' => true,
             'options' => ['class' => 'pagination pull-right']
         ]);
-        echo \kartik\helpers\Html::a('Show browser', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-primary']);
+        echo \kartik\helpers\Html::a('Show Tabular view', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
         echo '<div class="pull-right" style="margin-top:7px;">';
 
         if ($dataProvider->pagination->totalCount === '0') {
@@ -204,7 +204,8 @@ $content1 = '';
     <div class="modal-body-large form-horizontal" id='germplasm-photo-modal-id-form-body' style="padding:10px 10px 20px 10px;">
         <p class="instruction" id="sel-records"></p>
         <?php
-        echo $this->render('@app/modules/corn/views/view/_photo', ['id' => $id, 'model' => $model]);
+            ChromePhp::log($searchModel->id);
+        echo $this->render('@app/modules/corn/views/view/_photo', ['id' => $searchModel->id, 'model' => $searchModel]);
         ?>
     </div>
 
