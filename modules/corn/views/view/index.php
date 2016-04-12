@@ -61,7 +61,7 @@ $content1 = '';
                 'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
                 'content' => $this->render('characteristics_data', [
                     'model' => $characterizationQuery,
-                    //'dataProvider' => $dataProvider,
+                    'dataProvider' => $dataProviderCharacterization,
                     'id' => $id
                 ]),
                 'active' => $tab === 2,
