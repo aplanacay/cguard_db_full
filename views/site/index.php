@@ -55,10 +55,10 @@ $this->title = 'CGUARD';
                     $mode='corn';
                 }
                 ?>
-                <div align="center"><a href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/browse/index']); ?>" class="btn-m btn-m-info btn-m-material-light-green btn-m-lg btn-m-fab btn-m-raised glyphicon glyphicon-leaf"></a>
+                <div align="center"><a href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/view/index']); ?>" class="btn-m btn-m-info btn-m-material-light-green btn-m-lg btn-m-fab btn-m-raised glyphicon glyphicon-leaf"></a>
                     <h2>Passport Data</h2>
                     <p>Browse the collection of germplasm on cereals, vegetables, food legumes, feed and industrial crops, medicinal plants, fruits, and in-vitro culture.</p>
-                    <p><a class="btn btn-default" href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/browse/index']); ?>">Browse &raquo;</a></p>
+                    <p><a class="btn btn-default" href="<?php echo \yii\helpers\Url::to(['/'.$mode.'/view/index']); ?>">Browse &raquo;</a></p>
                 </div>
             </div>
 

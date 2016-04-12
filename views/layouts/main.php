@@ -157,9 +157,9 @@ AppAsset::register($this);
                                             ]
                                         ],
                                         ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
-                                                ['label' => 'Tabular view', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === 'guest-characterization-browser' )],
-                                                ['label' => 'Grid view', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'guest-characterization-tabs')],
-                                                ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'guest-characterization-search')],
+                                                ['label' => 'Tabular view', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === 'corn-characterization-browser' )],
+                                                ['label' => 'Grid view', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'corn-characterization-tabs')],
+                                                ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'corn-characterization-search')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                             ]
                                         ],
@@ -177,7 +177,13 @@ AppAsset::register($this);
                     </div>
                     <?php
                 } else {
-                    if (\Yii::$app->session->get('curr_page') === 'guest-view' || \Yii::$app->session->get('curr_page') === 'guest-search' || \Yii::$app->session->get('curr_page') === 'guest-view-char-data' || \Yii::$app->session->get('curr_page') === 'guest-characterization-search' || \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' || \Yii::$app->session->get('curr_page') === 'guest-browse' || \Yii::$app->session->get('curr_page') === 'guest-characterization-browse') {
+                    if (\Yii::$app->session->get('curr_page') === 'guest-view' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-search' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-view-char-data' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-search' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-browse' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-browse' ) {
                         echo '<div class="col-sm-2">';
                         Breadcrumbs::widget([
                             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -187,6 +193,7 @@ AppAsset::register($this);
                         $type = 'success';
                         $item = Yii::$app->session->get('curr_page');
                         $type = '';
+                        ChromePhp::log('item');
                         ChromePhp::log($item);
                         echo SideNav::widget([
                             'type' => SideNav::TYPE_DEFAULT,
