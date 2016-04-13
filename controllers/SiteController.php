@@ -66,7 +66,7 @@ class SiteController extends Controller {
             }
             //return $this->goBack();
         } else {
-            return $this->render('login', [
+            return $this->renderAjax('login', [
                         'model' => $model,
             ]);
         }

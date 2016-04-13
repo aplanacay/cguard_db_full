@@ -33,6 +33,21 @@ $config = [
             'class' => '\kartik\dynagrid\Module',
         // other module settings
         ],
+        'book' => [
+            'class' => 'app\modules\book\BookModule',
+        ],
+        'inventory' => [
+            'class' => 'app\modules\inventory\Inventory',
+        ],
+        'withdrawal' => [
+            'class' => 'app\modules\withdrawal\withdrawal',
+        ],
+        'moisturecontent' => [
+            'class' => 'app\modules\moisturecontent\moisturecontent',
+        ],
+        'viability' => [
+            'class' => 'app\modules\viability\viability',
+        ],
     ],
     'components' => [
         'urlManager' => [
@@ -40,7 +55,7 @@ $config = [
             // Disable index.php
             'showScriptName' => false,
             // Disable r=routes
-            'enablePrettyUrl' => true,
+            'enablePrettyUrl' => false,
             'rules' => array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
