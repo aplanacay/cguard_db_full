@@ -6,7 +6,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'gii'],
+    'bootstrap' => ['log', 'gii','app\components\Bootstrap',],
     'modules' => [
         'gii' => 'yii\gii\Module',
         'uploader' => [
@@ -15,8 +15,11 @@ $config = [
         'users' => [
             'class' => 'app\modules\users\Module',
         ],
-        'catalog' => [
-            'class' => 'app\modules\catalog\GermplasmModule',
+        'corn' => [
+            'class' => 'app\modules\corn\GermplasmModule',
+        ],
+        'guest' => [
+            'class' => 'app\modules\guest\GermplasmModule',
         ],
         'characterizationData' => [
             'class' => 'app\modules\characterizationData\GermplasmModule',
@@ -93,20 +96,20 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
     ],
-    'as beforeRequest' => [
-        'class' => 'yii\filters\AccessControl',
-        'rules' => [
-            [
-                'actions' => ['login', 'error'],
-                'allow' => true,
-            ],
-            [
-
-                'allow' => true,
-                'roles' => ['@'],
-            ],
-        ],
-    ],
+//    'as beforeRequest' => [
+//        'class' => 'yii\filters\AccessControl',
+//        'rules' => [
+//            [
+//                'actions' => ['login', 'error'],
+//                'allow' => true,
+//            ],
+//            [
+//
+//                'allow' => true,
+//                'roles' => ['@'],
+//            ],
+//        ],
+//    ],
     'params' => $params,
 ];
 

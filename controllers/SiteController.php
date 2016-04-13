@@ -51,6 +51,7 @@ class SiteController extends Controller {
     }
 
     public function actionLogin() {
+        Yii::$app->session->set('curr_page', 'login');
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -60,7 +61,7 @@ class SiteController extends Controller {
             $user_id = Yii::$app->user->getId();
             $user = \app\models\Users::findOne($user_id);
             if ($user->type === 'admin') {
-                return $this->redirect(\yii\helpers\Url::to(['/catalog/browse'], true));
+                return $this->redirect(\yii\helpers\Url::to(['/corn/browse'], true));
             } else {
                 return $this->redirect(\yii\helpers\Url::to(['/characterizationData/view'], true));
             }
@@ -92,7 +93,13 @@ class SiteController extends Controller {
     }
 
     public function actionAbout() {
+        Yii::$app->session->set('curr_page', 'about');
         return $this->render('about');
+    }
+
+    public function actionWork() {
+        Yii::$app->session->set('curr_page', 'work');
+        return $this->render('work');
     }
 
 }

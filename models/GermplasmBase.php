@@ -20,9 +20,9 @@ use Yii;
  * @property string $old_acc_no
  * @property string $gb_no
  * @property string $collecting_no
- * @property string $cultivar/variety_name/pedigree
+ * @property string $variety_name
  * @property string $dialect
- * @property string $source/grower
+ * @property string $grower
  * @property string $scientific_name
  * @property string $count_coll
  * @property string $prov
@@ -63,7 +63,8 @@ class GermplasmBase extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['phl_no', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'cultivar/variety_name/pedigree', 'dialect', 'source/grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'string'],
+            [['phl_no', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'string'],
+            [['phl_no','old_acc_no', 'gb_no', 'collecting_no',],'required'],
             [['creator_id', 'modifier_id', 'crop_id'], 'integer'],
             [['creation_timestamp', 'modification_timestamp','crop'], 'safe'],
             [['is_void'], 'boolean'],
@@ -90,9 +91,9 @@ class GermplasmBase extends \yii\db\ActiveRecord
             'old_acc_no' => 'Old Acc No',
             'gb_no' => 'Gb No',
             'collecting_no' => 'Collecting No',
-            'cultivar/variety_name/pedigree' => 'Local/Variety Name',
+            'variety_name' => 'Local/Variety Name',
             'dialect' => 'Dialect',
-            'source/grower' => 'Source/grower',
+            'grower' => 'Source/grower',
             'scientific_name' => 'Scientific Name',
             'count_coll' => 'Country',
             'prov' => 'Province',
@@ -120,8 +121,8 @@ class GermplasmBase extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCrop()
-    {
-        return $this->hasOne(MasterCrop::className(), ['id' => 'crop_id']);
-    }
+//    public function getCrop()
+//    {
+//        return $this->hasOne(MasterCrop::className(), ['id' => 'crop_id']);
+//    }
 }

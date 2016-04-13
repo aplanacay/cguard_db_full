@@ -1,12 +1,3 @@
-<head>
-    <style>
-        .nav-tabs.nav-stacked.nav-condensed > li > a {
-            padding-top: 4px; 
-            padding-bottom: 4px; 
-        }
-    </style>
-</head>
-
 <?php
 
 use yii\helpers\Html;
@@ -14,7 +5,11 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use kartik\widgets\SideNav;
+use yii\helpers\Url;
+?>
 
+<?php
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -37,10 +32,11 @@ AppAsset::register($this);
         <div class="wrapper">
             <?php
             NavBar::begin([
-                'brandLabel' => 'PHLGRIMS',
+                'brandLabel' => 'CornBase',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    //'style'=>'height:80;width:100',
+                    'class' => 'navbar-inverse navbar-fixed-top navbar-lg',
                 //'class' => 'navbar-black navbar-fixed-top nav-condensed',
                 ],
             ]);
@@ -48,7 +44,10 @@ AppAsset::register($this);
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-right'],
                     'items' => [
-                        // ['label' => 'Home', 'url' => ['/site/index']],
+                        ['label' => 'Home', 'url' => ['/site/index']],
+                        ['label' => 'ABOUT US', 'url' => ['/site/about']],
+                        // ['label' => 'OUR PEOPLE', 'url' => ['/site/people']],
+                        ['label' => 'OUR WORK', 'url' => ['/site/work']],
                         ['label' => 'Login', 'url' => ['/site/login']],
                     ],
                 ]);
@@ -61,28 +60,19 @@ AppAsset::register($this);
                         'encodeLabels' => false,
                         'items' => [
                             ['label' => 'Home', 'url' => ['/site/index']],
-                            ['label' => 'Resources',
+                            ['label' => 'ABOUT US', 'url' => ['/site/about']],
+                            // ['label' => 'OUR PEOPLE', 'url' => ['/site/people']],
+                            ['label' => 'OUR WORK', 'url' => ['/site/work']],
+                            ['label' => 'Crop Group',
                                 'items' => [
-                                    ['label' => 'Corn', 'url' => ['/catalog/browse']],
-                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
-                                ],
-                            ],
-                            ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                                'url' => ['/site/logout'],
-                                'linkOptions' => ['data-method' => 'post']],
-                        ],
-                    ]);
-                } else {
-                    echo Nav::widget([
-                        'options' => ['class' => 'navbar-nav navbar-right'],
-                        'encodeLabels' => false,
-                        'items' => [
-                            ['label' => 'Home', 'url' => ['/site/index']],
-                            ['label' => 'Resources',
-                                'items' => [
-                                    ['label' => 'Corn', 'url' => ['/characterizationData/browse']],
-                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
-                                ],
+                                    //label' => 'Cereal',
+                                    //    'items' => [
+                                    ['label' => 'Corn', 'url' => ['/corn/browse']
+                                    //],
+                                    //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+                                    //  ]
+                                    ]
+                                ], //
                             ],
                             ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                                 'url' => ['/site/logout'],
@@ -90,6 +80,24 @@ AppAsset::register($this);
                         ],
                     ]);
                 }
+//                else {
+//                    echo Nav::widget([
+//                        'options' => ['class' => 'navbar-nav navbar-right'],
+//                        'encodeLabels' => false,
+//                        'items' => [
+//                            ['label' => 'Home', 'url' => ['/site/index']],
+//                            ['label' => 'Resources',
+//                                'items' => [
+//                                    ['label' => 'Corn', 'url' => ['/characterizationData/browse']],
+//                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+//                                ],
+//                            ],
+//                            ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+//                                'url' => ['/site/logout'],
+//                                'linkOptions' => ['data-method' => 'post']],
+//                        ],
+//                    ]);
+//                }
             }
             NavBar::end();
             ?>
@@ -97,12 +105,143 @@ AppAsset::register($this);
             <br>
             <br>
             <br>
+            <br>
             <div class="container-fluid">
 
-                <div class="col-sm-3">
+                <?php
+                if (!Yii::$app->user->isGuest && !( \Yii::$app->session->get('curr_page') === 'home' || \Yii::$app->session->get('curr_page') === 'work' || \Yii::$app->session->get('curr_page') === 'about')) {
+                    ?>
+                    <div class="col-sm-2">
+                        <?php
+                        Breadcrumbs::widget([
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                        ]);
+
+                        $heading = '<i class="glyphicon glyphicon-cog"></i> Operations';
+                        $type = 'success';
+                        $item = Yii::$app->session->get('curr_page');
+                        $type = '';
+//                        echo SideNav::widget([
+//                            'type' => SideNav::TYPE_SUCCESS,
+//                            'encodeLabels' => false,
+//                            //'heading' => $heading,
+//                            'items' => [
+//                                // Important: you need to specify url as 'controller/action',
+//                                // not just as 'controller' even if default action is used.
+//                                ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
+//                                //label' => 'Catalog', 'icon' => 'book', 'items' => [
+//                                ['label' => 'Corn', 'items' => [
+//                                        ['label' => 'Passport Data', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')],
+//                                        ['label' => 'Import File', 'url' => Url::to(['/corn/upload/index']), 'active' => ($item == 'corn-import')],
+//                                        ['label' => 'Add Record', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
+//                                    ]],
+////                                  
+//                            ],
+//                        ]);
+                        echo SideNav::widget([
+                            'type' => SideNav::TYPE_DEFAULT,
+                            'encodeLabels' => false,
+                            //'heading' => $heading,
+                            'indItem' => '',
+                            'items' => [
+
+                                ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
+                                ['label' => 'Corn', 'items' => [
+                                        ['label' => 'Passport Data', 'icon' => 'leaf', 'items' => [
+                                                ['label' => 'Tabular view', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')],
+                                                ['label' => 'Grid view', 'url' => Url::to(['/corn/view/index']), 'active' => ($item == 'corn-view')],
+                                                ['label' => 'Search', 'url' => Url::to(['/corn/browse/search']), 'active' => ($item == 'corn-search')],
+                                                ['label' => 'Import File', 'url' => Url::to(['/corn/upload/index']), 'active' => ($item == 'corn-import')],
+                                                ['label' => 'Add Record', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
+//\\                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
+                                            ]
+                                        ],
+                                        ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
+                                                ['label' => 'Tabular view', 'url' => Url::to(['/corn/characterization/index']), 'active' => ($item === 'corn-characterization-browser' )],
+                                                ['label' => 'Grid view', 'url' => Url::to(['/corn/characterization/tabs']), 'active' => ( $item === 'corn-characterization-tabs')],
+                                                ['label' => 'Search', 'url' => Url::to(['/corn/characterization/search']), 'active' => ($item === 'corn-characterization-search')],
+//                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
+                                            ]
+                                        ],
+                                        ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/guest/locations/index', 'type' => $type]), 'active' => ($item == '')],
+//                                        ['label' => 'Characterization Data', 'icon' => 'list', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item == 'guest-characterization-tabs')],
+//                                        ['label' => 'Search Characterization Data', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item == 'guest-characterization-search')],
+                                    ]],
+//                                  
+                            ],
+                        ]);
+                        ?> </div>
+
+                    <div class="col-sm-10">
+                        <?= $content ?>
+                    </div>
+                    <?php
+                } else {
+                    if (\Yii::$app->session->get('curr_page') === 'guest-view' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-search' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-view-char-data' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-search' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-browse' || 
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-browse' ) {
+                        echo '<div class="col-sm-2">';
+                        Breadcrumbs::widget([
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                        ]);
+
+                        $heading = '<i class="glyphicon glyphicon-cog"></i> Operations';
+                        $type = 'success';
+                        $item = Yii::$app->session->get('curr_page');
+                        $type = '';
+                        ChromePhp::log('item');
+                        ChromePhp::log($item);
+                        echo SideNav::widget([
+                            'type' => SideNav::TYPE_DEFAULT,
+                            'encodeLabels' => false,
+                            //'heading' => $heading,
+                            'indItem' => '',
+                            'items' => [
+
+                                ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
+                                ['label' => 'Corn', 'items' => [
+                                        ['label' => 'Passport Data', 'icon' => 'leaf', 'items' => [
+                                                ['label' => 'Tabular view', 'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' )],
+                                                ['label' => 'Grid view', 'url' => Url::to(['/guest/view/index']), 'active' => ( $item === 'guest-view')],
+                                                ['label' => 'Search', 'url' => Url::to(['/guest/browse/search']), 'active' => ( $item === 'guest-search')],
+//                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
+                                            ]
+                                        ],
+                                        ['label' => 'Characterization Data', 'icon' => 'list', 'items' => [
+                                                ['label' => 'Tabular view', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === 'guest-characterization-browse' )],
+                                                ['label' => 'Grid view', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'guest-characterization-tabs')],
+                                                ['label' => 'Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'guest-characterization-search')],
+//                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
+                                            ]
+                                        ],
+//                                        ['label' => 'Characterization Data', 'icon' => 'list', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item == 'guest-characterization-tabs')],
+//                                        ['label' => 'Search Characterization Data', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item == 'guest-characterization-search')],
+                                    ]],
+//                                  
+                            ],
+                        ]);
+                        ?> </div>
+
+                    <div class="col-sm-10">
+                        <?= $content ?>
+                    </div>
+                    <?php
+                } else {
+                    ?>  
+
+                    <?= $content; ?>
 
                     <?php
+                }
+            }
+            ?>
 
+
+<<<<<<< HEAD
                     use kartik\widgets\SideNav;
                     use yii\helpers\Url;
 
@@ -167,18 +306,17 @@ if (!Yii::$app->user->isGuest) {
                     }
                     ?>
                 </div>
+=======
+>>>>>>> b318acf078e34f06941fce9003cf7d8a716bc0d6
 
-                <div class="col-sm-9">
-                    <?= $content ?>
-                </div>
-            </div>
         </div>
+    </div>
 
-        <?php $this->endBody() ?>
-        <br>
-        <br>
-        <br>  
-    </body>
+    <?php $this->endBody() ?>
+    <br>
+    <br>
+    <br>  
+</body>
 
 </html>
 <?php $this->endPage() ?>
