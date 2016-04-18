@@ -24,6 +24,7 @@ class BrowseController extends Controller {
 
     public function actionIndex() {
         \Yii::$app->session->set('curr_page', 'guest-browse');
+        ChromePhp::log(\Yii::$app->session->get('curr_page'));
         // $query = \app\modules\corn\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");\
         $searchModel = new \app\modules\corn\models\GermplasmSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
