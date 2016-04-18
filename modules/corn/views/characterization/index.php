@@ -194,7 +194,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'showPersonalize' => true,
                 'storage' => 'cookie',
                 'gridOptions' => [
-
+                    'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],
                     'bordered' => false,
                     'condensed' => true,
                     //'export' => false,
