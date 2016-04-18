@@ -163,6 +163,16 @@ AppAsset::register($this);
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                             ]
                                         ],
+                                        ['label' => 'Inventory', 'items' => [
+                                                ['label' => 'List', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
+                                                ['label' => 'Search', 'url' => "#"],
+                                            ]],
+                                        //'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
+                                        ['label' => 'Withdrawal', 'items' => [
+                                                ['label' => 'List', 'url' => Url::to(['/withdrawal/withdrawal/index']), 'active' => ($item == 'withdrawal-index')],
+                                                ['label' => 'Moisture Content Determiantion', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
+                                                ['label' => 'Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
+                                            ]],
                                         ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/guest/locations/index', 'type' => $type]), 'active' => ($item == '')],
 //                                        ['label' => 'Characterization Data', 'icon' => 'list', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item == 'guest-characterization-tabs')],
 //                                        ['label' => 'Search Characterization Data', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item == 'guest-characterization-search')],
@@ -179,11 +189,11 @@ AppAsset::register($this);
                 } else {
                     if (\Yii::$app->session->get('curr_page') === 'guest-view' ||
                             \Yii::$app->session->get('curr_page') === 'guest-search' ||
-                            \Yii::$app->session->get('curr_page') === 'guest-view-char-data' || 
-                            \Yii::$app->session->get('curr_page') === 'guest-characterization-search' || 
-                            \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' || 
-                            \Yii::$app->session->get('curr_page') === 'guest-browse' || 
-                            \Yii::$app->session->get('curr_page') === 'guest-characterization-browse' ) {
+                            \Yii::$app->session->get('curr_page') === 'guest-view-char-data' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-search' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-browse' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-characterization-browse') {
                         echo '<div class="col-sm-2">';
                         Breadcrumbs::widget([
                             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -241,81 +251,15 @@ AppAsset::register($this);
             ?>
 
 
-<<<<<<< HEAD
-                    use kartik\widgets\SideNav;
-                    use yii\helpers\Url;
+            
 
-if (!Yii::$app->user->isGuest) {
-                        $user_id = Yii::$app->user->getId();
-                        $user = \app\models\Users::findOne($user_id);
-                        if ($user->type === 'admin') {
-                            Breadcrumbs::widget([
-                                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                            ]);
-
-                            $heading = '<i class="glyphicon glyphicon-cog"></i> Operations';
-                            $type = 'success';
-                            $item = Yii::$app->session->get('curr_page');
-                            $type = '';
-                            echo SideNav::widget([
-                                'type' => SideNav::TYPE_SUCCESS,
-                                'encodeLabels' => false,
-                                'items' => [
-                                    // Important: you need to specify url as 'controller/action',
-                                    // not just as 'controller' even if default action is used.
-                                    ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
-                                    ['label' => 'Corn', 'items' => [
-                                            ['label' => 'Passport Data', 'url' => Url::to(['/catalog/browse/index']), 'active' => ($item == 'catalog-browse')],
-                                            ['label' => 'Import', 'url' => Url::to(['/catalog/upload/index']), 'active' => ($item == 'catalog-import')],
-                                            ['label' => 'Inventory', 'items' => [
-                                                ['label' => 'List', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
-                                                ['label' => 'Search', 'url' => "#"],
-                                            ]],
-                                            //'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
-                                            ['label' => 'Withdrawal', 'items' => [
-                                                ['label' => 'List', 'url' => Url::to(['/withdrawal/withdrawal/index']), 'active' => ($item == 'withdrawal-index')],
-                                                ['label' => 'Moisture Content Determiantion', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
-                                                ['label' => 'Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
-                                            ]],
-                                        ]],
-                                ],
-                            ]);
-                        } else {
-                            Breadcrumbs::widget([
-                                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                            ]);
-
-                            $heading = '<i class="glyphicon glyphicon-cog"></i> Operations';
-                            $type = 'success';
-                            $item = Yii::$app->session->get('curr_page');
-                            $type = '';
-                            echo SideNav::widget([
-                                'type' => SideNav::TYPE_SUCCESS,
-                                'encodeLabels' => false,
-                                //'heading' => $heading,
-                                'items' => [
-                                    // Important: you need to specify url as 'controller/action',
-                                    // not just as 'controller' even if default action is used.
-                                    ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
-                                    ['label' => 'Corn', 'items' => [
-                                            ['label' => 'Characterization Data', 'url' => Url::to(['/characterizationData/view/index']), 'active' => ($item == 'characterization-data-browse')],
-                                        ]],
-                                ],
-                            ]);
-                        }
-                    }
-                    ?>
-                </div>
-=======
->>>>>>> b318acf078e34f06941fce9003cf7d8a716bc0d6
-
-        </div>
     </div>
+</div>
 
-    <?php $this->endBody() ?>
-    <br>
-    <br>
-    <br>  
+<?php $this->endBody() ?>
+<br>
+<br>
+<br>  
 </body>
 
 </html>
