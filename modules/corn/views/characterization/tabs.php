@@ -107,7 +107,7 @@ use kartik\select2\Select2;
         'lastPageLabel' => true,
         'options' => ['class' => 'pagination pull-right']
     ]);
-    echo Html::a('Show Tabular View', ['characterization/index', 'CharacterizationSearch' => Yii::$app->request->getQueryParam('CharacterizationSearch')], ['class' => 'btn btn-success']);
+    echo Html::a('Show Search Report', ['characterization/index', 'CharacterizationSearch' => Yii::$app->request->getQueryParam('CharacterizationSearch')], ['class' => 'btn btn-success']);
 //    use kartik\export\ExportMenu;
 //    echo ExportMenu::widget([
 //    'dataProvider' => $dataProvider,
