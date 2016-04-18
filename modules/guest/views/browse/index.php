@@ -82,7 +82,7 @@
     .panel-title:hover {
         cursor: pointer;
     }
-    
+
 
 
 </style>
@@ -127,9 +127,9 @@ $updateMsg = 'update';
 $deleteMsg = 'delete';
 $dynagrid = DynaGrid::begin([
             'columns' => [
-                [
-                    'class' => 'kartik\grid\ActionColumn',
-                    'template' => '{view}',
+//                [
+//                    'class' => 'kartik\grid\ActionColumn',
+//                    'template' => '',
 //                'buttons'=>[
 //                        'today_action' => function ($url, $model) {
 //                        return Html::a('<span class="glyphicon glyphicon-check"></span>', $url, 
@@ -138,16 +138,16 @@ $dynagrid = DynaGrid::begin([
 //                        ]);
 //                    }
 //                ],
-                    'dropdown' => false,
-                    'urlCreator' => function($action, $model, $key, $index) {
-                if ($action === 'view') {
-                    return \yii\helpers\Url::to(['/guest/view/index', 'id' => $model->id]);
-                }
-            },
-                    'viewOptions' => ['title' => 'View more information', 'data-toggle' => 'tooltip'],
-//                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
-//                'deleteOptions' => ['title' => 'deleteMsg', 'data-toggle' => 'tooltip'],
-                    'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_LEFT],
+//                    'dropdown' => false,
+//                    'urlCreator' => function($action, $model, $key, $index) {
+//                if ($action === 'view') {
+//                    return \yii\helpers\Url::to(['/guest/view/index', 'id' => $model->id]);
+//                }
+//            },
+//                    'viewOptions' => ['title' => 'View more information', 'data-toggle' => 'tooltip'],
+////                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
+////                'deleteOptions' => ['title' => 'deleteMsg', 'data-toggle' => 'tooltip'],
+//                    'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_LEFT],
 //            'id',
                 'phl_no',
 //            'creator_id',
@@ -164,9 +164,15 @@ $dynagrid = DynaGrid::begin([
                 'variety_name',
                 'dialect',
                 'grower',
-                'scientific_name',
+                [
+                    'attribute' => 'scientific_name',
+                    'format' => 'html',
+                    'value' => function($model) {
+                return '<i>' . $model->scientific_name . '</i>';
+            }
+                ],
                 'count_coll',
-//                'prov',
+                'prov',
 //                'town',
 //                'barangay',
 //                'sitio',
@@ -191,7 +197,7 @@ $dynagrid = DynaGrid::begin([
             'showPersonalize' => true,
             'storage' => 'cookie',
             'gridOptions' => [
-
+                'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],
                 'bordered' => false,
                 'condensed' => true,
                 //'export' => false,
@@ -249,7 +255,7 @@ $dynagrid = DynaGrid::begin([
 //                    ],
                 'toolbar' => [
                     ['content' =>
-                         //Html::a('Create Germplasm Base', ['add'], ['class' => 'btn btn-success']).
+                        //Html::a('Create Germplasm Base', ['add'], ['class' => 'btn btn-success']).
                         Html::button('<i class="glyphicon glyphicon-search"></i>', [
                             //'value' => yii\helpers\Url::to('guest/browse/search'),
                             'data' => [

@@ -158,10 +158,10 @@ use yii\bootstrap\ActiveForm;
 
     echo $form->field($model, 'prov');
 
-    echo $form->field($model, 'town');
-
-    echo $form->field($model, 'barangay');
-    echo $form->field($model, 'sitio');
+//    echo $form->field($model, 'town');
+//
+//    echo $form->field($model, 'barangay');
+//    echo $form->field($model, 'sitio');
 
     echo $form->field($model, 'acq_date');
     echo '</div><div class="col-md-4">';

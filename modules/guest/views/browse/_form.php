@@ -31,20 +31,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'prov')->textInput() ?>
 
-    <?= $form->field($model, 'town')->textInput() ?>
-
-    <?= $form->field($model, 'barangay')->textInput() ?>
-
-    <?= $form->field($model, 'sitio')->textInput() ?>
+    
 
     <?= $form->field($model, 'acq_date')->textInput() ?>
 
-    <?= $form->field($model, 'latitude')->textInput() ?>
-
-    <?= $form->field($model, 'longitude')->textInput() ?>
-
-    <?= $form->field($model, 'altitude')->textInput() ?>
-
+    
     <?php
 
     use kartik\widgets\Select2;
