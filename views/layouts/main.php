@@ -121,23 +121,7 @@ AppAsset::register($this);
                         $type = 'success';
                         $item = Yii::$app->session->get('curr_page');
                         $type = '';
-//                        echo SideNav::widget([
-//                            'type' => SideNav::TYPE_SUCCESS,
-//                            'encodeLabels' => false,
-//                            //'heading' => $heading,
-//                            'items' => [
-//                                // Important: you need to specify url as 'controller/action',
-//                                // not just as 'controller' even if default action is used.
-//                                ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
-//                                //label' => 'Catalog', 'icon' => 'book', 'items' => [
-//                                ['label' => 'Corn', 'items' => [
-//                                        ['label' => 'Passport Data', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')],
-//                                        ['label' => 'Import File', 'url' => Url::to(['/corn/upload/index']), 'active' => ($item == 'corn-import')],
-//                                        ['label' => 'Add Record', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
-//                                    ]],
-////                                  
-//                            ],
-//                        ]);
+                        
                         echo SideNav::widget([
                             'type' => SideNav::TYPE_DEFAULT,
                             'encodeLabels' => false,
