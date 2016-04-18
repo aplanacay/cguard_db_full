@@ -173,7 +173,8 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
                     echo '</div><div class="col-md-4">';
                     echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
 
-                    echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
+                    echo $form->field($model->germplasm, 'scientific_name', ['template' => "{label}<div class='col-sm-6'><i>{input}</i>{hint}{error}</div>",
+                    ])->textInput(['readonly' => true]);
                     echo '</div><div class="col-md-4">';
                     echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
                     echo '</div>';

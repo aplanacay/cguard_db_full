@@ -4,7 +4,7 @@
     }
 </style>
 <?php
- 
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 //use kartik\widgets\ActiveForm;
@@ -21,7 +21,7 @@ use kartik\select2\Select2;
     <div class = "form-group pull-right" >
 
         <?php echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']); ?>
-        
+
     </div>
     <br/><br/>
     <?php
@@ -61,13 +61,14 @@ use kartik\select2\Select2;
                 echo '</div><div class="col-md-4">';
                 echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
 
-                echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
+                echo $form->field($model->germplasm, 'scientific_name', ['template' => "{label}<div class='col-sm-6'><i>{input}</i>{hint}{error}</div>",
+                ])->textInput(['readonly' => true]);
                 echo '</div><div class="col-md-4">';
                 echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
                 echo '</div>';
                 // }
                 // ActiveForm::end();
-               // echo '</div>';
+                // echo '</div>';
                 ?>   
             </div>
         </div>
@@ -313,7 +314,7 @@ use kartik\select2\Select2;
 
         </div>
 
-<?php
+        <?php
 //$this->registerJs($this->renderPartial('@app/js/characterization_search.js'));
 //$this->registerJsFile('@web/js/characterization_search.js');
 //$this->registerJsFile(
@@ -321,5 +322,5 @@ use kartik\select2\Select2;
 //   [ 'depends' => ['\yii\web\JqueryAsset'], 'position' => '\yii\web\View::POS_END', ],
 //);
 
-$this->registerJsFile('@web/js/characterization_search.js', [ 'depends' => ['app\assets\AppAsset'], 'position' => \yii\web\View::POS_END,]);
-?>
+        $this->registerJsFile('@web/js/characterization_search.js', [ 'depends' => ['app\assets\AppAsset'], 'position' => \yii\web\View::POS_END,]);
+        ?>
