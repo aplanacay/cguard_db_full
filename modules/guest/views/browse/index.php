@@ -161,6 +161,7 @@ $dynagrid = DynaGrid::begin([
                 'old_acc_no',
                 'gb_no',
                 'collecting_no',
+                'other_number',
                 'variety_name',
                 'dialect',
                 'grower',

@@ -142,6 +142,7 @@ use yii\bootstrap\ActiveForm;
         echo $form->field($model, 'scientific_name')->textInput();
         echo '</div><div class="col-md-4">';
         echo $form->field($model, 'old_acc_no')->label('Old Accession No')->textInput();
+        echo $form->field($model, 'other_number')->textInput();
         echo '</div>';
         ?>
     </div>

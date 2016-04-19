@@ -136,6 +136,7 @@ $form = ActiveForm::begin([
     ])->textInput(['readonly' => true]);
     echo '</div><div class="col-md-4">';
     echo $form->field($model, 'old_acc_no')->label('Old Accession No')->textInput(['readonly' => true]);
+    echo $form->field($model, 'other_number')->textInput(['readonly' => true]);
     echo '</div>';
     ?>
 </div>
@@ -187,6 +188,7 @@ echo $form->field($model, 'drain')->label('Drainage')->textInput(['readonly' => 
 echo $form->field($model, 'soil_col')->label('Soil color')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'ston')->label('Stoniness')->textInput(['readonly' => true]);
+echo $form->field($model, 'remarks')->textarea(['rows' => 6,'readonly' => true]);
 echo '</div>';
 ?>
 

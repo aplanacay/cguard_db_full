@@ -18,6 +18,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'gb_no')->textInput() ?>
 
     <?= $form->field($model, 'collecting_no')->textInput() ?>
+    <?= $form->field($model, 'other_number')->textInput() ?>
 
     <?= $form->field($model, 'variety_name')->textInput() ?>
 
