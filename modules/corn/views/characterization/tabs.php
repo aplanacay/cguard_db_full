@@ -172,6 +172,7 @@ use kartik\select2\Select2;
                     ])->textInput(['readonly' => true]);
                     echo '</div><div class="col-md-4">';
                     echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
+                    echo $form->field($model->germplasm, 'other_number')->textInput(['readonly' => true]);
                     echo '</div>';
                 }
                 ActiveForm::end();

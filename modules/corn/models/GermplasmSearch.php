@@ -18,7 +18,7 @@ class GermplasmSearch extends Germplasm {
     public function rules() {
         return [
             [['id', 'creator_id', 'modifier_id', 'crop_id'], 'integer'],
-            [['phl_no', 'creation_timestamp', 'modification_timestamp', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'safe'],
+            [['phl_no', 'creation_timestamp','other_number', 'modification_timestamp', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'safe'],
             [['is_void'], 'boolean'],
             [['crop',], 'safe']
         ];
@@ -39,25 +39,11 @@ class GermplasmSearch extends Germplasm {
      *
      * @return ActiveDataProvider
      */
-    public function search($params) {
+    public function search($params,$query) {
 
         $phl_no_str = "'(^[0-9]+)'";
         $phl_no_str2 = "'([^0-9_].*$)'";
-        $query = \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
-        // $query->joinWith(['crop']);
-
-
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        $dataProvider->sort->attributes['crop'] = [
-
-            'asc' => ['crop' => SORT_ASC],
-            'desc' => ['crop' => SORT_DESC],
-            'label' => 'Crop',
-            'default' => SORT_ASC
-        ];
+        //$query = \app\modules\corn\models\Germplasm::find();//->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
         
 
 
@@ -66,7 +52,7 @@ class GermplasmSearch extends Germplasm {
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
-            return $dataProvider;
+           // return $dataProvider;
         }
 
         $query->andFilterWhere([
@@ -79,6 +65,7 @@ class GermplasmSearch extends Germplasm {
             'phl_no' => $this->phl_no,
             'gb_no' => $this->gb_no,
             'old_acc_no' => $this->old_acc_no,
+            'other_number' => $this->other_number,
                 //      'crop_id' => $this->crop_id,
         ]);
 

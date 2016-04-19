@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $phl_no
+ * @property string $other_number
  * @property integer $creator_id
  * @property string $creation_timestamp
  * @property integer $modifier_id
@@ -47,26 +48,24 @@ use Yii;
  *
  * @property MasterCrop $crop
  */
-class GermplasmBase extends \yii\db\ActiveRecord
-{
+class GermplasmBase extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'catalog.germplasm';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['phl_no', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'string'],
-            [['phl_no','old_acc_no', 'gb_no', 'collecting_no',],'required'],
+            [['phl_no', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'other_number', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'string'],
+            [['phl_no', 'old_acc_no', 'gb_no', 'collecting_no',], 'required'],
             [['creator_id', 'modifier_id', 'crop_id'], 'integer'],
-            [['creation_timestamp', 'modification_timestamp','crop'], 'safe'],
+            [['creation_timestamp', 'modification_timestamp', 'crop'], 'safe'],
             [['is_void'], 'boolean'],
             [['crop_id'], 'required']
         ];
@@ -75,8 +74,7 @@ class GermplasmBase extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'phl_no' => 'Phl No',
@@ -85,6 +83,7 @@ class GermplasmBase extends \yii\db\ActiveRecord
             'modifier_id' => 'Modifier ID',
             'modification_timestamp' => 'Modification Timestamp',
             'remarks' => 'Remarks',
+            'other_number'=>'Other Number',
             'Notes' => 'Notes',
             'is_void' => 'Is Void',
             'crop_id' => 'Crop ID',

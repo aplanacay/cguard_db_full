@@ -125,6 +125,7 @@ use yii\bootstrap\ActiveForm;
         </div><div class="col-md-4">
             <?php
             echo $form->field($model, 'old_acc_no')->textInput();
+            echo $form->field($model, 'other_number')->textInput();
             ?>
         </div>
     </div>
