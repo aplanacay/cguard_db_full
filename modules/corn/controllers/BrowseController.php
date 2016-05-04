@@ -282,7 +282,6 @@ class BrowseController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        \ChromePhp::log('hello');
         $model = new \app\modules\corn\models\Germplasm();
         $model->load(Yii::$app->request->post());
         $model->setAttribute('crop_id', 1);
@@ -296,6 +295,7 @@ class BrowseController extends Controller {
     }
 
     public function actionAdd() {
+        \Yii::$app->session->set('curr_page', 'corn-add');
         $model = new \app\modules\corn\models\Germplasm();
 
         return $this->render('create', [
@@ -316,7 +316,8 @@ class BrowseController extends Controller {
             $error_arr = $model->getErrors();
 
             foreach ($error_arr as $err) {
-                $error_str .= '. ' . $err;
+                ChromePhp::log($err);
+                $error_str .= '. ' . $err[0];
             }
             \Yii::$app->getSession()->setFlash('error', 'Failed to update passport data. Errors: ' . $error_str);
             return $this->redirect(['/corn/view/index', 'id' => $id]);

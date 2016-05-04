@@ -133,10 +133,9 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
                     ],
                 ],
     ]);
-    ChromePhp::log('yow');
     ?>
     <div class = "form-group pull-right" >
-        <?php echo Html::submitButton('Update', ['class' => 'btn btn-success']); ?>
+        <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']); ?>
         <?php
         echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-picture"></i> View Photo', [
             //'value' => yii\helpers\Url::to('guest/browse/search'),
