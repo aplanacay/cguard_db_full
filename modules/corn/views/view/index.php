@@ -10,7 +10,6 @@
     if ($flashMessages) {
         $tag = '';
         foreach ($flashMessages as $key => $message) {
-            ChromePhp::log($key);
             if ($key === 'error') {
                 $tag = 'danger';
             }else if ($key === 'success') {
