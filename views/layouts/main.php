@@ -163,7 +163,7 @@ AppAsset::register($this);
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                             ]
                                         ],
-                                        ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/guest/locations/index', 'type' => $type]), 'active' => ($item == '')],
+                                        ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/corn/locations/index', 'type' => $type]), 'active' => ($item == '')],
 //                                        ['label' => 'Characterization Data', 'icon' => 'list', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item == 'guest-characterization-tabs')],
 //                                        ['label' => 'Search Characterization Data', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item == 'guest-characterization-search')],
                                     ]],
