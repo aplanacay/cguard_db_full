@@ -1,8 +1,23 @@
 <h1>Locations</h1>
  
 <div id="map"></div>
+
     <script type="text/javascript">
-        
+       /* function initMap() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+      }*/
+     
     function initMap(){    
         /*
         var locations = [
@@ -13,12 +28,12 @@
           ['Maroubra Beach', -33.950198, 151.259302]
         ];
         */
-       
-       var locations = <?php echo json_encode($locations); ?>
+   
+       var locations = <?php echo json_encode($locations); ?>;
        
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 4,
-          center: new google.maps.LatLng(-39.92, 151.25),
+          center: new google.maps.LatLng(locations[0][1],locations[0][2]),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         var infowindow = new google.maps.InfoWindow();
@@ -41,7 +56,10 @@
     
   </script> 
   
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA__FP7evjIH-j60EnKNbfdAtVAT5ZWbOM&callback=initMap"></script>
+    <script async defer 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA__FP7evjIH-j60EnKNbfdAtVAT5ZWbOM&callback=initMap">
+
+    </script>
     
 <style>
     #map{
