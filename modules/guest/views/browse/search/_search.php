@@ -64,7 +64,7 @@ echo $form->field($model, 'grower');
 
 echo $form->field($model, 'count_coll');
 
-//echo $form->field($model, 'prov');
+echo $form->field($model, 'prov');
 //
 //echo $form->field($model, 'town');
 //

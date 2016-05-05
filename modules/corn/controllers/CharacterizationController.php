@@ -31,7 +31,7 @@ class CharacterizationController extends Controller {
      * @return mixed
      */
     public function actionSearch() {
-        \Yii::$app->session->set('curr_page', 'guest-characterization-search');
+        \Yii::$app->session->set('curr_page', 'corn-characterization-search');
         $searchModel = new CharacterizationSearch();
 
         $dataProvider = $searchModel->search(Yii::$app->request->post());
@@ -121,7 +121,7 @@ class CharacterizationController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        \Yii::$app->session->set('curr_page', 'guest-characterization-browse');
+        \Yii::$app->session->set('curr_page', 'corn-characterization-browse');
         $searchModel = new CharacterizationSearch();
         $query = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider = new ActiveDataProvider([

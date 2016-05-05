@@ -132,9 +132,11 @@ $form = ActiveForm::begin([
     echo '</div><div class="col-md-4">';
     echo $form->field($model, 'gb_no')->textInput(['readonly' => true]);
 
-    echo $form->field($model, 'scientific_name')->textInput(['readonly' => true]);
+     echo $form->field($model, 'scientific_name', ['template' => "{label}<div class='col-sm-6'><i>{input}</i>{hint}{error}</div>",
+    ])->textInput(['readonly' => true]);
     echo '</div><div class="col-md-4">';
     echo $form->field($model, 'old_acc_no')->label('Old Accession No')->textInput(['readonly' => true]);
+    echo $form->field($model, 'other_number')->textInput(['readonly' => true]);
     echo '</div>';
     ?>
 </div>
@@ -151,19 +153,19 @@ echo $form->field($model, 'count_coll')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'prov');
 
-echo $form->field($model, 'town');
+//echo $form->field($model, 'town');
+//
+//echo $form->field($model, 'barangay');
+//echo $form->field($model, 'sitio');
 
-echo $form->field($model, 'barangay');
-echo $form->field($model, 'sitio');
 
-echo '</div><div class="col-md-4">';
 echo $form->field($model, 'acq_date')->textInput(['readonly' => true]);
-echo $form->field($model, 'latitude');
-
-echo $form->field($model, 'longitude');
-
-echo $form->field($model, 'altitude');
-
+//echo $form->field($model, 'latitude');
+//
+//echo $form->field($model, 'longitude');
+//
+//echo $form->field($model, 'altitude');
+echo '</div><div class="col-md-4">';
 echo $form->field($model, 'coll_source')->label('Collecting source')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'gen_stat')->label('Genetic status')->textInput(['readonly' => true]);
@@ -171,12 +173,12 @@ echo $form->field($model, 'gen_stat')->label('Genetic status')->textInput(['read
 echo $form->field($model, 'sam_type')->label('Sample type')->textInput(['readonly' => true]);
 
 
-echo '</div><div class="col-md-4">';
+
 echo $form->field($model, 'sam_met')->label('Sampling methods')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'mat')->label('Material collected')->textInput(['readonly' => true]);
 echo $form->field($model, 'topo')->label('Topography')->textInput(['readonly' => true]);
-
+echo '</div><div class="col-md-4">';
 echo $form->field($model, 'site');
 
 echo $form->field($model, 'soil_tex')->label('Soil texture')->textInput(['readonly' => true]);
@@ -186,6 +188,7 @@ echo $form->field($model, 'drain')->label('Drainage')->textInput(['readonly' => 
 echo $form->field($model, 'soil_col')->label('Soil color')->textInput(['readonly' => true]);
 
 echo $form->field($model, 'ston')->label('Stoniness')->textInput(['readonly' => true]);
+echo $form->field($model, 'remarks')->textarea(['rows' => 6,'readonly' => true]);
 echo '</div>';
 ?>
 

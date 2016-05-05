@@ -41,16 +41,15 @@ $dynagrid = DynaGrid::begin([
             'columns' => [
                 [
                     'class' => 'kartik\grid\ActionColumn',
-                    'template' => '{view} {delete}',
+                    'template' => '{delete}',
                     'buttons' => [
-                       'upload' => function ($action, $model) {
+                        'upload' => function ($action, $model) {
 //if ($action === 'upload') {
-                      $url=  \yii\helpers\Url::to(['/corn/upload/image', 'id' => $model->id]);
-                        return Html::a('<span class="glyphicon glyphicon-upload"></span>', $url, [
+                    $url = \yii\helpers\Url::to(['/corn/upload/image', 'id' => $model->id]);
+                    return Html::a('<span class="glyphicon glyphicon-upload"></span>', $url, [
                                 'title' => Yii::t('app', 'Upload image'),
-                            ]);
-  //                  }
-                    
+                    ]);
+                    //                  }
                 }
                     ],
                     'dropdown' => false,
@@ -58,7 +57,6 @@ $dynagrid = DynaGrid::begin([
                 if ($action === 'view') {
                     return \yii\helpers\Url::to(['/corn/view/index', 'id' => $model->id]);
                 }
-                
             },
                     'viewOptions' => ['title' => 'View more information', 'data-toggle' => 'tooltip'],
 //                'updateOptions' => ['title' => 'updateMsg', 'data-toggle' => 'tooltip'],
@@ -77,10 +75,17 @@ $dynagrid = DynaGrid::begin([
                 'old_acc_no',
                 'gb_no',
                 'collecting_no',
+                'other_number',
                 'variety_name',
                 'dialect',
                 'grower',
-                'scientific_name',
+                [
+                    'attribute' => 'scientific_name',
+                    'format' => 'html',
+                    'value' => function($model) {
+                return '<i>' . $model->scientific_name . '</i>';
+            }
+                ],
                 'count_coll',
                 'prov',
                 'town',
@@ -107,7 +112,7 @@ $dynagrid = DynaGrid::begin([
             'showPersonalize' => true,
             'storage' => 'cookie',
             'gridOptions' => [
-
+                'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],
                 'bordered' => false,
                 'condensed' => true,
                 //'export' => false,

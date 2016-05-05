@@ -22,100 +22,64 @@ class ViewController extends Controller {
                 }
             }
         }
+
         $phl_no_str = "'(^[0-9]+)'";
-        $phl_no_str2 = "'([^0-9_].*$)'";
+        $phl_no_str2 = "'([^0-9_].*)'";
+        \ChromePhp::log('here');
+        \ChromePhp::log(Yii::$app->request->get());
+        $searchModel = new \app\modules\corn\models\GermplasmSearch();
 
-        if (!$search && $id) {
+        $query = $searchModel->search(Yii::$app->request->get(), \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})"));
 
-            $query = \app\modules\corn\models\Germplasm::find()->where(['id' => $id])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
-            $countQuery = clone $query;
+        $model = $query->one();
+        //ChromePhp::log($model);
+        $countQuery = clone $query;
+        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
 
-            $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
-            // \ChromePhp::log($pages);
-            $model = $query->offset($pages->offset)
-                    ->limit($pages->limit)
-                    ->one();
-            $searchModel = new \app\modules\corn\models\GermplasmSearch();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $model,
-                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
-                'pagination' => $pages,
-            ]);
+        $model = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->one();
 
-            $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
+        // $searchModel = new CharacterizationSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+            'pagination' => $pages,
+        ]);
 
+        $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
+        if (!is_null($model)) {
             $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $model->id]]);
-
-            $countQueryCharacterization = clone $characterizationQuery;
-
-            $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
-
-            $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
-                    ->limit($pagesCharacterization->limit)
-                    ->one();
         } else {
-
-            $searchModel = new \app\modules\corn\models\GermplasmSearch();
-            $query = $searchModel->search(Yii::$app->request->get());
-
-            $model = $query->one();
-            if (!empty($model)) {
-                $id = $model->id;
-            } else {
-                $id = -1;
-            }
-            //ChromePhp::log($model);
-            $countQuery = clone $query;
-            $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
-
-            $model = $query->offset($pages->offset)
-                    ->limit($pages->limit)
-                    ->one();
-
-            // $searchModel = new CharacterizationSearch();
-            $dataProvider = new ActiveDataProvider([
-                'query' => $model,
-                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
-                'pagination' => $pages,
-            ]);
-
-            $characterizationSearchModel = new \app\modules\corn\models\CharacterizationSearch();
-            // \ChromePhp::log($id);
-//            if (!is_null($model) ) {
-//                \ChromePhp::log('lll');
-            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => ['germplasm_id' => $id]]);
-//            } else {
-//                $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => null]);
-//            }
-
-            $countQueryCharacterization = clone $characterizationQuery;
-            // \ChromePhp::log('count'.$countQueryCharacterization->count());
-            $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
-
-            $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
-                    ->limit($pagesCharacterization->limit)
-                    ->one();
-            $dataProviderCharacterization = new ActiveDataProvider([
-                'query' => $modelCharacterization,
-                //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
-                'pagination' => $pagesCharacterization,
-            ]);
-            return $this->render('index', [
-                        'characterizationQuery' => $modelCharacterization,
-                        'model' => $model,
-                        'dataProvider' => $dataProvider,
-                        'dataProviderCharacterization' => $dataProviderCharacterization,
-                        'searchModel' => $searchModel,
-                        'id' => $id
-                            //  'columns' => $this->prepareDataProvider($columns),
-            ]);
+            $characterizationQuery = $characterizationSearchModel->search(['CharacterizationSearch' => null]);
         }
 
+        $countQueryCharacterization = clone $characterizationQuery;
 
+        $pagesCharacterization = new \yii\data\Pagination(['totalCount' => $countQueryCharacterization->count(), 'pageSize' => 1]);
+
+        $modelCharacterization = $characterizationQuery->offset($pagesCharacterization->offset)
+                ->limit($pagesCharacterization->limit)
+                ->one();
+        $dataProviderCharacterization = new ActiveDataProvider([
+            'query' => $modelCharacterization,
+            //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+            'pagination' => $pagesCharacterization,
+        ]);
+//        }
+//        return $this->render('index', [
+//                    'characterizationQuery' => $modelCharacterization,
+//                    'model' => $model,
+//                    'dataProvider' => $dataProvider,
+//                    'searchModel' => $searchModel,
+//                    'id' => $id
+//                        //  'columns' => $this->prepareDataProvider($columns),
+//        ]);
         return $this->render('index', [
                     'characterizationQuery' => $modelCharacterization,
                     'model' => $model,
                     'dataProvider' => $dataProvider,
+                    'dataProviderCharacterization' => $dataProviderCharacterization,
                     'searchModel' => $searchModel,
                     'id' => $id
                         //  'columns' => $this->prepareDataProvider($columns),

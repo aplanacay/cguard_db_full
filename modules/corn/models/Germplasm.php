@@ -46,6 +46,7 @@ class Germplasm extends \app\models\GermplasmBase {
             'is_void' => 'Is Void',
             'crop_id' => 'Crop ID',
             'old_acc_no' => 'Old Acc No',
+            'other_number'=>'Other Number',
             'gb_no' => 'Gb No',
             'collecting_no' => 'Collecting No',
             'cultivar/variety_name/pedigree' => 'Local/Variety Name',

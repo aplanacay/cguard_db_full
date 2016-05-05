@@ -107,27 +107,27 @@ use kartik\select2\Select2;
         'lastPageLabel' => true,
         'options' => ['class' => 'pagination pull-right']
     ]);
-    echo Html::a('Show Tabular View', ['characterization/index','CharacterizationSearch'=>Yii::$app->request->getQueryParam('CharacterizationSearch')], ['class'=>'btn btn-success']) ;
+    echo Html::a('Show Search Report', ['characterization/index', 'CharacterizationSearch' => Yii::$app->request->getQueryParam('CharacterizationSearch')], ['class' => 'btn btn-success']);
 //    use kartik\export\ExportMenu;
 //    echo ExportMenu::widget([
 //    'dataProvider' => $dataProvider,
 //    'columns' => $gridColumns,
 //    'fontAwesome' => true,
 //]);
-    
+
     ChromePhp::log();
     ?>
-    <?php  ?>
+    <?php ?>
     <?php
     echo '<div class="pull-right" style="margin-top:7px;">';
-   
+
     if ($dataProvider->pagination->totalCount === '0') {
         echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
         // $model= new \app\modules\corn\models\CharacterizationSearch();
     } else {
         echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
     }
-  
+
     echo '</div>';
 
     echo '<br><br><br>';
@@ -168,9 +168,11 @@ use kartik\select2\Select2;
                     echo '</div><div class="col-md-4">';
                     echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
 
-                    echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
+                    echo $form->field($model->germplasm, 'scientific_name', ['template' => "{label}<div class='col-sm-6'><i>{input}</i>{hint}{error}</div>",
+                    ])->textInput(['readonly' => true]);
                     echo '</div><div class="col-md-4">';
                     echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
+                    echo $form->field($model->germplasm, 'other_number')->textInput(['readonly' => true]);
                     echo '</div>';
                 }
                 ActiveForm::end();

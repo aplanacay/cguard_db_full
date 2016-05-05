@@ -142,6 +142,7 @@ use yii\bootstrap\ActiveForm;
         echo $form->field($model, 'scientific_name')->textInput();
         echo '</div><div class="col-md-4">';
         echo $form->field($model, 'old_acc_no')->label('Old Accession No')->textInput();
+        echo $form->field($model, 'other_number')->textInput();
         echo '</div>';
         ?>
     </div>
@@ -158,10 +159,10 @@ use yii\bootstrap\ActiveForm;
 
     echo $form->field($model, 'prov');
 
-    echo $form->field($model, 'town');
-
-    echo $form->field($model, 'barangay');
-    echo $form->field($model, 'sitio');
+//    echo $form->field($model, 'town');
+//
+//    echo $form->field($model, 'barangay');
+//    echo $form->field($model, 'sitio');
 
     echo $form->field($model, 'acq_date');
     echo '</div><div class="col-md-4">';

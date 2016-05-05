@@ -147,8 +147,8 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         ?>
         <div class = "form-group pull-right" >
 
+            <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']); ?>
             <?php echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']); ?>
-            <?php echo Html::submitButton('Update', ['class' => 'btn btn-success']); ?>
 
         </div>
         <br/><br/>
@@ -173,9 +173,11 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
                     echo '</div><div class="col-md-4">';
                     echo $form->field($model->germplasm, 'gb_no')->textInput(['readonly' => true]);
 
-                    echo $form->field($model->germplasm, 'scientific_name')->textInput(['readonly' => true]);
+                    echo $form->field($model->germplasm, 'scientific_name', ['template' => "{label}<div class='col-sm-6'><i>{input}</i>{hint}{error}</div>",
+                    ])->textInput(['readonly' => true]);
                     echo '</div><div class="col-md-4">';
                     echo $form->field($model->germplasm, 'old_acc_no')->textInput(['readonly' => true]);
+                    echo $form->field($model->germplasm, 'other_number')->textInput(['readonly' => true]);
                     echo '</div>';
                     // }
                     // ActiveForm::end();

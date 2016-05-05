@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     [
                         'class' => 'kartik\grid\ActionColumn',
-                        'template' => '{view}',
+                        'template' => '',
                         'dropdown' => false,
                         'urlCreator' => function($action, $model, $key, $index) {
                     if ($action === 'view') {
@@ -194,7 +194,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'showPersonalize' => true,
                 'storage' => 'cookie',
                 'gridOptions' => [
-
+                    'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],
                     'bordered' => false,
                     'condensed' => true,
                     //'export' => false,

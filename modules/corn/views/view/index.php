@@ -8,15 +8,19 @@
     <?php
     $flashMessages = Yii::$app->session->allFlashes;
     if ($flashMessages) {
-
+        $tag = '';
         foreach ($flashMessages as $key => $message) {
-            ?>
-            <div class="alert alert-<?php echo $key; ?>" role="alert">
-                <?php
-                echo Yii::$app->session->getFlash($key);
-                ?>
-            </div>
-            <?php
+            if ($key === 'error') {
+                $tag = 'danger';
+            }else if ($key === 'success') {
+                $tag='success';
+            }
+            echo yii\bootstrap\Alert::widget([
+                'options' => [
+                    'class' => 'alert-' . $tag,
+                ],
+                'body' => Yii::$app->session->getFlash($key),
+            ]);
         }
     }
     ?>
@@ -53,7 +57,7 @@ $content1 = '';
                 'content' => $this->render('passport_data', [
                     'model' => $model,
                     'dataProvider' => $dataProvider,
-                    'id' => $id
+                    'id' => $model->id
                 ]),
                 'active' => $tab === 1,
             ],
@@ -130,7 +134,7 @@ $content1 = '';
             'lastPageLabel' => true,
             'options' => ['class' => 'pagination pull-right']
         ]);
-        echo \kartik\helpers\Html::a('Show Tabular view', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
+        echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
         echo '<div class="pull-right" style="margin-top:7px;">';
 
         if ($dataProvider->pagination->totalCount === '0') {
@@ -204,7 +208,7 @@ $content1 = '';
     <div class="modal-body-large form-horizontal" id='germplasm-photo-modal-id-form-body' style="padding:10px 10px 20px 10px;">
         <p class="instruction" id="sel-records"></p>
         <?php
-            ChromePhp::log($searchModel->id);
+        ChromePhp::log($searchModel->id);
         echo $this->render('@app/modules/corn/views/view/_photo', ['id' => $searchModel->id, 'model' => $searchModel]);
         ?>
     </div>

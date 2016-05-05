@@ -36,6 +36,21 @@ $config = [
             'class' => '\kartik\dynagrid\Module',
         // other module settings
         ],
+        'book' => [
+            'class' => 'app\modules\book\BookModule',
+        ],
+        'inventory' => [
+            'class' => 'app\modules\inventory\Inventory',
+        ],
+        'withdrawal' => [
+            'class' => 'app\modules\withdrawal\withdrawal',
+        ],
+        'moisturecontent' => [
+            'class' => 'app\modules\moisturecontent\moisturecontent',
+        ],
+        'viability' => [
+            'class' => 'app\modules\viability\viability',
+        ],
     ],
     'components' => [
         'urlManager' => [
