@@ -37,8 +37,8 @@ class UploadForm extends Model {
         $error = '';
         $temporary_table = '';
         $validVariables = array();
-        //$reader = \PHPExcel_IOFactory::createReader('Excel2007');
-
+        // $reader = \PHPExcel_IOFactory::createReader('Excel2007');
+        $transaction = Yii::$app->db->beginTransaction();
         try {
             $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
             $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
@@ -55,6 +55,7 @@ class UploadForm extends Model {
 
             $response_createTemporaryTable = UploadForm::createTemporaryTable($data, UploadForm::getVariablesFromFile($data), Yii::getAlias("@webroot") . '/files' . '/' . $fname);
             if ($response_createTemporaryTable['success']) {
+                $transaction->commit();
                 $success = true;
                 $temporary_table = $response_createTemporaryTable['temporary_table'];
                 $validVariables = $response_createTemporaryTable['valid_variables'];
@@ -63,6 +64,7 @@ class UploadForm extends Model {
             }
         } catch (Exception $e) {
             //   die('Error');
+            $transaction->rollBack();
             $error = 'Failed to upload file. Error in creating CSV file. Please contact administrator.';
         }
         return array(
@@ -114,6 +116,7 @@ class UploadForm extends Model {
     public static function createTemporaryTable($fileContents, $variables, $fileName) {
         $success = false;
         $error = '';
+        $transaction = Yii::$app->db->beginTransaction();
         try {
             $user_id = \Yii::$app->user->getId();
             $tbl_name = 'temporary_data.data_coll_' . uniqid() . '_' . $user_id;
@@ -121,13 +124,14 @@ class UploadForm extends Model {
             $column = '';
             $delimiter = ';';
             $validVar = array();
+            \ChromePhp::log($variables);
             foreach ($variables as $i => $var) {
-
+//                \ChromePhp::log($var);
                 $var = preg_replace('/\s+/', '_', strtolower($var));
                 $var = preg_replace('/\./', '', strtolower($var));
                 $var = preg_replace('/\/\_/', '/', strtolower($var));
-
-                if (empty($var) || $var === '""') {
+//                \ChromePhp::log($var);
+                if (empty($var) || $var === '""' || $var === '"column1"') {
                     $var = 'empty_column' . $i;
                     $var1 = $var;
                 } else {
@@ -136,7 +140,7 @@ class UploadForm extends Model {
                     } else {
                         $var1 = preg_replace('/\"/', '', $var);
                     }
-                    \ChromePhp::log($var);
+//                    \ChromePhp::log($var);
                     if ($var === '"cultivar/variety_name/pedigree"') {
                         $var1 = '"variety_name"';
                         $var = '"variety_name"';
@@ -150,22 +154,22 @@ class UploadForm extends Model {
                 $column.=$var . ",";
                 $validVar[] = $var;
             }
-           // die();
+            // die();
             $column = rtrim($column, ',');
             $columnStr = rtrim($columnStr, ',');
             $commandR = "CREATE TABLE " . $tbl_name . "(" . $columnStr . ");";
             $query = \Yii::$app->db;
             $command = $query->createCommand($commandR);
-            \ChromePhp::log('create table :' . $commandR);
+//            \ChromePhp::log('create table :' . $commandR);
             $command->execute();
             $sql = "COPY " . $tbl_name . " (" . strtolower($column) . ") FROM '" . $fileName . "' DELIMITERS '" . $delimiter . "' CSV HEADER QUOTE E'\"' ESCAPE E'\\\' NULL AS '';";
             Yii::$app->db->createCommand($sql)->execute();
             $success = true;
+            $transaction->commit();
         } catch (Exception $e) {
-
+            $transaction->rollBack();
             \ChromePhp::log($e->getMessage());
             $error = 'Failed to upload file. Error in importing file to database. Please contact administrator.';
-            die();
         }
         return array(
             "success" => $success,
@@ -185,12 +189,12 @@ class UploadForm extends Model {
                 
             } else {
                 $var = Attributes::find()->where(['abbrev' => strtoupper($abbrev),])->one();
-                \ChromePhp::log($var);
+//                \ChromePhp::log($var);
                 if (empty($var) || is_null($var)) {
 
                     $obs[] = $abbrev;
                 } else {
-                    \ChromePhp::log($var->id);
+//                    \ChromePhp::log($var->id);
                     if ($var->type === 'identification') {
                         if ($abbrev !== 'phl_no' && $abbrev !== 'old_acc_no' && $abbrev !== 'gb_no') {
 
@@ -217,7 +221,7 @@ class UploadForm extends Model {
     }
 
     public function saveData($tbl_name, $iden, $obs) {
-        \ChromePhp::log('save data');
+//        \ChromePhp::log('save data');
 
         //insert phl_no
         $user_id = \Yii::$app->user->getId();
@@ -235,11 +239,11 @@ class UploadForm extends Model {
                                 (select old_acc_no from catalog.germplasm)) returning germplasm.id
 EOD;
         $query = \Yii::$app->db;
-        \ChromePhp::log($insert_sql);
+//        \ChromePhp::log($insert_sql);
         $germplasm_count_inserted = $query->createCommand($insert_sql)->execute();
-        \ChromePhp::log($germplasm_count_inserted);
-        \ChromePhp::log('iden:');
-        \ChromePhp::log($iden);
+//        \ChromePhp::log($germplasm_count_inserted);
+//        \ChromePhp::log('iden:');
+//        \ChromePhp::log($iden);
         if (!empty($iden)) {
             $columnStr = '';
             $condition = '';
@@ -261,9 +265,18 @@ EOD;
                                  germplasm.phl_no=t.phl_no returning germplasm.phl_no; --and ({$condition});
 EOD;
             $query = \Yii::$app->db;
-            \ChromePhp::log($insert_sql);
+//            \ChromePhp::log($insert_sql);
             $updated_records_count = $query->createCommand($insert_sql)->queryAll();
         }
+        $insert_sql = <<<EOD
+        INSERT INTO catalog.characterization(germplasm_id,creation_timestamp,creator_id) 
+            (SELECT g.id,now() as creation_timestamp,{$user_id} as creator_id from catalog.germplasm g
+                     where g.id not in (select germplasm_id from catalog.characterization)) returning characterization.id
+EOD;
+        $query = \Yii::$app->db;
+//        \ChromePhp::log($insert_sql);
+        $char_inserted = $query->createCommand($insert_sql)->execute();
+
         if (!empty($obs)) {
             $columnStr = '';
 //            foreach ($obs as $i => $abbrev) {
@@ -305,6 +318,80 @@ EOD;
 //        \ChromePhp::log($germplasm_metadata_inserted);
 //        \ChromePhp::log($updated_records_count);
         return array('germplasm_count_inserted' => $germplasm_count_inserted, 'updated_records_count' => count($updated_records_count), 'germplasm_metadata_inserted' => count($germplasm_metadata_inserted));
+    }
+
+    public function saveObs($tbl_name, $iden, $obs) {
+//        \ChromePhp::log('save data');
+
+        //insert phl_no
+        $user_id = \Yii::$app->user->getId();
+        $germplasm_metadata_inserted = array();
+        $germplasm_count_inserted = array();
+        $updated_records_count = array();
+        $obsStr = implode(",", $obs);
+        $insert_sql = <<<EOD
+        INSERT INTO catalog.germplasm(phl_no,gb_no,old_acc_no,creation_timestamp,creator_id,crop_id) 
+            (SELECT phl_no,gb_no,old_acc_no,now() as creation_timestamp,{$user_id} as creator_id,
+                1 as crop_id from $tbl_name  
+                     where phl_no not in  
+                          (select phl_no from catalog.germplasm) and gb_no not in 
+                            (select gb_no from catalog.germplasm) and old_acc_no not in 
+                                (select old_acc_no from catalog.germplasm)) returning germplasm.id
+EOD;
+        $query = \Yii::$app->db;
+//        \ChromePhp::log($insert_sql);
+        $germplasm_count_inserted = $query->createCommand($insert_sql)->execute();
+//        \ChromePhp::log($germplasm_count_inserted);
+//        \ChromePhp::log('obs:');
+//        \ChromePhp::log($obs);
+
+        if (!empty($obs)) {
+
+            $insert_sql = <<<EOD
+        INSERT INTO catalog.characterization(germplasm_id,creation_timestamp,creator_id) 
+            (SELECT g.id,now() as creation_timestamp,{$user_id} as creator_id from $tbl_name t, catalog.germplasm g
+                     where t.phl_no=g.phl_no and g.id not in (select germplasm_id from catalog.characterization)) returning characterization.id
+EOD;
+            $query = \Yii::$app->db;
+        //    \ChromePhp::log($insert_sql);
+            $char_inserted = $query->createCommand($insert_sql)->execute();
+            $columnStr = '';
+            $condition='';
+            foreach ($obs as $i => $abbrev) {
+                if (strpos($abbrev, '/')) {
+                    $abbrev = '"' . $abbrev . '"';
+                }
+                $var = Attributes::find()->where(['abbrev' => strtoupper($abbrev),])->one();
+                if ($i !== count($obs) - 1) {
+                    $columnStr .= "" . strtolower($var->label) . "=CAST (t." . strtolower($abbrev) . " AS " . $var->data_type . "),";
+                     $condition.="characterization." . strtolower($var->label) . "<>CAST (t." . strtolower($abbrev) . " AS " . $var->data_type . ") or ";
+                } else {
+                    $columnStr .= "" . strtolower($var->label) . "=CAST (t." . strtolower($abbrev) . " AS " . $var->data_type . ")";
+                     $condition.="characterization." . strtolower($var->label) . "<>CAST (t." . strtolower($abbrev) . " AS " . $var->data_type . ") ";
+                }
+                if ($var->data_type !== 'character varying') {
+                    $abbrev = strtolower($abbrev);
+                    $up_sql = <<<EOD
+        update $tbl_name set $abbrev=0 where $abbrev is null or $abbrev='' or $abbrev='0.00'
+EOD;
+                    $query = \Yii::$app->db;
+
+                    $query->createCommand($up_sql)->execute();
+                }
+            }
+            $insert_sql = <<<EOD
+                        update catalog.characterization set {$columnStr} from $tbl_name t, catalog.germplasm g
+                            where  
+                                 g.phl_no=t.phl_no and g.id=characterization.germplasm_id /*and ({$condition})*/ returning characterization.id;
+EOD;
+            $query = \Yii::$app->db;
+           // \ChromePhp::log($insert_sql);
+            $updated_records_count = $query->createCommand($insert_sql)->queryAll();
+        }
+//        \ChromePhp::log($germplasm_count_inserted);
+//        \ChromePhp::log($germplasm_metadata_inserted);
+//        \ChromePhp::log($updated_records_count);
+        return array('germplasm_count_inserted' => $germplasm_count_inserted, 'updated_records_count' => count($updated_records_count),);
     }
 
 }
