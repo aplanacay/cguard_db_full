@@ -160,7 +160,7 @@ AppAsset::register($this);
                                                         ['label' => '&emsp;&emsp;&emsp;Moisture Content Determiantion', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
                                                         ['label' => '&emsp;&emsp;&emsp;Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
                                                     ]],
-                                                ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/guest/locations/index', 'type' => $type]), 'active' => ($item == '')],
+                                                ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/corn/locations/index', 'type' => $type]), 'active' => ($item == '')],
 //                                        ['label' => 'Characterization Data', 'icon' => 'list', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item == 'guest-characterization-tabs')],
 //                                        ['label' => 'Search Characterization Data', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item == 'guest-characterization-search')],
                                             ]],
