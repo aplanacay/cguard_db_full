@@ -19,11 +19,14 @@ class LocationsController extends Controller
                     continue;
                 }
 
-                $phl_no = !empty($rows[0]['phl_no']) ? $rows[0]['phl_no'] : '';
+                $phl_no = !empty($rows[$i]['phl_no']) ? $rows[$i]['phl_no'] : '';
+                $gb_no = !empty($rows[$i]['gb_no']) ? $rows[$i]['gb_no'] : '';
+                $old_acc_no = !empty($rows[$i]['old_acc_no']) ? $rows[$i]['old_acc_no'] : '';
+                $other_no = !empty($rows[$i]['other_number']) ? $rows[$i]['other_number'] : '';
                 $latitude = !empty($rows[$i]['latitude']) ? $rows[$i]['latitude'] : '';
                 $longitude = !empty($rows[$i]['longitude']) ? $rows[$i]['longitude'] : '';
 
-                array_push($germplasmArray,array($phl_no,$latitude,$longitude));
+                array_push($germplasmArray,array($phl_no,$gb_no,$old_acc_no,$other_no,$latitude,$longitude));
         }
 
      
