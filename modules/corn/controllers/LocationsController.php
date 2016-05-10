@@ -25,8 +25,9 @@ class LocationsController extends Controller
                 $other_no = !empty($rows[$i]['other_number']) ? $rows[$i]['other_number'] : '';
                 $latitude = !empty($rows[$i]['latitude']) ? $rows[$i]['latitude'] : '';
                 $longitude = !empty($rows[$i]['longitude']) ? $rows[$i]['longitude'] : '';
+                $id = $rows[$i]['id'];
 
-                array_push($germplasmArray,array($phl_no,$gb_no,$old_acc_no,$other_no,$latitude,$longitude));
+                array_push($germplasmArray,array($phl_no,$gb_no,$old_acc_no,$other_no,$latitude,$longitude,$id));
         }
 
      
