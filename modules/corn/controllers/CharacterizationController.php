@@ -42,6 +42,18 @@ class CharacterizationController extends Controller {
         ]);
     }
 
+    public function actionAdd() {
+        \Yii::$app->session->set('curr_page', 'corn-characterization-add');
+        $model = new \app\modules\corn\models\Characterization;
+
+        // $dataProvider = $searchModel->search(Yii::$app->request->post());
+
+        return $this->render('create', [
+                    'model' => $model,
+                        //'dataProvider' => $dataProvider,
+        ]);
+    }
+
     public function actionTabs($id = null) {
         \Yii::$app->session->set('curr_page', 'corn-characterization-tabs');
         \ChromePhp::log(Yii::$app->request->get());
@@ -152,9 +164,20 @@ class CharacterizationController extends Controller {
     public function actionCreate() {
         $model = new CharacterizationBase();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $g = Yii::$app->request->post();
+        \ChromePhp::log();
+        if ((CharacterizationBase::findOne($g['Characterization']['germplasm_id'])) !== null) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+                \Yii::$app->getSession()->setFlash('success', 'Successfully updated passport data.');
+                return $this->redirect(['tabs', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                            'model' => $model,
+                ]);
+            }
         } else {
+            \Yii::$app->getSession()->setFlash('error', 'Failed to add characterization data. Characterization data for germplasm already exists. ');
             return $this->render('create', [
                         'model' => $model,
             ]);
@@ -297,6 +320,30 @@ class CharacterizationController extends Controller {
             'aleurone_color',
             'endosperm_color',
         ];
+    }
+
+    public function actionUpload() {
+        Yii::$app->session->set('curr_page', 'corn-characterization-import');
+        $model = new \app\modules\corn\models\UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->file = \yii\web\UploadedFile::getInstance($model, 'file');
+
+            if ($model->file && $model->validate()) {
+                $model->file->saveAs('uploads/' . $model->file->baseName . '.' . $model->file->extension);
+                $response = \app\modules\corn\models\UploadForm::writeCSV('uploads/' . $model->file->baseName . '.' . $model->file->extension);
+                if ($response['success']) {
+                    $response_saveVariable = \app\modules\corn\models\UploadForm::saveVariable($response['valid_variables'], $response['temporary_table']);
+                    $result = \app\modules\corn\models\UploadForm::saveObs($response['temporary_table'], $response_saveVariable['iden'], $response_saveVariable['obs']);
+                    Yii::$app->session->setFlash('success', '<b>' . $result['germplasm_count_inserted'] . '</b> germplasm <b>added</b> in the database. <br>'.'<b>' . $result['updated_records_count'] . '</b> germplasm characterization data <b>updated</b> in the database. <br>');
+                } else {
+                    Yii::$app->session->setFlash('error', $response['error_message']);
+                }
+                //return $this->redirect('upload');
+            }
+        }
+
+        return $this->render('upload', ['model' => $model]);
     }
 
 }

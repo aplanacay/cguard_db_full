@@ -145,8 +145,8 @@ AppAsset::register($this);
                                                         ['label' => '&emsp;&emsp;&emsp;Tabular view', 'url' => Url::to(['/corn/characterization/index']), 'active' => ($item === 'corn-characterization-browse' )],
                                                         ['label' => '&emsp;&emsp;&emsp;Grid view', 'url' => Url::to(['/corn/characterization/tabs']), 'active' => ( $item === 'corn-characterization-tabs')],
                                                         ['label' => '&emsp;&emsp;&emsp;Search', 'url' => Url::to(['/corn/characterization/search']), 'active' => ($item === 'corn-characterization-search')],
-                                                        ['label' => '&emsp;&emsp;&emsp;Import File', 'url' => Url::to(['/corn/characterization/upload/index']), 'active' => ($item == 'corn-characterization-import')],
-                                                        ['label' => '&emsp;&emsp;&emsp;Add Record', 'url' => Url::to(['/corn/characterization/add']), 'active' => ($item == 'corn-characterization-add')],
+                                                        ['label' => '&emsp;&emsp;&emsp;Import File', 'url' => Url::to(['/corn/characterization/upload']), 'active' => ($item == 'corn-characterization-import')],
+                                                    //    ['label' => '&emsp;&emsp;&emsp;Add Record', 'url' => Url::to(['/corn/characterization/add']), 'active' => ($item == 'corn-characterization-add')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                                     ]
                                                 ],
