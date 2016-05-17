@@ -10,6 +10,53 @@ use Yii;
 
 class ViewController extends Controller {
 
+    
+    public function actionEvaluation($id = null) {
+        \Yii::$app->session->set('curr_page', 'corn-evaluation');
+        $data = Yii::$app->request->get('Germplasm');
+        $search = false;
+        if (isset($data)) {
+            foreach ($data as $key => $val) {
+                if (!empty($val)) {
+                    $search = true;
+                    break;
+                }
+            }
+        }
+
+
+        $phl_no_str = "'(^[0-9]+)'";
+        $phl_no_str2 = "'([^0-9_].*)'";
+        \ChromePhp::log('here');
+        \ChromePhp::log(Yii::$app->request->get());
+        $searchModel = new \app\modules\corn\models\GermplasmSearch();
+
+        $query = $searchModel->search(Yii::$app->request->get(), \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})"));
+
+        $model = $query->one();
+        //ChromePhp::log($model);
+        $countQuery = clone $query;
+        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+
+        $model = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->one();
+
+        // $searchModel = new CharacterizationSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+            'pagination' => $pages,
+        ]);
+
+
+        return $this->render('evaluation', [
+                    'model' => $model,
+                    'dataProvider' => $dataProvider,
+                    'id' => $model->id
+        ]);
+    }
+
     public function actionIndex($id = null) {
         \Yii::$app->session->set('curr_page', 'corn-view');
         $data = Yii::$app->request->get('Germplasm');

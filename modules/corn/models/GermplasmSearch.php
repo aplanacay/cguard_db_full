@@ -18,7 +18,9 @@ class GermplasmSearch extends Germplasm {
     public function rules() {
         return [
             [['id', 'creator_id', 'modifier_id', 'crop_id'], 'integer'],
-            [['phl_no', 'creation_timestamp','other_number', 'modification_timestamp', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'safe'],
+            [['phl_no', 'creation_timestamp', 'other_number', 'modification_timestamp', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston', 'diseases',
+            'viruses',
+            'pests'], 'safe'],
             [['is_void'], 'boolean'],
             [['crop',], 'safe']
         ];
@@ -39,12 +41,12 @@ class GermplasmSearch extends Germplasm {
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$query) {
+    public function search($params, $query) {
 
         $phl_no_str = "'(^[0-9]+)'";
         $phl_no_str2 = "'([^0-9_].*$)'";
         //$query = \app\modules\corn\models\Germplasm::find();//->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
-        
+
 
 
         $this->load($params);
@@ -52,7 +54,7 @@ class GermplasmSearch extends Germplasm {
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
-           // return $dataProvider;
+            // return $dataProvider;
         }
 
         $query->andFilterWhere([
@@ -68,12 +70,20 @@ class GermplasmSearch extends Germplasm {
             'other_number' => $this->other_number,
                 //      'crop_id' => $this->crop_id,
         ]);
-
-      //  $query->andFilterWhere(['like', 'phl_no', $this->phl_no])
-           $query->andFilterWhere(['like', 'remarks', $this->remarks])
+        if (!empty($this->diseases)) {
+            $this->diseases = implode(' ', $this->diseases);
+        }
+        if (!empty($this->viruses)) {
+            $this->viruses = implode(' ', $this->viruses);
+        }
+        if (!empty($this->pests)) {
+            $this->pests = implode(' ', $this->pests);
+        }
+        //  $query->andFilterWhere(['like', 'phl_no', $this->phl_no])
+        $query->andFilterWhere(['like', 'remarks', $this->remarks])
                 ->andFilterWhere(['like', 'Notes', $this->Notes])
-           //     ->andFilterWhere(['like', 'old_acc_no', $this->old_acc_no])
-           //     ->andFilterWhere(['like', 'gb_no', $this->gb_no])
+                //     ->andFilterWhere(['like', 'old_acc_no', $this->old_acc_no])
+                //     ->andFilterWhere(['like', 'gb_no', $this->gb_no])
                 ->andFilterWhere(['like', 'collecting_no', $this->collecting_no])
                 ->andFilterWhere(['like', 'variety_name', $this->variety_name])
                 ->andFilterWhere(['like', 'dialect', $this->dialect])
@@ -99,6 +109,9 @@ class GermplasmSearch extends Germplasm {
                 ->andFilterWhere(['like', 'drain', $this->drain])
                 ->andFilterWhere(['like', 'soil_col', $this->soil_col])
                 ->andFilterWhere(['like', 'ston', $this->ston])
+                ->andFilterWhere(['like', 'diseases', $this->diseases])
+                ->andFilterWhere(['like', 'viruses', $this->viruses])
+                ->andFilterWhere(['like', 'pests', $this->pests])
                 ->andFilterWhere(['like', 'crop.name', $this->crop]);
         //->andFilterWhere(['like', 'tbl_country.name', $this->country]);
 

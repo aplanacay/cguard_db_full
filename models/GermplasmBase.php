@@ -62,8 +62,10 @@ class GermplasmBase extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['phl_no', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'other_number', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston'], 'string'],
-            [['phl_no', 'old_acc_no', 'gb_no', 'collecting_no',], 'required'],
+            [['phl_no', 'remarks', 'Notes', 'old_acc_no', 'gb_no', 'collecting_no', 'other_number', 'variety_name', 'dialect', 'grower', 'scientific_name', 'count_coll', 'prov', 'town', 'barangay', 'sitio', 'acq_date', 'latitude', 'longitude', 'altitude', 'coll_source', 'gen_stat', 'sam_type', 'sam_met', 'mat', 'topo', 'site', 'soil_tex', 'drain', 'soil_col', 'ston', 'diseases',
+            'viruses',
+            'pests'], 'string'],
+            [['phl_no', 'old_acc_no', 'gb_no',], 'required'],
             [['creator_id', 'modifier_id', 'crop_id'], 'integer'],
             [['creation_timestamp', 'modification_timestamp', 'crop'], 'safe'],
             [['is_void'], 'boolean'],
@@ -83,7 +85,7 @@ class GermplasmBase extends \yii\db\ActiveRecord {
             'modifier_id' => 'Modifier ID',
             'modification_timestamp' => 'Modification Timestamp',
             'remarks' => 'Remarks',
-            'other_number'=>'Other Number',
+            'other_number' => 'Other Number',
             'Notes' => 'Notes',
             'is_void' => 'Is Void',
             'crop_id' => 'Crop ID',
@@ -114,6 +116,9 @@ class GermplasmBase extends \yii\db\ActiveRecord {
             'drain' => 'Drain',
             'soil_col' => 'Soil Col',
             'ston' => 'Ston',
+            'diseases' => 'Diseases',
+            'viruses' => 'Viruses',
+            'pests' => 'Pests'
         ];
     }
 
@@ -124,4 +129,22 @@ class GermplasmBase extends \yii\db\ActiveRecord {
 //    {
 //        return $this->hasOne(MasterCrop::className(), ['id' => 'crop_id']);
 //    }
+
+    public function save($runValidation = true, $attributeNames = null) {
+        if ($this->getIsNewRecord()) {
+            return $this->insert($runValidation, $attributeNames);
+        } else {
+            if (!empty($this->diseases)) {
+                $this->diseases = implode(';', $this->diseases);
+            }
+            if (!empty($this->viruses)) {
+                $this->viruses = implode(';', $this->viruses);
+            }
+            if (!empty($this->pests)) {
+                $this->pests = implode(';', $this->pests);
+            }
+            return $this->update($runValidation, $attributeNames) !== false;
+        }
+    }
+
 }

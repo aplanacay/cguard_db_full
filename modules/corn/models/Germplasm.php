@@ -73,6 +73,9 @@ class Germplasm extends \app\models\GermplasmBase {
             'drain' => 'Drain',
             'soil_col' => 'Soil Col',
             'ston' => 'Ston',
+            'diseases'=>'Diseases',
+            'viruses'=>'Viruses',
+            'pests'=>'Pests'
                 // 'crop'=> 'Crop'
         ];
     }

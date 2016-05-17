@@ -323,6 +323,26 @@ class BrowseController extends Controller {
             return $this->redirect(['/corn/view/index', 'id' => $id]);
         }
     }
+public function actionUpdateEvaluation($id) {
+        $model = \app\modules\corn\models\Germplasm::findOne($id);
+        $model->load(Yii::$app->request->post());
+        //$model->setAttribute('crop_id', 1);
+        \ChromePhp::log($model->id);
+        if ($model->save()) {
+            \Yii::$app->getSession()->setFlash('success', 'Successfully updated passport data.');
+           return $this->redirect(['/corn/view/evaluation', 'id' => $id]);
+        } else {
+            $error_str = '';
+            $error_arr = $model->getErrors();
+
+            foreach ($error_arr as $err) {
+                ChromePhp::log($err);
+                $error_str .= '. ' . $err[0];
+            }
+            \Yii::$app->getSession()->setFlash('error', 'Failed to update passport data. Errors: ' . $error_str);
+            return $this->redirect(['/corn/view/evaluation', 'id' => $id]);
+        }
+    }
 
     public function actionModify($id) {
 
