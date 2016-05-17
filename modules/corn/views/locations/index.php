@@ -1,3 +1,7 @@
+<?php
+use yii\helpers\Url;
+?>
+
 <h1>Locations</h1>
  
 <div id="map"></div>
@@ -19,35 +23,33 @@
       }*/
      
     function initMap(){    
-        /*
-        var locations = [
-          ['Bondi Beach', -33.890542, 151.274856],
-          ['Coogee Beach', -33.923036, 151.259052],
-          ['Cronulla Beach', -34.028249, 151.157507],
-          ['Manly Beach', -33.80010128657071, 151.28747820854187],
-          ['Maroubra Beach', -33.950198, 151.259302]
-        ];
-        */
-   
+
        var locations = <?php echo json_encode($locations); ?>;
-       
+      
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: new google.maps.LatLng(locations[0][1],locations[0][2]),
+          zoom: 6,
+          center: new google.maps.LatLng('12.8797','121.7740'),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         var infowindow = new google.maps.InfoWindow();
         var marker, i;
         var markers = new Array();
-        for (i = 0; i < locations.length; i++) {  
+        for (i = 0; i < locations.length; i++) {
+         
           marker = new google.maps.Marker({
-            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            position: new google.maps.LatLng(locations[i][4], locations[i][5]),
             map: map
           });
           markers.push(marker);
           google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-              infowindow.setContent(locations[i][0]);
+              var phlNumber = '<p>PHL No: '+locations[i][0]+'</p>';
+              var gbNumber = '<p>GB No: '+locations[i][1]+'</p>';
+              var oldAccNumber = '<p>Old Accession No: '+locations[i][2]+'</p>';
+              var otherNumber = '<p>Other No: '+locations[i][3]+'</p>'; 
+              var germplasmUrl = '<?php echo Url::to(['/corn/view/index?GermplasmSearch%5Bid%5D=']); ?>';
+              var link = '<a href="'+germplasmUrl+locations[i][6]+'">Show more information</a>';
+              infowindow.setContent(phlNumber+gbNumber+oldAccNumber+otherNumber+'<br/>'+link);
               infowindow.open(map, marker);
             }
           })(marker, i));
