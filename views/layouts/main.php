@@ -132,12 +132,12 @@ AppAsset::register($this);
                                 ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
                                 ['label' => 'Cereals', 'items' => [
                                         ['label' => 'Corn', 'items' => [
+                                                ['label' => 'Registration', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
                                                 ['label' => 'Passport Data', 'icon' => 'leaf', 'items' => [
                                                         ['label' => '&emsp;&emsp;&emsp;Tabular view', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')],
                                                         ['label' => '&emsp;&emsp;&emsp;Grid view', 'url' => Url::to(['/corn/view/index']), 'active' => ($item == 'corn-view')],
                                                         ['label' => '&emsp;&emsp;&emsp;Search', 'url' => Url::to(['/corn/browse/search']), 'active' => ($item == 'corn-search')],
                                                         ['label' => '&emsp;&emsp;&emsp;Import File', 'url' => Url::to(['/corn/upload/index']), 'active' => ($item == 'corn-import')],
-                                                        ['label' => '&emsp;&emsp;&emsp;Add Record', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
 //\\                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                                     ]
                                                 ],
@@ -150,12 +150,21 @@ AppAsset::register($this);
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                                     ]
                                                 ],
-                                                ['label' => 'Inventory', 'items' => [
+                                                ['label' => 'Evaluation', 'icon' => 'check', 'list', 'items' => [
+                                                        ['label' => '&emsp;&emsp;&emsp;Tabular view', 'url' => Url::to(['/corn/browse/evaluation-browse']), 'active' => ($item === 'corn-evaluation-browse' )],
+                                                        ['label' => '&emsp;&emsp;&emsp;Grid view', 'url' => Url::to(['/corn/view/evaluation']), 'active' => ($item === 'corn-evaluation' )],
+                                                        ['label' => '&emsp;&emsp;&emsp;Search', 'url' => Url::to(['/corn/browse/evaluation-search']), 'active' => ($item === 'corn-evaluation-search')],
+                                                        ['label' => '&emsp;&emsp;&emsp;Import File', 'url' => Url::to(['/corn/characterization/upload']), 'active' => ($item == 'corn-characterization-import')],
+                                                    //    ['label' => '&emsp;&emsp;&emsp;Add Record', 'url' => Url::to(['/corn/characterization/add']), 'active' => ($item == 'corn-characterization-add')],
+//                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
+                                                    ]
+                                                ],
+                                                ['label' => 'Inventory', 'icon' => 'folder-close', 'items' => [
                                                         ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
                                                         ['label' => '&emsp;&emsp;&emsp;Search', 'url' => "#"],
                                                     ]],
                                                 //'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
-                                                ['label' => 'Withdrawal', 'items' => [
+                                                ['label' => 'Withdrawal', 'icon' => 'folder-open', 'items' => [
                                                         ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/withdrawal/withdrawal/index']), 'active' => ($item == 'withdrawal-index')],
                                                         ['label' => '&emsp;&emsp;&emsp;Moisture Content Determiantion', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
                                                         ['label' => '&emsp;&emsp;&emsp;Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
@@ -185,6 +194,9 @@ AppAsset::register($this);
                             \Yii::$app->session->get('curr_page') === 'guest-characterization-search' ||
                             \Yii::$app->session->get('curr_page') === 'guest-characterization-tabs' ||
                             \Yii::$app->session->get('curr_page') === 'guest-browse' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-evaluation' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-evaluation-browse' ||
+                            \Yii::$app->session->get('curr_page') === 'guest-evaluation-search' ||
                             \Yii::$app->session->get('curr_page') === 'guest-characterization-browse') {
                         echo '<div class="col-sm-2">';
                         Breadcrumbs::widget([
@@ -218,6 +230,15 @@ AppAsset::register($this);
                                                         ['label' => '&emsp;&emsp;&emsp;Tabular view', 'url' => Url::to(['/guest/characterization/index']), 'active' => ($item === 'guest-characterization-browse' )],
                                                         ['label' => '&emsp;&emsp;&emsp;Grid view', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ( $item === 'guest-characterization-tabs')],
                                                         ['label' => '&emsp;&emsp;&emsp;Search', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item === 'guest-characterization-search')],
+//                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
+                                                    ]
+                                                ],
+                                                ['label' => 'Evaluation', 'icon' => 'check', 'list', 'items' => [
+                                                        ['label' => '&emsp;&emsp;&emsp;Tabular view', 'url' => Url::to(['/guest/browse/evaluation-browse']), 'active' => ($item === 'guest-evaluation-browse' )],
+                                                        ['label' => '&emsp;&emsp;&emsp;Grid view', 'url' => Url::to(['/guest/view/evaluation']), 'active' => ($item === 'guest-evaluation' )],
+                                                        ['label' => '&emsp;&emsp;&emsp;Search', 'url' => Url::to(['/guest/browse/evaluation-search']), 'active' => ($item === 'guest-evaluation-search')],
+                                                     
+                                                    //    ['label' => '&emsp;&emsp;&emsp;Add Record', 'url' => Url::to(['/corn/characterization/add']), 'active' => ($item == 'corn-characterization-add')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
                                                     ]
                                                 ],

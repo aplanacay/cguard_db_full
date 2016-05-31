@@ -10,9 +10,55 @@ use Yii;
 
 class ViewController extends Controller {
 
-    public function actionIndex($id=null) {
+    public function actionEvaluation($id = null) {
+        \Yii::$app->session->set('curr_page', 'guest-evaluation');
+        $data = Yii::$app->request->get('Germplasm');
+        $search = false;
+        if (isset($data)) {
+            foreach ($data as $key => $val) {
+                if (!empty($val)) {
+                    $search = true;
+                    break;
+                }
+            }
+        }
+
+
+        $phl_no_str = "'(^[0-9]+)'";
+        $phl_no_str2 = "'([^0-9_].*)'";
+        \ChromePhp::log('here');
+        \ChromePhp::log(Yii::$app->request->get());
+        $searchModel = new \app\modules\corn\models\GermplasmSearch();
+
+        $query = $searchModel->search(Yii::$app->request->get(), \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id,creator_id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})"));
+
+        $model = $query->one();
+        //ChromePhp::log($model);
+        $countQuery = clone $query;
+        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => 1]);
+
+        $model = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->one();
+
+        // $searchModel = new CharacterizationSearch();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model,
+            //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
+            'pagination' => $pages,
+        ]);
+
+
+        return $this->render('evaluation', [
+                    'model' => $model,
+                    'dataProvider' => $dataProvider,
+                    'id' => $model->id
+        ]);
+    }
+
+    public function actionIndex($id = null) {
         \Yii::$app->session->set('curr_page', 'guest-view');
-         $data = Yii::$app->request->get('Germplasm');
+        $data = Yii::$app->request->get('Germplasm');
         $search = false;
         if (isset($data)) {
             foreach ($data as $key => $val) {
@@ -25,11 +71,10 @@ class ViewController extends Controller {
 
         $phl_no_str = "'(^[0-9]+)'";
         $phl_no_str2 = "'([^0-9_].*)'";
-        \ChromePhp::log('here');
-        \ChromePhp::log(Yii::$app->request->get());
+
         $searchModel = new \app\modules\corn\models\GermplasmSearch();
 
-        $query = $searchModel->search(Yii::$app->request->get(), \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})"));
+        $query = $searchModel->search(Yii::$app->request->get(), \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id,creator_id,creation_timestamp,modifier_id,modification_timestamp,remarks')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})"));
 
         $model = $query->one();
         //ChromePhp::log($model);
@@ -85,36 +130,35 @@ class ViewController extends Controller {
                         //  'columns' => $this->prepareDataProvider($columns),
         ]);
     }
-    
+
     /**
      * Updates an existing GermplasmBase model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            ChromePhp::log(Yii::$app->request->post());
-           return $this->redirect(['index', 'id' => $model->id]);
+
+            return $this->redirect(['index', 'id' => $model->id]);
         } else {
-            \ChromePhp::log($model->getErrors());
+
 //            return $this->render('update', [
 //                'model' => $model,
 //            ]);
         }
     }
-     /**
+
+    /**
      * Finds the GermplasmBase model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return GermplasmBase the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = \app\models\GermplasmBase::findOne($id)) !== null) {
             return $model;
         } else {

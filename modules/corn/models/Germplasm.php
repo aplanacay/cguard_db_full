@@ -1,6 +1,7 @@
 <?php
 
 namespace app\modules\corn\models;
+
 use yii\web\UploadedFile;
 use Yii;
 
@@ -24,7 +25,7 @@ class Germplasm extends \app\models\GermplasmBase {
 
     public function rules() {
         $rules = parent::rules();
-       return $rules = \yii\helpers\ArrayHelper::merge($rules, [[['crop', 'variety_name'], 'safe'],]);
+        return $rules = \yii\helpers\ArrayHelper::merge($rules, [[['crop', 'variety_name', 'pests', 'viruses', 'diseases'], 'safe'],]);
 //        return $rules = \yii\helpers\ArrayHelper::merge($rules, [[['avatar', 'filename', 'image'], 'safe'],
 //                   [ ['image'], 'file', 'extensions' => 'jpg, gif, png']
 //        ]);
@@ -46,7 +47,7 @@ class Germplasm extends \app\models\GermplasmBase {
             'is_void' => 'Is Void',
             'crop_id' => 'Crop ID',
             'old_acc_no' => 'Old Acc No',
-            'other_number'=>'Other Number',
+            'other_number' => 'Other Number',
             'gb_no' => 'Gb No',
             'collecting_no' => 'Collecting No',
             'cultivar/variety_name/pedigree' => 'Local/Variety Name',
@@ -73,6 +74,9 @@ class Germplasm extends \app\models\GermplasmBase {
             'drain' => 'Drain',
             'soil_col' => 'Soil Col',
             'ston' => 'Ston',
+            'diseases' => 'Diseases',
+            'viruses' => 'Viruses',
+            'pests' => 'Pests'
                 // 'crop'=> 'Crop'
         ];
     }
@@ -83,7 +87,7 @@ class Germplasm extends \app\models\GermplasmBase {
     public function getCrop() {
         return $this->hasOne(Crop::className(), ['id' => 'crop_id']);
     }
-    
+
     /**
      * fetch stored image file name with complete path 
      * @return string

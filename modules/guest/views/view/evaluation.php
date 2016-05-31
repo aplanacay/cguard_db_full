@@ -105,6 +105,26 @@
     }
 </style>
 <!--  <div id="div-id-success-notif" class="alert alert-success"></div>-->
+<h3><span class="glyphicon glyphicon-check"></span>Evaluation</h3>
+<?php
+$flashMessages = Yii::$app->session->allFlashes;
+if ($flashMessages) {
+    $tag = '';
+    foreach ($flashMessages as $key => $message) {
+        if ($key === 'error') {
+            $tag = 'danger';
+        } else if ($key === 'success') {
+            $tag = 'success';
+        }
+        echo yii\bootstrap\Alert::widget([
+            'options' => [
+                'class' => 'alert-' . $tag,
+            ],
+            'body' => Yii::$app->session->getFlash($key),
+        ]);
+    }
+}
+?>
 
 <?php
 
@@ -119,7 +139,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
 
     $form = ActiveForm::begin([
                 'method' => 'post',
-                'action' => ['browse/update?id=' . $id],
+                'action' => ['browse/update-evaluation?id=' . $id],
                 'layout' => 'horizontal',
                 'fieldConfig' => [
                     'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
@@ -135,9 +155,31 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
     ]);
     ?>
     <div class = "form-group pull-right" >
-        <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']); ?>
+         <?php
+        echo \yii\widgets\LinkPager::widget([
+            'pagination' => $dataProvider->pagination,
+            'maxButtonCount' => 1,
+            'nextPageLabel' => 'Next Record&raquo;',
+            'prevPageLabel' => '&laquo; Previous Record',
+            'firstPageLabel' => true,
+            'lastPageLabel' => true,
+            'options' => ['class' => 'pagination pull-right']
+        ]);
+        
+    //    echo '<div class="pull-right" style="margin-top:7px;">';
+
+        if ($dataProvider->pagination->totalCount === '0') {
+            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
+            // $model= new \app\modules\corn\models\CharacterizationSearch();
+        } else {
+            echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
+        }
+
+      //  echo '</div>';
+?>
+        
         <?php
-       
+        echo '&emsp;';
 //    echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-picture"></i> View Photo', [
 //                          //  'value' => yii\helpers\Url::to('guest/browse/search'),
 //                            'data' => [
@@ -177,120 +219,49 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         echo '</div>';
         ?>
     </div>
+   
     <hr></hr>
+    
     <?php
     echo '<div class="col-md-4">';
-    echo $form->field($model->crop, 'name')->label('Crop group')->textInput(['readonly' => true]);
+    $model->diseases = explode(';', $model->diseases);
 
-    echo $form->field($model, 'dialect');
-
-    echo $form->field($model, 'grower');
-
-    echo $form->field($model, 'count_coll');
-
-    echo $form->field($model, 'prov');
-
-    echo $form->field($model, 'town');
-
-    echo $form->field($model, 'barangay');
-    echo $form->field($model, 'sitio');
-
-    echo $form->field($model, 'acq_date');
+    echo $form->field($model, 'diseases')->checkboxList([
+        'Ear rot; stalk rot' => '<b>Ear rot, stalk rot</b> <br><i>Diplodia maydis, Gibberellazeae, Fusarium moniliforme</i>',
+        'Rust' => 'Rust',
+        'Downy mildew' => '<b>Downy mildew</b><br><i>Peronosclerospora spp. Sclerophthora spp</i>',
+        'Leaf blight' => '<b>Leaf blight</b><br><i>Helminthosporium maydis Helminthosporium turcicum</i>',
+        'Smut' => '<b>Smut</b><br><i>Ustilago maydis</i>',
+        'Tassel smut' => '<b>Tassel smut</b><br><i>Sphacelotheca reiliana</i>',
+        'Tar spot' => '<b>Tar spot</b><br><i>Phyllachora maydis</i>',
+    ])->label('DISEASES');
+    //  echo '</div><div class="col-md-4">';
+    $model->viruses = explode(';', $model->viruses);
+    echo $form->field($model, 'viruses')->checkboxList([
+        'Corn stunt' => '<b>Corn stunt</b> <br><i>Corn stunt spiroplasma (CSS)</i>',
+        'Corn streak' => '<b>Corn streak</b><br><i>Corn streak virus (CSV) </i>',
+        '(MRFV) disease' => '<b>(MRFV) disease</b><br><i>Maize fine stripe virus Fine striping</i>',
+        'Maize dwarf virus' => '<b>Maize dwarf virus</b><br><i>5 Maize dwarf mosaic virus(MDM)
+</i>',
+        '(MBSD) disease' => '<b>(MBSD) disease</b><br><i>4 Maize bushy stunt Maize bushy stunt mycoplasma (MBSD)
+</i>',
+    ])->label('VIRUSES AND SIMILAR ABERRATIONS');
     echo '</div><div class="col-md-4">';
-    echo $form->field($model, 'latitude');
-//
-    echo $form->field($model, 'longitude');
-//
-    echo $form->field($model, 'altitude');
+    $model->pests = explode(';', $model->pests);
+    echo $form->field($model, 'pests')->checkboxList([
+        'Borer Busseola' => '<b>Borer</b><br><i>Busseola spp</i>',
+        'Borer Chilo' => '<b>Borer</b><br><i>Chilo spp</i>',
+        'Borer Diatrea' => '<b>Borer</b><br><i>Diatrea spp</i>',
+        'Ear worm' => '<b>Ear worm</b><br><i>Heliothis zea Heliothis armigera</i>',
+        'Borer Ostrinia' => '<b>Borer</b><br><i>Ostrinia spp</i>',
+        'Borer Sesamia' => '<b>Borer</b><br><i>Sesamia spp.</i>',
+        'Armyworm' => '<b>Armyworm</b><br><i>Spodoptera spp.</i>',
+        'Root worm' => '<b>Root worm</b><br><i>Sesamia spp.</i>',
+        'Sitophilus spp. Weevil' => '<b></b><i>Sitophilus spp. Weevil</i>',
+        'Grain borer' => '<b>Borer</b><br><i>Prostephanus</i>',
+        'Borer Sesamia' => '<b>Borer</b><br><i>Sesamia spp.</i>',
+    ])->label('PESTS');
 
-    echo $form->field($model, 'coll_source')->label('Collecting source')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['farmland' => 'farmland', 'backyard/ home garden' => 'backyard/ home garden', 'farm store/ threshing place' => 'farm store/ threshing place', 'village market' => 'village market', 'commercial seed shop' => 'commercial seed shop', 'agricultural institute' => 'agricultural institute', 'bordering field' => 'bordering field', 'natural vagetation/ wild' => 'natural vagetation/ wild', 'others' => 'others'],
-        'options' => ['placeholder' => 'Select collecting source...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-        'value' => strtolower($model->coll_source),
-    ]);
-
-    echo $form->field($model, 'gen_stat')->label('Genetic status')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['single plant' => 'single plant', 'pure line/ clone' => 'pure line/ clone', 'mixture/ population (clone/ pure line)' => 'mixture/ population (clone/ pure line)', 'open pollinated' => 'open pollinated', 'others' => 'others',],
-        'options' => ['placeholder' => 'Select sampling type...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'sam_type')->label('Sample type')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['single plant' => 'single plant', 'pure line/ clone' => 'pure line/ clone', 'mixture/ population (clone/ pure line)' => 'mixture/ population (clone/ pure line)', 'open pollinated' => 'open pollinated', 'others' => 'others',],
-        'options' => ['placeholder' => 'Select sampling type...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'sam_met')->label('Sampling methods')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['seed' => 'seed', 'fruit' => 'fruit', 'pod' => 'pod', 'others' => 'others'],
-        'options' => ['placeholder' => 'Select sampling method...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'mat')->label('Material collected')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['seed' => 'seed', 'fruit' => 'fruit', 'pod' => 'pod', 'others' => 'others'],
-        'options' => ['placeholder' => 'Select material collected...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-    echo '</div><div class="col-md-4">';
-    echo $form->field($model, 'topo')->label('Topography')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['swamp' => 'swamp', 'food plain' => 'food plain', 'level plain' => 'level plain', 'undulating' => 'undulating', 'hilly' => 'hilly', 'mountainous' => 'mountainous', 'others' => 'others'],
-        'options' => ['placeholder' => 'Select topography...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'site')->label('Soil texture')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['level' => 'level', 'slope' => 'slope', 'plateau' => 'plateau', 'depression' => 'depression', 'others' => 'others'],
-        'options' => ['placeholder' => 'Select site...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'soil_tex')->label('Soil texture')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['sand' => 'sand', 'sandy loam' => 'sandy loam', 'loam' => 'loam', 'clay loam' => 'clay loam', 'silt' => 'silt', 'clay' => 'clay', 'highly organic (peat/muck)' => 'highly organic (peat/muck)', 'others' => 'others'],
-        'options' => ['placeholder' => 'Select soil texture...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'drain')->label('Drainage')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['black' => 'black', 'dark brown' => 'dark brown', 'light brown' => 'light brown', 'grey' => 'grey', 'yellow' => 'yellow', 'red' => 'red', 'other' => 'other'],
-        'options' => ['placeholder' => 'Select drainage...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'soil_col')->label('Soil color')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['poor' => 'poor', 'moderate' => 'moderate', 'good' => 'good', 'excessive' => 'excessive',],
-        'options' => ['placeholder' => 'Select soil color...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
-
-    echo $form->field($model, 'ston')->label('Stoniness')->widget(\kartik\widgets\Select2::classname(), [
-        'data' => ['none' => 'none', 'low' => 'low', 'medium' => 'medium', 'rocky' => 'rocky',],
-        'options' => ['placeholder' => 'Select stoniness...'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]);
     echo $form->field($model, 'remarks')->textarea(['rows' => 6]);
     echo '</div>';
 
