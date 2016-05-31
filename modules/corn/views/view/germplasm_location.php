@@ -17,7 +17,7 @@ $longitude = !empty($germplasm->longitude) ? $germplasm->longitude : '';
 
        var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 6,
-          center: new google.maps.LatLng(''.<?= $latitude; ?>,''.<?= $longitude; ?>),
+          center: new google.maps.LatLng('<?php echo $latitude; ?>','<?php echo $longitude; ?>'),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
