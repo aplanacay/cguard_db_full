@@ -76,6 +76,7 @@ class ViewController extends Controller {
 //                        //  'columns' => $this->prepareDataProvider($columns),
 //        ]);
         return $this->render('index', [
+                    'germplasm' => \app\modules\corn\models\Germplasm::find(['id' => $model->id])->all(),
                     'characterizationQuery' => $modelCharacterization,
                     'model' => $model,
                     'dataProvider' => $dataProvider,
