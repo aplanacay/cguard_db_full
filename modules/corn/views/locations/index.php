@@ -36,7 +36,7 @@ use yii\helpers\Url;
         var markers = new Array();
         var icon = {
            
-            scaledSize: new google.maps.Size(50, 50), // scaled size
+            scaledSize: new google.maps.Size(10, 10), // scaled size
             origin: new google.maps.Point(0,0), // origin
             anchor: new google.maps.Point(0, 0) // anchor
         };
