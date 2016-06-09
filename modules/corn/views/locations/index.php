@@ -46,7 +46,7 @@ use yii\helpers\Url;
         for (i = 0; i < locations.length; i++) {
           
           marker = new google.maps.Marker({
-            icon: '<?php echo Yii::$app->getBaseUrl(true).'/images/Marker-52.png'; ?>',
+            icon: '<?php echo Url::base().'/images/Marker-52.png'; ?>',
             position: new google.maps.LatLng(locations[i][4], locations[i][5]),
             map: map
           });
