@@ -35,7 +35,7 @@ use yii\helpers\Url;
         var marker, i;
         var markers = new Array();
         var icon = {
-           
+            icon: '<?php echo Url::base().'/images/Marker-52.png'; ?>',
             scaledSize: new google.maps.Size(10, 10), // scaled size
             origin: new google.maps.Point(0,0), // origin
             anchor: new google.maps.Point(0, 0) // anchor
@@ -46,7 +46,7 @@ use yii\helpers\Url;
         for (i = 0; i < locations.length; i++) {
           
           marker = new google.maps.Marker({
-            icon: '<?php echo Url::base().'/images/Marker-52.png'; ?>',
+            icon: icon,
             position: new google.maps.LatLng(locations[i][4], locations[i][5]),
             map: map
           });
