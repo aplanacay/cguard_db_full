@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\inventory\models\InventorySearch */
@@ -19,6 +20,38 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Add to Inventory', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+        $gridColumns = [
+            ['class' => 'yii\grid\SerialColumn'],
+            'seedref_no',
+            'accession_no',
+            'store_location',
+            'packets_active_no',
+            'packets_base_no',
+            'seed_weight_active',
+            'seed_weight_base',
+            'date',
+            //['class' => 'yii\grid\ActionColumn'],
+        ];
+
+        // Renders a export dropdown menu
+        echo ExportMenu::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => $gridColumns,
+            'dropdownOptions' => [
+            'label' => 'Export All',
+            'class' => 'btn btn-default',
+            ],
+            'exportConfig' => [
+                ExportMenu::FORMAT_TEXT => false,
+                ExportMenu::FORMAT_PDF => false,
+                ExportMenu::FORMAT_HTML => false
+            ]
+        ]);
+    ?>
+
+    <hr>
 
     <?php Pjax::begin() ?>
     <?= GridView::widget([

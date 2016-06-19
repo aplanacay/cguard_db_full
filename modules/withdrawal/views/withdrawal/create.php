@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<p>
         <?= Html::a('Back to Withdrawal', ['/withdrawal/withdrawal'], ['class'=>'btn btn-primary']) ?>
+        <?= Html::a('Request Form', ['/withdrawal/request'], ['class'=>'btn btn-success']) ?>
     </p>
 	<?= $this->render('_form', [
         'model' => $model,

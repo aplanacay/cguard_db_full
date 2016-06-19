@@ -161,12 +161,12 @@ AppAsset::register($this);
                                                 ],
                                                 ['label' => 'Inventory', 'icon' => 'folder-close', 'items' => [
                                                         ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
-                                                        ['label' => '&emsp;&emsp;&emsp;Search', 'url' => "#"],
+                                                        //['label' => '&emsp;&emsp;&emsp;Search', 'url' => "#"],
                                                     ]],
                                                 //'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
                                                 ['label' => 'Withdrawal', 'icon' => 'folder-open', 'items' => [
                                                         ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/withdrawal/withdrawal/index']), 'active' => ($item == 'withdrawal-index')],
-                                                        ['label' => '&emsp;&emsp;&emsp;Moisture Content Determiantion', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
+                                                        ['label' => '&emsp;&emsp;&emsp;Moisture Content Determination', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
                                                         ['label' => '&emsp;&emsp;&emsp;Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
                                                     ]],
                                                 ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/corn/locations/index', 'type' => $type]), 'active' => ($item == '')],
