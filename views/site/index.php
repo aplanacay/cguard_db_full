@@ -116,7 +116,7 @@ use yii\helpers\Html;
 
 
         </div>
-
+</div>
         <!-- Controls -->
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
             <span class="icon-prev"></span>
@@ -175,7 +175,7 @@ use yii\helpers\Html;
                     <p>
                         Browse the collection of germplasm on cereals, vegetables, food legumes, feed and industrial crops, medicinal plants, fruits, and in-vitro culture.
                     </p>
-                    <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/view/index']); ?>" class="btn btn-default">Browse Passport Data</a>
+                    <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/view/index']); ?>" class="btn btn-info">Browse Passport Data</a>
                 </div>
             </div>
         </div>
@@ -187,7 +187,7 @@ use yii\helpers\Html;
                 <div class="panel-body">
                     <p>Browse and search germplasm characteristics.</p>
                     <br>
-                    <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/characterization/tabs']); ?>" class="btn btn-default">Browse Characterization Data</a>
+                    <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/characterization/tabs']); ?>" class="btn btn-info">Browse Characterization Data</a>
                 </div>
             </div>
         </div>
