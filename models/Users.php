@@ -15,7 +15,6 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password
  * @property string $first_name
- * @property string $middle_name
  * @property string $last_name
  * @property string $suffix
  * @property string $email
@@ -42,7 +41,7 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface {
     public function rules() {
         return [
             [['is_active'], 'boolean'],
-            [['username', 'first_name', 'middle_name', 'last_name', 'email'], 'string', 'max' => 100],
+            [['username', 'first_name', 'last_name', 'email'], 'string', 'max' => 100],
             [['password'], 'string', 'max' => 150],
             [['suffix'], 'string', 'max' => 15],
             [['phone_number'], 'string', 'max' => 30],
@@ -59,7 +58,6 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface {
             'username' => 'Username',
             'password' => 'Password',
             'first_name' => 'First Name',
-            'middle_name' => 'Middle Name',
             'last_name' => 'Last Name',
             'suffix' => 'Suffix',
             'email' => 'Email',
