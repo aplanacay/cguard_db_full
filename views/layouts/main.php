@@ -74,6 +74,12 @@ $baseUrl = $asset->baseUrl;
                                 ]
                             ], //
                         ],
+                        ['label' => 'Admin',
+                            'items' => [
+                               
+                                ['label' => 'Users', 'url' => ['/users']]
+                            ],
+                        ],
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
