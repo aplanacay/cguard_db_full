@@ -8,6 +8,7 @@ use app\models\UsersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\Security;
 
 /**
  * DefaultController implements the CRUD actions for Users model.
@@ -65,8 +66,12 @@ class DefaultController extends Controller
     {
         $model = new Users();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+        	
+        	$model->password = Security::generatePasswordHash($model->password );
+        	if( $model->save()){
+            	return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
