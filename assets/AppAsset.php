@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -13,19 +14,24 @@ use yii\web\AssetBundle;
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
-class AppAsset extends AssetBundle
-{
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+class AppAsset extends AssetBundle {
+
+   // public $basePath = '@webroot';
+    public $sourcePath = '@themes/full-slider';
+  //  public $baseUrl = '@web';
     public $css = [
         'css/site.css',
         'css/material.css',
+        'css/full-slider.css',
+        'css/one-page-wonder.css',
     ];
     public $js = [
-        'web/js/inventory.js',
+        'js/inventory.js',
+        'js/bootstrap.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+
 }

@@ -34,9 +34,19 @@ use yii\helpers\Url;
         var infowindow = new google.maps.InfoWindow();
         var marker, i;
         var markers = new Array();
+        var icon = {
+            url: '<?php echo Url::base().'/images/red-dot.png'; ?>',
+            scaledSize: new google.maps.Size(20, 20), // scaled size
+            origin: new google.maps.Point(0,0), // origin
+            anchor: new google.maps.Point(0, 0) // anchor
+        };
+
+
+
         for (i = 0; i < locations.length; i++) {
-         
+          
           marker = new google.maps.Marker({
+            icon: icon,
             position: new google.maps.LatLng(locations[i][4], locations[i][5]),
             map: map
           });

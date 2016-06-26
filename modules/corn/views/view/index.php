@@ -104,7 +104,7 @@ $content1 = '';
             [
                 'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
                 'content' => $this->render('germplasm_location', [
-                    'model' => $characterizationQuery,
+                    'germplasm' => $germplasm,
                     //'dataProvider' => $dataProvider,
                     'id' => $id
                 ]),

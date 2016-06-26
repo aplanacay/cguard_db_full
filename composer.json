@@ -14,8 +14,8 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": "2.0.4",
+        "php": ">=5.5.0",
+        "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "raveren/kint": "^1.0",
@@ -26,6 +26,7 @@
         "kartik-v/yii2-dynagrid": "^1.4.2",
         "kartik-v/yii2-sortable-input": "dev-master",
         "kartik-v/yii2-tabs-x": "*",
+<<<<<<< HEAD
     	"kartik-v/yii2-editable": "*",
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
@@ -35,6 +36,16 @@
         "kartik-v/yii2-export": "*",
         "kartik-v/yii2-mpdf": "dev-master",
         "kartik-v/yii2-grid": "@dev"
+=======
+	"kartik-v/yii2-editable": "*",
+        "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-widget-datepicker": "@dev",
+       "kartik-v/yii2-krajee-base": "~1.7",
+        "kartik-v/yii2-helpers": "~1.3",
+        "kartik-v/yii2-widget-activeform": "~1.4",
+        "kartik-v/yii2-grid": "~3.0"
+        
+>>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
