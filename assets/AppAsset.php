@@ -20,14 +20,14 @@ class AppAsset extends AssetBundle {
     public $sourcePath = '@themes/full-slider';
   //  public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+      //  'css/site.css',
         'css/material.css',
-        'css/full-slider.css',
+        'css/half-slider.css',
         'css/one-page-wonder.css',
     ];
     public $js = [
+     //   'js/bootstrap.min.js',
         'js/inventory.js',
-        'js/bootstrap.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
