@@ -126,7 +126,7 @@ use yii\helpers\Html;
         </a>
 
 </header>
-<div class="body-content " >
+<div class="container" >
 
     <?php
 //    echo yii\bootstrap\Carousel::widget([
@@ -159,6 +159,7 @@ use yii\helpers\Html;
         $mode = 'corn';
     }
     ?>
+    
     <!-- Marketing Icons Section -->
     <div class="row">
         <div class="col-lg-12">
