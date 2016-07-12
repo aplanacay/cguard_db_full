@@ -161,21 +161,6 @@ $baseUrl = $asset->baseUrl;
                                                     ['label' => '&emsp;&emsp;&emsp;Import File', 'url' => Url::to(['/corn/characterization/upload']), 'active' => ($item == 'corn-characterization-import')],
                                                 //    ['label' => '&emsp;&emsp;&emsp;Add Record', 'url' => Url::to(['/corn/characterization/add']), 'active' => ($item == 'corn-characterization-add')],
 //                                                'url' => Url::to(['/guest/browse/index']), 'active' => ($item === 'guest-browse' || $item === 'guest-view-char-data')
-<<<<<<< HEAD
-                                                    ]
-                                                ],
-                                                ['label' => 'Inventory', 'icon' => 'folder-close', 'items' => [
-                                                        ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
-                                                        //['label' => '&emsp;&emsp;&emsp;Search', 'url' => "#"],
-                                                    ]],
-                                                //'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
-                                                ['label' => 'Withdrawal', 'icon' => 'folder-open', 'items' => [
-                                                        ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/withdrawal/withdrawal/index']), 'active' => ($item == 'withdrawal-index')],
-                                                        ['label' => '&emsp;&emsp;&emsp;Moisture Content Determination', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
-                                                        ['label' => '&emsp;&emsp;&emsp;Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
-                                                    ]],
-                                                ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/corn/locations/index', 'type' => $type]), 'active' => ($item == '')],
-=======
                                                 ]
                                             ],
                                             ['label' => 'Inventory', 'icon' => 'folder-close', 'items' => [
@@ -189,7 +174,6 @@ $baseUrl = $asset->baseUrl;
                                                     ['label' => '&emsp;&emsp;&emsp;Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
                                                 ]],
                                             ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/corn/locations/index', 'type' => $type]), 'active' => ($item == '')],
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
 //                                        ['label' => 'Characterization Data', 'icon' => 'list', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item == 'guest-characterization-tabs')],
 //                                        ['label' => 'Search Characterization Data', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item == 'guest-characterization-search')],
                                         ]],
