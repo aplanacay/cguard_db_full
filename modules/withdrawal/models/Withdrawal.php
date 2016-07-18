@@ -96,7 +96,7 @@ class Withdrawal extends \yii\db\ActiveRecord
                 }
             }
         }else{
-            return $this->addError($attribute, 'Cannot withdraw because Seed Ref '.$this->seed_ref_no.' does not exist in the Inventory.');
+            return $this->addError($attribute, 'Cannot withdraw because Seed Ref '.$this->seed_si_ref_no.' does not exist in the Inventory.');
         }
     }
 

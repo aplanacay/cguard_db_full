@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\viability\models\ViabilitySearch */
@@ -18,6 +19,37 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Viability data entry', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+        $gridColumns = [
+            ['class' => 'yii\grid\SerialColumn'],
+            'viabilityref_no',
+            'collection_id',
+            'cropping_season',
+            'date_tested',
+            'percentage',
+            'date_packed',
+            'remarks',
+            //['class' => 'yii\grid\ActionColumn'],
+        ];
+
+        // Renders a export dropdown menu
+        echo ExportMenu::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => $gridColumns,
+            'dropdownOptions' => [
+            'label' => 'Export All',
+            'class' => 'btn btn-default'
+            ],
+            'exportConfig' => [
+                ExportMenu::FORMAT_TEXT => false,
+                ExportMenu::FORMAT_PDF => false,
+                ExportMenu::FORMAT_HTML => false
+            ]
+        ]);
+    ?>
+    
+    <hr>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

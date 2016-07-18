@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\withdrawal\models\WithdrawalSearch */
@@ -18,6 +19,38 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Withdrawal', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?php
+        $gridColumns = [
+            ['class' => 'yii\grid\SerialColumn'],
+            'accession_no',
+            'seed_si_ref_no',
+            'seed_ref_no',
+            'lot_no',
+            'date',
+            'purpose',
+            'type',
+            'amount',
+            //['class' => 'yii\grid\ActionColumn'],
+        ];
+
+        // Renders a export dropdown menu
+        echo ExportMenu::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => $gridColumns,
+            'dropdownOptions' => [
+            'label' => 'Export All',
+            'class' => 'btn btn-default'
+            ],
+            'exportConfig' => [
+                ExportMenu::FORMAT_TEXT => false,
+                ExportMenu::FORMAT_PDF => false,
+                ExportMenu::FORMAT_HTML => false
+            ]
+        ]);
+    ?>
+
+    <hr>
 
     <?= GridView::widget([
         'layout'=>"{pager}\n{summary}\n{items}",

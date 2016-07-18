@@ -103,6 +103,31 @@ class MoisturecontentController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function downloadFile($fullpath){
+      if(!empty($fullpath)){ 
+          header("Content-type:application/doc"); //for pdf file
+          //header('Content-Type:text/plain; charset=ISO-8859-15'); //if you want to read text file using text/plain header 
+          header('Content-Disposition: attachment; filename="'.basename($fullpath).'"'); 
+          header('Content-Length: ' . filesize($fullpath));
+          readfile($fullpath);
+          //Yii::app()->end();
+      }else{
+        echo "File not found!";
+      }
+    }
+
+    public function actionDownload1(){
+      $path = Yii::getAlias('@webroot')."/MATERIALTRANSFERAGREEMENNPGR.doc";
+      //echo $path;
+      $this->downloadFile($path);
+    }
+
+    public function actionDownload2(){
+      $path = Yii::getAlias('@webroot')."/STANDARDMATERIALTRANSFERAGREEMENTDoc.doc";
+      //echo $path;
+      $this->downloadFile($path);
+    }
+
     /**
      * Finds the moisturecontent model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
