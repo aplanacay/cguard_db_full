@@ -1,3 +1,4 @@
+
 <?php
 /* @var $this yii\web\View */
 $this->title = 'CGUARD';
@@ -116,14 +117,14 @@ use yii\helpers\Html;
 
 
         </div>
-</div>
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
+    </div>
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
 
 </header>
 <div class="container" >
@@ -159,7 +160,7 @@ use yii\helpers\Html;
         $mode = 'corn';
     }
     ?>
-    
+
     <!-- Marketing Icons Section -->
     <div class="row">
         <div class="col-lg-12">
@@ -167,31 +168,78 @@ use yii\helpers\Html;
                 Welcome to CornBase
             </h1>
         </div>
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4><i class="fa fa-fw fa-check"></i> Passport Data</h4>
+        <div class="col-lg-6 ">
+            <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/view/index']); ?>">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="glyphicon glyphicon-leaf" style='font-size: 50px;'></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">Passport Data</div>
+                                <div>Browse the collection of germplasm on cereals, vegetables, food legumes, feed and industrial crops, medicinal plants, fruits, and in-vitro culture.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <span class="pull-left">Browse</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+
                 </div>
-                <div class="panel-body">
-                    <p>
-                        Browse the collection of germplasm on cereals, vegetables, food legumes, feed and industrial crops, medicinal plants, fruits, and in-vitro culture.
-                    </p>
-                    <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/view/index']); ?>" class="btn btn-info">Browse Passport Data</a>
-                </div>
-            </div>
+            </a>
         </div>
-        <div class="col-md-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4><i class="fa fa-fw fa-gift"></i> Characterization Data</h4>
+        <div class="col-lg-6">
+            <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/characterization/tabs']); ?>">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="glyphicon glyphicon-list" style='font-size: 50px;'></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">Characterization</div>
+                                <div>Browse and search germplasm characteristics.<br><br><br></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <span class="pull-left">Browse</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <p>Browse and search germplasm characteristics.</p>
-                    <br>
-                    <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/characterization/tabs']); ?>" class="btn btn-info">Browse Characterization Data</a>
-                </div>
-            </div>
+            </a>
         </div>
+        <!--        <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4><i class="fa fa-fw fa-check"></i> Passport Data</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                Browse the collection of germplasm on cereals, vegetables, food legumes, feed and industrial crops, medicinal plants, fruits, and in-vitro culture.
+                            </p>
+                            <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/view/index']); ?>" class="btn btn-info">Browse Passport Data</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4><i class="fa fa-fw fa-gift"></i> Characterization Data</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>Browse and search germplasm characteristics.</p>
+                            <br>
+                            <a href="<?php echo \yii\helpers\Url::to(['/' . $mode . '/characterization/tabs']); ?>" class="btn btn-info">Browse Characterization Data</a>
+                        </div>
+                    </div>
+                </div>-->
 
     </div>
     <!-- /.row -->

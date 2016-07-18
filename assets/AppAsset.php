@@ -20,7 +20,7 @@ class AppAsset extends AssetBundle {
     public $sourcePath = '@themes/full-slider';
   //  public $baseUrl = '@web';
     public $css = [
-      //  'css/site.css',
+       'css/site.css',
         'css/material.css',
         'css/half-slider.css',
         'css/one-page-wonder.css',

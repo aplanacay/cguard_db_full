@@ -4814,10 +4814,10 @@ body .jumbotron-material-blue-grey,
   opacity: 0.5;
 }
 .radio input[type=radio] {
-/*  opacity: 0;
+  opacity: 0;
   height: 0;
   width: 0;
-  overflow: hidden;*/
+  overflow: hidden;
 }
 .radio input[type=radio]:checked ~ .check {
   -webkit-transform: scale3d(0.55, 0.55, 1);

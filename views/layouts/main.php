@@ -63,17 +63,17 @@ $baseUrl = $asset->baseUrl;
                         ['label' => 'ABOUT', 'url' => ['/#about']],
                         // ['label' => 'OUR PEOPLE', 'url' => ['/site/people']],
                         ['label' => 'OUR WORK', 'url' => ['/#work']],
-                        ['label' => 'Crop Group',
-                            'items' => [
-                                //label' => 'Cereal',
-                                //    'items' => [
-                                ['label' => 'Corn', 'url' => ['/corn/browse']
-                                //],
-                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
-                                //  ]
-                                ]
-                            ], //
-                        ],
+//                        ['label' => 'Crop Group',
+//                            'items' => [
+//                                //label' => 'Cereal',
+//                                //    'items' => [
+//                                ['label' => 'Corn', 'url' => ['/corn/browse']
+//                                //],
+//                                //['label' => '<span class="mdi-action-language"></span>Resources', 'url' => ['/docs']],
+//                                //  ]
+//                                ]
+//                            ], //
+//                        ],
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                             'url' => ['/site/logout'],
                             'linkOptions' => ['data-method' => 'post']],
@@ -101,7 +101,7 @@ $baseUrl = $asset->baseUrl;
         }
         NavBar::end();
         ?>
-        
+
 
 
         <?php
@@ -109,11 +109,11 @@ $baseUrl = $asset->baseUrl;
                 \Yii::$app->session->get('curr_page') === 'work' ||
                 \Yii::$app->session->get('curr_page') === 'about')) {
             ?>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <div class="container-fluid">
                 <div class="col-sm-2">
                     <?php
@@ -205,11 +205,11 @@ $baseUrl = $asset->baseUrl;
                     \Yii::$app->session->get('curr_page') === 'guest-evaluation-search' ||
                     \Yii::$app->session->get('curr_page') === 'guest-characterization-browse') {
                 ?>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
                 <div class="container-fluid">
                     <div class="col-sm-2">
                         <?php
