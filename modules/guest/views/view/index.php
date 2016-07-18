@@ -31,25 +31,96 @@ $bordered = false;
     ?>
     <div class="row">
         <?php
-        $tab = '3';
-        $items = [
-            [
-                'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
-                'content' => $this->render('passport_data', [
-                    'model' => $model,
-                    'dataProvider' => $dataProvider,
-                    'id' => $id
-                ]),
-                'active' => $tab === 1,
-            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
-                'content' => $this->render('characteristics_data', [
-                    'model' => $characterizationQuery,
-                    //'dataProvider' => $dataProvider,
-                    'id' => $id
-                ]),
-                'active' => $tab === 2,
+        if (!is_null($model)) {
+            $tab = '3';
+            $items = [
+                [
+                    'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
+                    'content' => $this->render('passport_data', [
+                        'model' => $model,
+                        'dataProvider' => $dataProvider,
+                        'id' => $id
+                    ]),
+                    'active' => $tab === 1,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
+                    'content' => $this->render('characteristics_data', [
+                        'model' => $characterizationQuery,
+                        //'dataProvider' => $dataProvider,
+                        'id' => $id
+                    ]),
+                    'active' => $tab === 2,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 2,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 3,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
+                    'content' => $this->render('germplasm_location', [
+                        'model' => $model,
+                        'dataProvider' => $dataProvider,
+                        'id' => $id
+                    ]),
+                    'active' => $tab === 5,
+                ],
+            ];
+            ?>
+
+            <?php
+            echo \yii\widgets\LinkPager::widget([
+                'pagination' => $dataProvider->pagination,
+                'maxButtonCount' => 1,
+                'nextPageLabel' => 'Next Record&raquo;',
+                'prevPageLabel' => '&laquo; Previous Record',
+                'firstPageLabel' => true,
+                'lastPageLabel' => true,
+                'options' => ['class' => 'pagination pull-right']
+            ]);
+            echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
+            echo '<div class="pull-right" style="margin-top:7px;">';
+
+            if ($dataProvider->pagination->totalCount === '0') {
+                echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
+                // $model= new \app\modules\corn\models\CharacterizationSearch();
+            } else {
+                echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
+            }
+
+            echo '</div>';
+
+            echo '';
+        } else {
+            echo \yii\widgets\LinkPager::widget([
+                'pagination' => $dataProvider->pagination,
+                'maxButtonCount' => 1,
+                'nextPageLabel' => 'Next Record&raquo;',
+                'prevPageLabel' => '&laquo; Previous Record',
+                'firstPageLabel' => true,
+                'lastPageLabel' => true,
+                'options' => ['class' => 'pagination pull-right']
+            ]);
+            echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
+            echo '<div class="pull-right" style="margin-top:7px;">';
+
+            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b>.No results found. &emsp; ';
+
+            $tab = '3';
+            $items = [
+                [
+                    'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
+                    'active' => $tab === 1,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
+                    'active' => $tab === 2,
 //            'items' => [
 //                [
 //                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
@@ -62,72 +133,23 @@ $bordered = false;
 //                    'content' => $content4,
 //                ],
 //            ],
-            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
-                'headerOptions' => ['class' => 'disabled'],
-                'active' => $tab === 2,
-            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
-                'headerOptions' => ['class' => 'disabled'],
-                'active' => $tab === 3,
-            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
-                'content' => $this->render('germplasm_location', [
-                    'model' => $model,
-                    'dataProvider' => $dataProvider,
-                    'id' => $id
-                ]),
-                'active' => $tab === 5,
-            ],
-        ];
-        ?>
-        <?php
-        echo \yii\widgets\LinkPager::widget([
-            'pagination' => $dataProvider->pagination,
-            'maxButtonCount' => 1,
-            'nextPageLabel' => 'Next Record&raquo;',
-            'prevPageLabel' => '&laquo; Previous Record',
-            'firstPageLabel' => true,
-            'lastPageLabel' => true,
-            'options' => ['class' => 'pagination pull-right']
-        ]);
-        echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
-        echo '<div class="pull-right" style="margin-top:7px;">';
-
-        if ($dataProvider->pagination->totalCount === '0') {
-            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
-            // $model= new \app\modules\corn\models\CharacterizationSearch();
-        } else {
-            echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 2,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 3,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
+                    'active' => $tab === 5,
+                ],
+            ];
         }
-
-        echo '</div>';
-
-        echo '';
-//    use kartik\export\ExportMenu;
-//    echo ExportMenu::widget([
-//    'dataProvider' => $dataProvider,
-//    'columns' => $gridColumns,
-//    'fontAwesome' => true,
-//]);
-//        echo '<div class="pull-right">';
-//         echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-search"></i>', [
-//                            //'value' => yii\helpers\Url::to('guest/browse/search'),
-//                            'data' => [
-//                                'toggle' => 'modal',
-//                                'target' => '#stud-info',
-//                            ],
-//                            'id' => 'search-btn-id',
-//                            'type' => 'button',
-//                            'title' => 'Advanced search',
-//                            'class' => 'btn btn-success',
-//                                //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
-//                        ]).'&emsp;';
-//         echo '</div>';
-
         ?>
 
         <?php
@@ -151,14 +173,14 @@ $bordered = false;
 
         <div class="modal-body-large form-horizontal" id='modal-search-form-body' style="padding:10px 10px 20px 10px;">
             <p class="instruction" id="sel-records"></p>
-<?php
-echo $this->render('@app/modules/guest/views/browse/search/_search', ['model' => $searchModel]);
-?>
+            <?php
+            echo $this->render('@app/modules/guest/views/browse/search/_search', ['model' => $searchModel]);
+            ?>
         </div>
 
         <div class="modal-footer">
         </div>
-<?php yii\bootstrap\Modal::end(); ?>
+        <?php yii\bootstrap\Modal::end(); ?>
 
         <?php
         \yii\bootstrap\Modal::begin([
@@ -173,14 +195,14 @@ echo $this->render('@app/modules/guest/views/browse/search/_search', ['model' =>
 
         <div class="modal-body-large form-horizontal" id='germplasm-photo-modal-id-form-body' style="padding:10px 10px 20px 10px;">
             <p class="instruction" id="sel-records"></p>
-<?php
-echo $this->render('@app/modules/guest/views/view/_photo', ['id' => $id, 'model' => $model]);
-?>
+            <?php
+            echo $this->render('@app/modules/guest/views/view/_photo', ['id' => $id, 'model' => $model]);
+            ?>
         </div>
 
         <div class="modal-footer">
         </div>
     </div>
-<?php yii\bootstrap\Modal::end(); ?>
+    <?php yii\bootstrap\Modal::end(); ?>
 </div>
 

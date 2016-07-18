@@ -131,7 +131,8 @@ use kartik\select2\Select2;
     echo '<div class="pull-right" style="margin-top:7px;">';
 
     if ($dataProvider->pagination->totalCount === '0') {
-        echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
+        $model=  new \app\modules\corn\models\Characterization();
+        echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b>.No results found. &emsp; ';
         // $model= new \app\modules\corn\models\CharacterizationSearch();
     } else {
         echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';

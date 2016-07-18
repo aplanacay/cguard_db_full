@@ -41,11 +41,11 @@ class GermplasmSearch extends Germplasm {
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $query) {
+    public function search($params) {
 
         $phl_no_str = "'(^[0-9]+)'";
         $phl_no_str2 = "'([^0-9_].*$)'";
-        //$query = \app\modules\corn\models\Germplasm::find();//->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
+        $query = \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id,creator_id,creation_timestamp,modifier_id,modification_timestamp,remarks')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
 
 
 
@@ -79,41 +79,42 @@ class GermplasmSearch extends Germplasm {
         if (!empty($this->pests)) {
             $this->pests = implode(' ', $this->pests);
         }
-        //  $query->andFilterWhere(['like', 'phl_no', $this->phl_no])
-        $query->andFilterWhere(['like', 'remarks', $this->remarks])
-                ->andFilterWhere(['like', 'Notes', $this->Notes])
-                //     ->andFilterWhere(['like', 'old_acc_no', $this->old_acc_no])
-                //     ->andFilterWhere(['like', 'gb_no', $this->gb_no])
-                ->andFilterWhere(['like', 'collecting_no', $this->collecting_no])
-                ->andFilterWhere(['like', 'variety_name', $this->variety_name])
-                ->andFilterWhere(['like', 'dialect', $this->dialect])
-                ->andFilterWhere(['like', 'grower', $this->grower])
-                ->andFilterWhere(['like', 'scientific_name', $this->scientific_name])
-                ->andFilterWhere(['like', 'count_coll', $this->count_coll])
-                ->andFilterWhere(['like', 'prov', $this->prov])
-                ->andFilterWhere(['like', 'town', $this->town])
-                ->andFilterWhere(['like', 'barangay', $this->barangay])
-                ->andFilterWhere(['like', 'sitio', $this->sitio])
-                ->andFilterWhere(['like', 'acq_date', $this->acq_date])
-                ->andFilterWhere(['like', 'latitude', $this->latitude])
-                ->andFilterWhere(['like', 'longitude', $this->longitude])
-                ->andFilterWhere(['like', 'altitude', $this->altitude])
-                ->andFilterWhere(['like', 'coll_source', $this->coll_source])
-                ->andFilterWhere(['like', 'gen_stat', $this->gen_stat])
-                ->andFilterWhere(['like', 'sam_type', $this->sam_type])
-                ->andFilterWhere(['like', 'sam_met', $this->sam_met])
-                ->andFilterWhere(['like', 'mat', $this->mat])
-                ->andFilterWhere(['like', 'topo', $this->topo])
-                ->andFilterWhere(['like', 'site', $this->site])
-                ->andFilterWhere(['like', 'soil_tex', $this->soil_tex])
-                ->andFilterWhere(['like', 'drain', $this->drain])
-                ->andFilterWhere(['like', 'soil_col', $this->soil_col])
-                ->andFilterWhere(['like', 'ston', $this->ston])
-                ->andFilterWhere(['like', 'diseases', $this->diseases])
-                ->andFilterWhere(['like', 'viruses', $this->viruses])
-                ->andFilterWhere(['like', 'pests', $this->pests])
-                ->andFilterWhere(['like', 'crop.name', $this->crop]);
-        //->andFilterWhere(['like', 'tbl_country.name', $this->country]);
+        
+        //  $query->andFilterWhere(['ilike', 'phl_no', $this->phl_no])
+        $query->andFilterWhere(['ilike', 'remarks', $this->remarks])
+                ->andFilterWhere(['ilike', 'Notes', $this->Notes])
+                //     ->andFilterWhere(['ilike', 'old_acc_no', $this->old_acc_no])
+                //     ->andFilterWhere(['ilike', 'gb_no', $this->gb_no])
+                ->andFilterWhere(['ilike', 'collecting_no', $this->collecting_no])
+                ->andFilterWhere(['ilike', 'variety_name', $this->variety_name])
+                ->andFilterWhere(['ilike', 'dialect', $this->dialect])
+                ->andFilterWhere(['ilike', 'grower', $this->grower])
+                ->andFilterWhere(['ilike', 'scientific_name', $this->scientific_name])
+                ->andFilterWhere(['ilike', 'count_colln', $this->count_coll])
+                ->andFilterWhere(['ilike', 'prov', $this->prov])
+                ->andFilterWhere(['ilike', 'town', $this->town])
+                ->andFilterWhere(['ilike', 'barangay', $this->barangay])
+                ->andFilterWhere(['ilike', 'sitio', $this->sitio])
+                ->andFilterWhere(['ilike', 'acq_date', $this->acq_date])
+                ->andFilterWhere(['ilike', 'latitude', $this->latitude])
+                ->andFilterWhere(['ilike', 'longitude', $this->longitude])
+                ->andFilterWhere(['ilike', 'altitude', $this->altitude])
+                ->andFilterWhere(['ilike', 'coll_source', $this->coll_source])
+                ->andFilterWhere(['ilike', 'gen_stat', $this->gen_stat])
+                ->andFilterWhere(['ilike', 'sam_type', $this->sam_type])
+                ->andFilterWhere(['ilike', 'sam_met', $this->sam_met])
+                ->andFilterWhere(['ilike', 'mat', $this->mat])
+                ->andFilterWhere(['ilike', 'topo', $this->topo])
+                ->andFilterWhere(['ilike', 'site', $this->site])
+                ->andFilterWhere(['ilike', 'soil_tex', $this->soil_tex])
+                ->andFilterWhere(['ilike', 'drain', $this->drain])
+                ->andFilterWhere(['ilike', 'soil_col', $this->soil_col])
+                ->andFilterWhere(['ilike', 'ston', $this->ston])
+                ->andFilterWhere(['ilike', 'diseases', $this->diseases])
+                ->andFilterWhere(['ilike', 'viruses', $this->viruses])
+                ->andFilterWhere(['ilike', 'pests', $this->pests])
+                ->andFilterWhere(['ilike', 'crop.name', $this->crop]);
+        //->andFilterWhere(['ilike', 'tbl_country.name', $this->country]);
 
         return $query;
     }

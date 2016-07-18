@@ -58,7 +58,8 @@ class ViewController extends Controller {
 
     public function actionIndex($id = null) {
         \Yii::$app->session->set('curr_page', 'guest-view');
-        $data = Yii::$app->request->get('Germplasm');
+        $data = Yii::$app->request->get();
+        //ChromePhp::log($data['GermplasmSearch']);
         $search = false;
         if (isset($data)) {
             foreach ($data as $key => $val) {
@@ -74,7 +75,7 @@ class ViewController extends Controller {
 
         $searchModel = new \app\modules\corn\models\GermplasmSearch();
 
-        $query = $searchModel->search(Yii::$app->request->get(), \app\modules\corn\models\Germplasm::find()->select(['germplasm.*'])->groupBy('phl_no,id,creator_id,creation_timestamp,modifier_id,modification_timestamp,remarks')->orderBy("(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})"));
+        $query = $searchModel->search(Yii::$app->request->get());
 
         $model = $query->one();
         //ChromePhp::log($model);
