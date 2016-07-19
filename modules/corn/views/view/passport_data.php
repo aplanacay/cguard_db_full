@@ -138,19 +138,19 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         <?php echo Html::submitButton('Save', ['class' => 'btn btn-success']); ?>
         <?php
        
-//    echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-picture"></i> View Photo', [
-//                          //  'value' => yii\helpers\Url::to('guest/browse/search'),
-//                            'data' => [
-//                                'toggle' => 'modal',
-//                                'target' => '#germplasm-photo-modal-id',
-//                            ],
-//                            'id' => 'view-photo-btn-id',
-//                            'type' => 'button',
-//                            'title' => 'Show photo',
-//                            'class' => 'btn btn-primary',
-//                                //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
-//                        ]).'&emsp;';
-//         echo '</div>';
+    echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-picture"></i> View Photo', [
+                          //  'value' => yii\helpers\Url::to('guest/browse/search'),
+                            'data' => [
+                                'toggle' => 'modal',
+                                'target' => '#germplasm-photo-modal-id',
+                            ],
+                            'id' => 'view-photo-btn-id',
+                            'type' => 'button',
+                            'title' => 'Show photo',
+                            'class' => 'btn btn-primary',
+                                //'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");'
+                        ]).'&emsp;';
+         echo '</div>';
         ?>
         <?php //echo Html::resetButton('Reset', ['class' => 'btn btn-default']);  ?>
         <?php //echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']);  ?>

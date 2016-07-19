@@ -10,7 +10,6 @@ use Yii;
 
 class ViewController extends Controller {
 
-    
     public function actionEvaluation($id = null) {
         \Yii::$app->session->set('curr_page', 'corn-evaluation');
         $data = Yii::$app->request->get('Germplasm');
@@ -48,12 +47,15 @@ class ViewController extends Controller {
             //'pagination' => array('totalCount' => $query->count(),'pageSize' => 1,),
             'pagination' => $pages,
         ]);
-
+        $id = null;
+        if (!is_null($model)) {
+            $id = $model->id;
+        }
 
         return $this->render('evaluation', [
                     'model' => $model,
                     'dataProvider' => $dataProvider,
-                    'id' => $model->id
+                    'id' => $id
         ]);
     }
 
@@ -122,8 +124,14 @@ class ViewController extends Controller {
 //                    'id' => $id
 //                        //  'columns' => $this->prepareDataProvider($columns),
 //        ]);
+        $germplasm=null;
+        if(!is_null($model)){
+            $germplasm=\app\modules\corn\models\Germplasm::find(['id' => $model->id])->all();
+        }
+        
+        
         return $this->render('index', [
-                    'germplasm' => \app\modules\corn\models\Germplasm::find(['id' => $model->id])->all(),
+                    'germplasm' => $germplasm,
                     'characterizationQuery' => $modelCharacterization,
                     'model' => $model,
                     'dataProvider' => $dataProvider,

@@ -51,99 +51,126 @@ $content1 = '';
     <div class="row">
         <?php
         $tab = '';
-        $items = [
-            [
-                'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
-                'content' => $this->render('passport_data', [
-                    'model' => $model,
-                    'dataProvider' => $dataProvider,
-                    'id' => $model->id
-                ]),
-                'active' => $tab === 1,
-            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
-                'content' => $this->render('characteristics_data', [
-                    'model' => $characterizationQuery,
-                    'dataProvider' => $dataProviderCharacterization,
-                    'id' => $id
-                ]),
-                'active' => $tab === 2,
-//            'items' => [
-//                [
-//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
-//                    'encode' => false,
-//                    'content' => $content3,
-//                ],
-//                [
-//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 2',
-//                    'encode' => false,
-//                    'content' => $content4,
-//                ],
-//            ],
-            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
-                'headerOptions' => ['class' => 'disabled'],
-                'active' => $tab === 2,
-            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
-                'headerOptions' => ['class' => 'disabled'],
-                'active' => $tab === 3,
-            ],
-//            [
-//                'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
-//                'content' => $this->render('passport_data', [
-//                    'model' => $model,
-//                    'dataProvider' => $dataProvider,
-//                    'id' => $id
-//                ]),
-//                'active' => $tab === 4,
-//            ],
-            [
-                'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
-                'content' => $this->render('germplasm_location', [
-                    'germplasm' => $germplasm,
-                    //'dataProvider' => $dataProvider,
-                    'id' => $id
-                ]),
-                'active' => $tab === 5,
-//            'items' => [
-//                [
-//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
-//                    'encode' => false,
-//                    'content' => $content3,
-//                ],
-//                [
-//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 2',
-//                    'encode' => false,
-//                    'content' => $content4,
-//                ],
-//            ],
-            ],
-        ];
-        ?>
-        <?php
-        echo \yii\widgets\LinkPager::widget([
-            'pagination' => $dataProvider->pagination,
-            'maxButtonCount' => 1,
-            'nextPageLabel' => 'Next Record&raquo;',
-            'prevPageLabel' => '&laquo; Previous Record',
-            'firstPageLabel' => true,
-            'lastPageLabel' => true,
-            'options' => ['class' => 'pagination pull-right']
-        ]);
-        echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
-        echo '<div class="pull-right" style="margin-top:7px;">';
+         if (!is_null($model)) {
+            $tab = '3';
+            $items = [
+                [
+                    'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
+                    'content' => $this->render('passport_data', [
+                        'model' => $model,
+                        'dataProvider' => $dataProvider,
+                        'id' => $id
+                    ]),
+                    'active' => $tab === 1,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
+                    'content' => $this->render('characteristics_data', [
+                        'model' => $characterizationQuery,
+                        'dataProvider' => $dataProvider,
+                        'id' => $id
+                    ]),
+                    'active' => $tab === 2,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 2,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 3,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
+                    'content' => $this->render('germplasm_location', [
+                        'model' => $model,
+                        'dataProvider' => $dataProvider,
+                        'id' => $id
+                    ]),
+                    'active' => $tab === 5,
+                ],
+            ];
+            ?>
 
-        if ($dataProvider->pagination->totalCount === '0') {
-            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
-            // $model= new \app\modules\corn\models\CharacterizationSearch();
+            <?php
+            echo \yii\widgets\LinkPager::widget([
+                'pagination' => $dataProvider->pagination,
+                'maxButtonCount' => 1,
+                'nextPageLabel' => 'Next Record&raquo;',
+                'prevPageLabel' => '&laquo; Previous Record',
+                'firstPageLabel' => true,
+                'lastPageLabel' => true,
+                'options' => ['class' => 'pagination pull-right']
+            ]);
+            echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
+            echo '<div class="pull-right" style="margin-top:7px;">';
+
+            if ($dataProvider->pagination->totalCount === '0') {
+                echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
+                // $model= new \app\modules\corn\models\CharacterizationSearch();
+            } else {
+                echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
+            }
+
+            echo '</div>';
+
+            echo '';
         } else {
-            echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
-        }
+            echo \yii\widgets\LinkPager::widget([
+                'pagination' => $dataProvider->pagination,
+                'maxButtonCount' => 1,
+                'nextPageLabel' => 'Next Record&raquo;',
+                'prevPageLabel' => '&laquo; Previous Record',
+                'firstPageLabel' => true,
+                'lastPageLabel' => true,
+                'options' => ['class' => 'pagination pull-right']
+            ]);
+            echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
+            echo '<div class="pull-right" style="margin-top:7px;">';
 
+            echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b>.No results found. &emsp; ';
+
+            $tab = '3';
+            $items = [
+                [
+                    'label' => '<i class="glyphicon glyphicon-leaf"></i> Passport data',
+                    'active' => $tab === 1,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-list-alt"></i> Characterization Data',
+                    'active' => $tab === 2,
+//            'items' => [
+//                [
+//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 1',
+//                    'encode' => false,
+//                    'content' => $content3,
+//                ],
+//                [
+//                    'label' => '<i class="glyphicon glyphicon-chevron-right"></i> Option 2',
+//                    'encode' => false,
+//                    'content' => $content4,
+//                ],
+//            ],
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-inbox"></i> Seed Availability',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 2,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-send"></i> Seed Request',
+                    'headerOptions' => ['class' => 'disabled'],
+                    'active' => $tab === 3,
+                ],
+                [
+                    'label' => '<i class="glyphicon glyphicon-map-marker"></i> Location',
+                    'active' => $tab === 5,
+                ],
+            ];
+        }
+       
         echo '</div>';
 
         echo '<br><br>';

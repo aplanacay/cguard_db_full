@@ -134,7 +134,7 @@ use \kartik\widgets\Select2;
 use yii\bootstrap\Modal;
 
 if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->totalCount === 0) {
-    
+     echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b>.No results found. &emsp; ';
 } else {
 
     $form = ActiveForm::begin([
@@ -155,7 +155,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
     ]);
     ?>
     <div class = "form-group pull-right" >
-         <?php
+        <?php
         echo \yii\widgets\LinkPager::widget([
             'pagination' => $dataProvider->pagination,
             'maxButtonCount' => 1,
@@ -165,8 +165,8 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
             'lastPageLabel' => true,
             'options' => ['class' => 'pagination pull-right']
         ]);
-        
-    //    echo '<div class="pull-right" style="margin-top:7px;">';
+
+        //    echo '<div class="pull-right" style="margin-top:7px;">';
 
         if ($dataProvider->pagination->totalCount === '0') {
             echo '<span style="font-size:14px;">  <b>0</b> </b> Results</b> &emsp; ';
@@ -175,9 +175,9 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
             echo '<span style="font-size:14px;"> Showing <b>' . ($dataProvider->pagination->page + 1) . '</b> of <b>' . $dataProvider->pagination->totalCount . '</b> Results</b> &emsp; ';
         }
 
-      //  echo '</div>';
-?>
-        
+        //  echo '</div>';
+        ?>
+
         <?php
         echo '&emsp;';
 //    echo \kartik\helpers\Html::button('<i class="glyphicon glyphicon-picture"></i> View Photo', [
@@ -195,7 +195,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
 //         echo '</div>';
         ?>
         <?php //echo Html::resetButton('Reset', ['class' => 'btn btn-default']);  ?>
-        <?php //echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']);  ?>
+    <?php //echo Html::button('<span class=\'glyphicon glyphicon-plus\'></span> Expand all', ['class' => 'btn btn-primary', 'id' => 'collapse-init']);   ?>
 
     </div>
     <br/>
@@ -219,9 +219,9 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         echo '</div>';
         ?>
     </div>
-    <?php echo '<br>'.Html::submitButton('Save', ['class' => 'btn btn-success pull-right']).'<br>'; ?>
+    <?php echo '<br>' . Html::submitButton('Save', ['class' => 'btn btn-success pull-right']) . '<br>'; ?>
     <hr></hr>
-    
+
     <?php
     echo '<div class="col-md-4">';
     $model->diseases = explode(';', $model->diseases);
