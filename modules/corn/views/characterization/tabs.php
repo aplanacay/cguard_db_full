@@ -356,7 +356,7 @@ use kartik\select2\Select2;
 // echo '<legend>III. Kernel Data</legend>';
                     if ($dataProvider->pagination->totalCount !== '0') {
                         echo '<div class="col-md-6">';
-                        echo $form->field($model, 'grain_shedding')->label('% Grain shielding')->textInput(['readonly' => true]);
+                        echo $form->field($model, 'grain_shedding')->label('% Grain Shedding')->textInput(['readonly' => true]);
 
                         echo $form->field($model, 'kernel_type[]')->textInput(['readonly' => true]);
 

@@ -149,8 +149,8 @@ class Users extends \yii\db\ActiveRecord implements IdentityInterface {
      * @return boolean if password provided is valid for current user
      */
     public function validatePassword($password) {
-
-        return Security::validatePassword($password, $this->password);
+        $security = new Security();
+        return $security->validatePassword($password, $this->password);
         //return $this->password === sha1($password);
     }
 

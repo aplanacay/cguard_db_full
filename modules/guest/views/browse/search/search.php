@@ -123,25 +123,20 @@ use yii\bootstrap\ActiveForm;
                 ],
     ]);
     ?>
-    <div class="form-group pull-right">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-success']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-    </div>
-    <br><br>
     <div class="panel-body passport-data" >
         <?php
         echo '<div class="col-md-4">';
 
-        echo $form->field($model, 'phl_no')->textInput();
+        echo $form->field($model, 'phl_no')->label('PHL No')->textInput();
         echo $form->field($model, 'variety_name')->textInput();
 
 
         echo '</div><div class="col-md-4">';
-        echo $form->field($model, 'gb_no')->textInput();
+        echo $form->field($model, 'gb_no')->label('GB No')->textInput();
 
         echo $form->field($model, 'scientific_name')->textInput();
         echo '</div><div class="col-md-4">';
-        echo $form->field($model, 'old_acc_no')->label('Old Accession No')->textInput();
+        echo $form->field($model, 'old_acc_no')->label('Old Acc No')->textInput();
         echo $form->field($model, 'other_number')->textInput();
         echo '</div>';
         ?>
@@ -165,6 +160,8 @@ use yii\bootstrap\ActiveForm;
 //    echo $form->field($model, 'sitio');
 
     echo $form->field($model, 'acq_date');
+    echo Html::submitButton('Search', ['class' => 'btn btn-success']);
+    echo Html::resetButton('Reset', ['class' => 'btn btn-default']);
     echo '</div><div class="col-md-4">';
 //    echo $form->field($model, 'latitude');
 
@@ -221,7 +218,7 @@ use yii\bootstrap\ActiveForm;
         ],
     ]);
 
-    echo $form->field($model, 'site')->label('Soil texture')->widget(\kartik\widgets\Select2::classname(), [
+    echo $form->field($model, 'site')->label('Site')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['level' => 'level', 'slope' => 'slope', 'plateau' => 'plateau', 'depression' => 'depression', 'others' => 'others'],
         'options' => ['placeholder' => 'Select site...'],
         'pluginOptions' => [
@@ -262,6 +259,8 @@ use yii\bootstrap\ActiveForm;
     ]);
     echo '</div>';
     ?>
+
+
 
     <?php ActiveForm::end(); ?>
 

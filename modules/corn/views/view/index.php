@@ -1,3 +1,6 @@
+<!-- Grid View -->
+
+
 <style>
 
 
@@ -105,6 +108,7 @@ $content1 = '';
                 'options' => ['class' => 'pagination pull-right']
             ]);
             echo \kartik\helpers\Html::a('Show Search Report', ['browse/index', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
+            //echo \kartik\helpers\Html::a('Add New Passport', ['browse/create', 'GermplasmSearch' => Yii::$app->request->getQueryParam('GermplasmSearch')], ['class' => 'btn btn-success']);
             echo '<div class="pull-right" style="margin-top:7px;">';
 
             if ($dataProvider->pagination->totalCount === '0') {

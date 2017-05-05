@@ -162,17 +162,17 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         <?php
         echo '<div class="col-md-4">';
 
-        echo $form->field($model, 'phl_no')->textInput(['readonly' => true]);
+        echo $form->field($model, 'phl_no')->label('PHL No')->textInput(['readonly' => true]);
         echo $form->field($model, 'variety_name')->textInput(['readonly' => true]);
 
 
         echo '</div><div class="col-md-4">';
-        echo $form->field($model, 'gb_no')->textInput(['readonly' => true]);
+        echo $form->field($model, 'gb_no')->label('GB No')->textInput(['readonly' => true]);
 
         echo $form->field($model, 'scientific_name', ['template' => "{label}<div class='col-sm-6'><i>{input}</i>{hint}{error}</div>",
         ])->textInput(['readonly' => true]);
         echo '</div><div class="col-md-4">';
-        echo $form->field($model, 'old_acc_no')->label('Old Accession No')->textInput(['readonly' => true]);
+        echo $form->field($model, 'old_acc_no')->label('Old Acc No')->textInput(['readonly' => true]);
         echo $form->field($model, 'other_number')->textInput(['readonly' => true]);
         echo '</div>';
         ?>
@@ -180,7 +180,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
     <hr></hr>
     <?php
     echo '<div class="col-md-4">';
-    echo $form->field($model->crop, 'name')->label('Crop group')->textInput(['readonly' => true]);
+    echo $form->field($model->crop, 'name')->label('Crop Group')->textInput(['readonly' => true]);
 
     echo $form->field($model, 'dialect');
 
@@ -203,7 +203,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
 //
     echo $form->field($model, 'altitude');
 
-    echo $form->field($model, 'coll_source')->label('Collecting source')->widget(\kartik\widgets\Select2::classname(), [
+    echo $form->field($model, 'coll_source')->label('Collecting Source')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['farmland' => 'farmland', 'backyard/ home garden' => 'backyard/ home garden', 'farm store/ threshing place' => 'farm store/ threshing place', 'village market' => 'village market', 'commercial seed shop' => 'commercial seed shop', 'agricultural institute' => 'agricultural institute', 'bordering field' => 'bordering field', 'natural vagetation/ wild' => 'natural vagetation/ wild', 'others' => 'others'],
         'options' => ['placeholder' => 'Select collecting source...'],
         'pluginOptions' => [
@@ -212,7 +212,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         'value' => strtolower($model->coll_source),
     ]);
 
-    echo $form->field($model, 'gen_stat')->label('Genetic status')->widget(\kartik\widgets\Select2::classname(), [
+    echo $form->field($model, 'gen_stat')->label('Genetic Status')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['single plant' => 'single plant', 'pure line/ clone' => 'pure line/ clone', 'mixture/ population (clone/ pure line)' => 'mixture/ population (clone/ pure line)', 'open pollinated' => 'open pollinated', 'others' => 'others',],
         'options' => ['placeholder' => 'Select sampling type...'],
         'pluginOptions' => [
@@ -220,7 +220,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         ],
     ]);
 
-    echo $form->field($model, 'sam_type')->label('Sample type')->widget(\kartik\widgets\Select2::classname(), [
+    echo $form->field($model, 'sam_type')->label('Sample Type')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['single plant' => 'single plant', 'pure line/ clone' => 'pure line/ clone', 'mixture/ population (clone/ pure line)' => 'mixture/ population (clone/ pure line)', 'open pollinated' => 'open pollinated', 'others' => 'others',],
         'options' => ['placeholder' => 'Select sampling type...'],
         'pluginOptions' => [
@@ -228,7 +228,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         ],
     ]);
 
-    echo $form->field($model, 'sam_met')->label('Sampling methods')->widget(\kartik\widgets\Select2::classname(), [
+    echo $form->field($model, 'sam_met')->label('Sampling Method')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['seed' => 'seed', 'fruit' => 'fruit', 'pod' => 'pod', 'others' => 'others'],
         'options' => ['placeholder' => 'Select sampling method...'],
         'pluginOptions' => [
@@ -236,7 +236,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         ],
     ]);
 
-    echo $form->field($model, 'mat')->label('Material collected')->widget(\kartik\widgets\Select2::classname(), [
+    echo $form->field($model, 'mat')->label('Material Collected')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['seed' => 'seed', 'fruit' => 'fruit', 'pod' => 'pod', 'others' => 'others'],
         'options' => ['placeholder' => 'Select material collected...'],
         'pluginOptions' => [
@@ -252,7 +252,7 @@ if ($dataProvider->pagination->totalCount === '0' || $dataProvider->pagination->
         ],
     ]);
 
-    echo $form->field($model, 'site')->label('Soil texture')->widget(\kartik\widgets\Select2::classname(), [
+    echo $form->field($model, 'site')->label('Site')->widget(\kartik\widgets\Select2::classname(), [
         'data' => ['level' => 'level', 'slope' => 'slope', 'plateau' => 'plateau', 'depression' => 'depression', 'others' => 'others'],
         'options' => ['placeholder' => 'Select site...'],
         'pluginOptions' => [

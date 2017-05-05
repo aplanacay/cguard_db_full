@@ -80,42 +80,31 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'header' => 'Regeneration <br> Ref No',
+                'header' => 'REFERENCE <br> NO',
                 'attribute' => 'seedref_no',
             ],
             [
-                'header' => 'Accession <br> No',
+                'header' => 'ACCESSION <br> NO',
                 'attribute' => 'accession_no',
             ],
             //'lot_no',
             [
-                'header' => 'Store <br> Location',
+                'header' => 'STORE <br> LOCATION ACTIVE',
                 'attribute' => 'store_location',
             ],
+            // [ //original
+            //     'header' => 'TOTAL NO OF PACKETS:<br>ACTIVE',
+            //     'attribute' => 'packets_active_no',
+            //     'contentOptions' => function($model){
+            //         if($model->packets_active_no <= 1){
+            //             return ['class' => 'danger'];
+            //         }else{
+            //             return [];
+            //         }
+            //     }
+            // ],
             [
-                'header' => 'Total No of Packets:<br>Active',
-                'attribute' => 'packets_active_no',
-                'contentOptions' => function($model){
-                    if($model->packets_active_no <= 1){
-                        return ['class' => 'danger'];
-                    }else{
-                        return [];
-                    }
-                }
-            ],
-            [
-                'header' => 'Total No of Packets:<br>Base',
-                'attribute' => 'packets_base_no',
-                'contentOptions' => function($model){
-                    if($model->packets_base_no <= 1){
-                        return ['class' => 'danger'];
-                    }else{
-                        return [];
-                    }
-                }
-            ],
-            [
-                'header' => 'Estimated Total <br> Seed Weight: Active',
+                'header' => 'ESTIMATED TOTAL <br> SEED WEIGHT: ACTIVE',
                 'attribute' => 'seed_weight_active',
                 'contentOptions' => function($model){
                     if($model->packets_active_no <= 1){
@@ -126,7 +115,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'header' => 'Estimated Total <br> Seed Weight: Base',
+                'header' => 'STORE <br> LOCATION BASE',
+                'attribute' => 'store_location_base',
+            ],
+            // [ //original
+            //     'header' => 'TOTAL NO OF PACKETS:<br>BASE',
+            //     'attribute' => 'packets_base_no',
+            //     'contentOptions' => function($model){
+            //         if($model->packets_base_no <= 1){
+            //             return ['class' => 'danger'];
+            //         }else{
+            //             return [];
+            //         }
+            //     }
+            // ],
+            [
+                'header' => 'ESTIMATED TOTAL <br> SEED WEIGHT: BASE',
                 'attribute' => 'seed_weight_base',
                 'contentOptions' => function($model){
                     if($model->packets_base_no <= 1){
@@ -137,8 +141,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'header' => 'Date  of Storage<br>(YYYY-MM-DD)',
+                'header' => 'DATE OF HARVEST<br>(YYYY-MM-DD)',
+                'attribute' => 'date_of_harvest',
+            ],
+            [
+                'header' => 'DATE OF STORAGE<br>(YYYY-MM-DD)',
                 'attribute' => 'date',
+            ],
+            [
+                'header' => 'REMARKS',
+                'attribute' => 'remarks',
             ],
             ['class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'width:70px;'],

@@ -37,6 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'packets_base_no',
             'seed_weight_active',
             'seed_weight_base',
+            'date_of_harvest',
+            'date',
+            'remarks',
         ],
     ]) ?>
 

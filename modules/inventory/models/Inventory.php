@@ -31,10 +31,10 @@ class Inventory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['accession_no','store_location'], 'string'],
+            [['accession_no','store_location','store_location_base','remarks'], 'string'],
             [['seedref_no'], 'unique'],
             [['packets_active_no', 'packets_base_no', 'seed_weight_active', 'seed_weight_base'], 'number'],
-            [['date', 'seedref_no'], 'safe'],
+            [['date', 'date_of_harvest', 'seedref_no'], 'safe'],
             [['accession_no', 'store_location', 'packets_active_no', 'packets_base_no', 'seed_weight_active', 'seed_weight_base', 'date', 'seedref_no'], 'required'],
             //['packets_active_no', 'compare', 'compareValue' => 0, 'operator' => '>'],
             //['packets_base_no', 'compare', 'compareValue' => 0, 'operator' => '>'],
@@ -47,15 +47,18 @@ class Inventory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'accession_no' => 'Accession No',
-            'lot_no' => 'Lot No',
-            'store_location' => 'Store Location',
-            'packets_active_no' => 'Number of Packets - Active',
-            'packets_base_no' => 'Number of Packets - Base',
-            'seed_weight_active' => 'Estimated Seed Weight - Active',
-            'seed_weight_base' => 'Estimated Seed Weight - Base',
-            'date' => 'Date of Packaging',
-            'seedref_no' => 'Regeneration Ref No',
+            'accession_no' => 'ACCESSION NO',
+            'lot_no' => 'LOT NO',
+            'store_location' => 'STORE LOCATION',
+            'store_location_base' => 'STORE LOCATION - BASE',
+            'packets_active_no' => 'NUMBER OF PACKETS - ACTIVE',
+            'packets_base_no' => 'NUMBER OF PACKETS - BASE',
+            'seed_weight_active' => 'ESTIMATED SEED WEIGHT - ACTIVE',
+            'seed_weight_base' => 'ESTIMATED SEED WEIGHT - BASE',
+            'date_of_harvest' => 'DATE OF HARVEST',
+            'date' => 'DATE OF STORAGE',
+            'seedref_no' => 'REFERENCE NO',
+            'remarks' => 'REMARKS'
         ];
     }
 

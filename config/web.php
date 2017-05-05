@@ -45,6 +45,9 @@ $config = [
         'withdrawal' => [
             'class' => 'app\modules\withdrawal\withdrawal',
         ],
+        'regeneration' => [
+            'class' => 'app\modules\regeneration\regeneration',
+        ],
         'moisturecontent' => [
             'class' => 'app\modules\moisturecontent\moisturecontent',
         ],

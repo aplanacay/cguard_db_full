@@ -1,4 +1,5 @@
 
+
 <style>
     body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -147,7 +148,7 @@ use yii\bootstrap\ActiveForm;
         echo $form->field($model, 'barangay')->textInput();
 
         echo $form->field($model, 'sitio')->textInput();
-        ?>`
+        ?>
     </div><div class="col-md-4">
         <?php
         echo $form->field($model, 'acq_date')->textInput();
@@ -225,7 +226,7 @@ echo $form->field($model, 'coll_source')->widget(Select2::classname(), [
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Save' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

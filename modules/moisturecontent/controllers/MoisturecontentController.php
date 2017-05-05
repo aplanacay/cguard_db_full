@@ -34,6 +34,7 @@ class MoisturecontentController extends Controller
     {
         $searchModel = new MoisturecontentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize=10;
 
         return $this->render('index', [
             'searchModel' => $searchModel,

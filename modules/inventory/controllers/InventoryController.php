@@ -35,7 +35,7 @@ class InventoryController extends Controller
         Yii::$app->session->set('curr_page', 'inventory-index');
         $searchModel = new InventorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize=5;
+        $dataProvider->pagination->pageSize=15;
         
         return $this->render('index', [
             'searchModel' => $searchModel,

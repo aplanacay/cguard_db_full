@@ -298,7 +298,8 @@ class BrowseController extends Controller {
         $model->load(Yii::$app->request->post());
         $model->setAttribute('crop_id', 1);
         if ($model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['view', 'id' => $model->id]); //original
+            return $this->redirect(['/corn/browse/index']);
         } else {
             return $this->render('create', [
                         'model' => $model,
@@ -307,16 +308,61 @@ class BrowseController extends Controller {
     }
 
     public function actionAdd() {
-        \Yii::$app->session->set('curr_page', 'corn-add');
+       /* \Yii::$app->session->set('curr_page', 'corn-add');
         $model = new \app\modules\corn\models\Germplasm();
 
-        return $this->render('create', [
+        return $this->render('add', [
                     'model' => $model,
+        ]); */ //original
+        $model = new \app\models\RegistrationBase();
+        $model->load(Yii::$app->request->post());
+        //$model->setAttribute('crop_id', 1); //same as function above but commented out
+        if ($model->save()) {
+            //return $this->redirect(['view', 'id' => $model->id]); //original
+            return $this->redirect(['/corn/browse/registration']);
+        } else { 
+            return $this->render('add', [
+                        'model' => $model,
+            ]);
+        }
+    }
+
+
+        public function actionRegistration() {
+        \Yii::$app->session->set('curr_page', 'corn-browse-registration');
+        // $query = \app\modules\corn\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");\
+        $searchModel = new \app\modules\corn\models\RegistrationSearch();
+        $phl_no_str = "'(^[0-9]+)'";
+        $phl_no_str2 = "'([^0-9_].*)'";
+
+//        $model = \app\modules\corn\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
+        $query = \app\modules\corn\models\Germplasm::find();//->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
+        $query = $searchModel->search(Yii::$app->request->queryParams,$query);
+
+          $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => ['phl_no' => SORT_ASC],
+                'attributes' => [
+                    'phl_no' => [
+                        'asc' => ["(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})" => SORT_ASC],
+                        'desc' => ["(substring(phl_no, {$phl_no_str}))::int" => SORT_DESC],
+                        'default' => '(substring(phl_no, ' . $phl_no_str . '))::int, substring(phl_no, ' . $phl_no_str2 . ') ASC',
+                    ],
+                    'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'scientific_name', 'count_coll', 'prov', 'acq_date'
+                ]]
+        ]);
+
+        return $this->render('registration', [
+                    // 'model' => $model,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                        // 'columns' => $this->prepareDataProvider($columns),
         ]);
     }
 
     public function actionUpdate($id) {
-        $model = \app\modules\corn\models\Germplasm::findOne($id);
+        $model = \app\modules\corn\models\Germplasm::findOne($id); //original
         $model->load(Yii::$app->request->post());
         //$model->setAttribute('crop_id', 1);
         \ChromePhp::log($model->id);

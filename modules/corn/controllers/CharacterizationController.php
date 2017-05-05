@@ -166,7 +166,7 @@ class CharacterizationController extends Controller {
 
         $g = Yii::$app->request->post();
         \ChromePhp::log();
-        if ((CharacterizationBase::findOne($g['Characterization']['germplasm_id'])) !== null) {
+        if ((CharacterizationBase::findOne($g['Characterization']['germplasm_id'])) != null) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
                 \Yii::$app->getSession()->setFlash('success', 'Successfully updated passport data.');

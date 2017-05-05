@@ -177,8 +177,8 @@ use yii\helpers\Html;
                                 <i class="glyphicon glyphicon-leaf" style='font-size: 50px;'></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">Passport Data</div>
-                                <div>Browse the collection of germplasm on cereals, vegetables, food legumes, feed and industrial crops, medicinal plants, fruits, and in-vitro culture.</div>
+                                <div class="huge">Browse<br>Passport</div>
+
                             </div>
                         </div>
                     </div>
@@ -201,8 +201,8 @@ use yii\helpers\Html;
                                 <i class="glyphicon glyphicon-list" style='font-size: 50px;'></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">Characterization</div>
-                                <div>Browse and search germplasm characteristics.<br><br><br></div>
+                                <div class="huge">Browse Characterization</div>
+                              
                             </div>
                         </div>
                     </div>

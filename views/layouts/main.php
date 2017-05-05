@@ -136,8 +136,14 @@ $baseUrl = $asset->baseUrl;
                             ['label' => 'Home', 'icon' => 'home', 'url' => Url::to(['/site', 'type' => $type]), 'active' => ($item == 'home')],
                             ['label' => 'Cereals', 'items' => [
                                     ['label' => 'Corn', 'items' => [
-                                            ['label' => 'Registration', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
+                                            //['label' => 'Registration', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')], //original
+                                            ['label' => 'Registration Data', 'icon' => 'book', 'items' => [
+                                                    ['label' => '&emsp;&emsp;&emsp;New Registration Entry', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')],
+                                                    ['label' => '&emsp;&emsp;&emsp;Tabular view', 'url' => Url::to(['/corn/browse/registration']), 'active' => ($item == 'corn-registration' )],
+                                                ]
+                                            ],
                                             ['label' => 'Passport Data', 'icon' => 'leaf', 'items' => [
+                                                    ['label' => '&emsp;&emsp;&emsp;New Passport Entry', 'url' => Url::to(['/corn/browse/create']), 'active' => ($item == 'corn-create')],
                                                     ['label' => '&emsp;&emsp;&emsp;Tabular view', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')],
                                                     ['label' => '&emsp;&emsp;&emsp;Grid view', 'url' => Url::to(['/corn/view/index']), 'active' => ($item == 'corn-view')],
                                                     ['label' => '&emsp;&emsp;&emsp;Search', 'url' => Url::to(['/corn/browse/search']), 'active' => ($item == 'corn-search')],
@@ -165,22 +171,26 @@ $baseUrl = $asset->baseUrl;
                                             ],
                                             ['label' => 'Inventory', 'icon' => 'folder-close', 'items' => [
                                                     ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
-                                                    ['label' => '&emsp;&emsp;&emsp;Search', 'url' => "#"],
+                                                 //   ['label' => '&emsp;&emsp;&emsp;Search', 'url' => "#"], //originally uncommented
                                                 ]],
                                             //'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')],
                                             ['label' => 'Withdrawal', 'icon' => 'folder-open', 'items' => [
                                                     ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/withdrawal/withdrawal/index']), 'active' => ($item == 'withdrawal-index')],
-                                                    ['label' => '&emsp;&emsp;&emsp;Moisture Content Determiantion', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
+                                                    ['label' => '&emsp;&emsp;&emsp;Moisture Content Determination', 'url' => Url::to(['/moisturecontent/moisturecontent/index']), 'active' => ($item == 'moisturecontent-index')],
                                                     ['label' => '&emsp;&emsp;&emsp;Viability Testing', 'url' => Url::to(['/viability/viability/index']), 'active' => ($item == 'viability-index')],
+                                                ]],
+                                            ['label' => 'Regeneration', 'icon' => 'tint', 'items' => [
+                                                    ['label' => '&emsp;&emsp;&emsp;List', 'url' => Url::to(['/regeneration/regeneration/index']), 'active' => ($item == 'regeneration-index')],
+                                        
                                                 ]],
                                             ['label' => 'Locations', 'icon' => 'map-marker', 'url' => Url::to(['/corn/locations/index', 'type' => $type]), 'active' => ($item == '')],
 //                                        ['label' => 'Characterization Data', 'icon' => 'list', 'url' => Url::to(['/guest/characterization/tabs']), 'active' => ($item == 'guest-characterization-tabs')],
 //                                        ['label' => 'Search Characterization Data', 'url' => Url::to(['/guest/characterization/search']), 'active' => ($item == 'guest-characterization-search')],
                                         ]],
-                                    ['label' => 'Adlay'],
-                                    ['label' => 'Teosinte'],
-                                    ['label' => 'Millet'],
-                                    ['label' => 'Sorghum']
+                                    // ['label' => 'Adlay'],
+                                    // ['label' => 'Teosinte'],
+                                    // ['label' => 'Millet'],
+                                    // ['label' => 'Sorghum']
                                 ]],
 //                                  
                         ],

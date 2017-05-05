@@ -387,7 +387,7 @@ use kartik\select2\Select2;
                         <?php
                         // echo '<legend>III. Kernel Data</legend>';
                         echo '<div class="col-md-6">';
-                        echo $form->field($model, 'grain_shedding')->label('% Grain shielding');
+                        echo $form->field($model, 'grain_shedding')->label('% Grain shedding');
 
                         echo $form->field($model, 'kernel_type[]')->checkboxList(['Floury' => '1 Floury', 'Semi floury' => '2 Semi floury (morocho), with an external layer of hard endosperm', 'Dent' => '3 Dent', 'Semi-dent' => '4 Semi-dent, intermediate between dent and fint but closer to dent', 'Semi-flint' => '5 Semi-flint, flint with soft cap', 'Flint' => '6 Flint', 'Pop' => '7 Pop', 'Sweet' => '8 Sweet', 'Opaque' => '9 Opaque 2/QPM', 'Tunicate' => '10 Tunicate', 'Waxy' => '11 Waxy']);
 

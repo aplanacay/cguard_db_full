@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 ?>
 <div class="germplasm-base-create">
-<legend>Add Corn Germplasm </legend>
+<legend>Add Corn Germplasm (New Passport)</legend>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [

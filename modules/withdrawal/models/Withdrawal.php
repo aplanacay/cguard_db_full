@@ -109,7 +109,7 @@ class Withdrawal extends \yii\db\ActiveRecord
             'accession_no' => 'Accession No',
             'lot_no' => 'Lot No',
             'seed_ref_no' => 'Withdrawal Ref No',
-            'seed_si_ref_no' => 'Seed Inventory Ref No',
+            'seed_si_ref_no' => '(Inventory) Reference No', //original label = Seed Inventory Ref No
             'date' => 'Date of Withdrawal',
             'amount' => 'Amount',
             'purpose' => 'Purpose',

@@ -1,3 +1,5 @@
+<!-- Table View -->
+
 <?php
 
 use kartik\dynagrid\DynaGrid;
@@ -28,6 +30,7 @@ echo "<div id='search-content-id'></div>";
 ?>
 <legend>Browse Passport Data</legend>
 <?php
+
 //$form->field($model, 'StudName', [
 //    'options' => ['enableAjaxValidation' => false]
 //])->textInput();
@@ -84,7 +87,7 @@ $dynagrid = DynaGrid::begin([
                     'format' => 'html',
                     'value' => function($model) {
                 return '<i>' . $model->scientific_name . '</i>';
-            }
+                 }
                 ],
                 'count_coll',
                 'prov',

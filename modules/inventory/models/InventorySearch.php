@@ -18,8 +18,8 @@ class InventorySearch extends Inventory
     public function rules()
     {
         return [
-            [['accession_no', 'lot_no', 'seedref_no'], 'string'],
-            [['store_location', 'date'], 'safe'],
+            [['accession_no', 'lot_no', 'seedref_no','remarks'], 'string'],
+            [['store_location', 'store_location_base', 'date', 'date_of_harvest'], 'safe'],
             [['packets_active_no', 'packets_base_no', 'seed_weight_active', 'seed_weight_base'], 'number'],
         ];
     }
@@ -65,11 +65,13 @@ class InventorySearch extends Inventory
             'packets_base_no' => $this->packets_base_no,
             'seed_weight_active' => $this->seed_weight_active,
             'seed_weight_base' => $this->seed_weight_base,
+            'date_of_harvest' => $this->date_of_harvest,
             'date' => $this->date,
+            'remarks' => $this->remarks,
         ]);
 
         $query->andFilterWhere(['like', 'store_location', $this->store_location]);
-
+        $query->andFilterWhere(['like', 'store_location_base', $this->store_location_base]);
         return $dataProvider;
     }
 }

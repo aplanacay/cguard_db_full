@@ -18,6 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Withdrawal', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Download MTA', ['download1'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Download SMTA', ['download2'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php
