@@ -16,7 +16,12 @@ Thumbs.db
 /vendor
 
 # composer itself is not needed
-composer.phar
+composer*
+
+# assets except AppAsset and MaterialAsset
+/assets
+! /assets/AppAsset.php
+! /assets/MaterialAsset.php
 
 # Mac DS_Store Files
 .DS_Store

@@ -5,6 +5,7 @@ $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'basic',
+    'name' => 'PCGRID',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii','app\components\Bootstrap',],
     'modules' => [
@@ -98,6 +99,16 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'view' => [
+             'theme' => [
+                 'pathMap' => [
+                    '@app/views' => '@app/views'
+                 ],
+             ],
+        ],
+        'assetManager' => [
+            'linkAssets' => true,
+        ], 
     ],
 //    'as beforeRequest' => [
 //        'class' => 'yii\filters\AccessControl',
@@ -122,7 +133,21 @@ if (YII_ENV_DEV) {
     //$config['modules']['debug'] = 'yii\debug\Module';
 
     $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
+    $config['modules']['gii'] = 
+        [
+            'class' => 'yii\gii\Module',
+            'generators' => 
+            [ //here
+                'crud' => 
+                [
+                    'class' => 'yii\gii\generators\crud\Generator',
+                    'templates' => 
+                        [
+                            'adminlte' => '@vendor/dmstr/yii2-adminlte-asset/gii/templates/crud/simple',
+                        ]
+                ]
+            ],
+        ];
 }
 
 return $config;

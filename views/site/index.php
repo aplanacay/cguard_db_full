@@ -5,6 +5,14 @@ $this->title = 'CGUARD';
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use lo\widgets\SlimScroll;
+?>
+
+<?= SlimScroll::widget([
+  'options'=>[
+    'height'=>'500px'
+  ]
+]); 
 ?>
 
 <header id="myCarousel" class="carousel slide" data-ride="carousel">

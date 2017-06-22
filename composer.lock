@@ -4,14 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "hash": "618a4d15391a15268def941620e1fee4",
-    "content-hash": "f7140a08d2edb7e875f9e603e068062d",
-=======
-    "hash": "53f6d8ac33cfac11b2401a3fd76834c2",
-    "content-hash": "036c73e8ece0baffb3a10edef954d83d",
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
+    "content-hash": "15190b95af0b8326ed94d3d53445d875",
     "packages": [
+        {
+            "name": "almasaeed2010/adminlte",
+            "version": "v2.3.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/almasaeed2010/AdminLTE.git",
+                "reference": "2be703222af2edcb87e562d3da2299e4352bff8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/2be703222af2edcb87e562d3da2299e4352bff8a",
+                "reference": "2be703222af2edcb87e562d3da2299e4352bff8a",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abdullah Almsaeed",
+                    "email": "abdullah@almsaeedstudio.com"
+                }
+            ],
+            "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 3",
+            "homepage": "http://almsaeedstudio.com/",
+            "keywords": [
+                "JS",
+                "admin",
+                "back-end",
+                "css",
+                "less",
+                "responsive",
+                "template",
+                "theme",
+                "web"
+            ],
+            "time": "2017-01-08T21:03:57+00:00"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.4",
@@ -109,6 +143,47 @@
             ]
         },
         {
+            "name": "bower-asset/jquery-slimscroll",
+            "version": "v1.3.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rochal/jQuery-slimScroll.git",
+                "reference": "cf39d364e777ef95574c30c42d3b85cb2bf325d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rochal/jQuery-slimScroll/zipball/cf39d364e777ef95574c30c42d3b85cb2bf325d3",
+                "reference": "cf39d364e777ef95574c30c42d3b85cb2bf325d3",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "jquery.slimscroll.js",
+                    "jquery.slimscroll.min.js"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ]
+            },
+            "description": "slimScroll is a small jQuery plugin that transforms any div into a scrollable area. slimScroll doesn't occupy any visual space as it only appears on a user initiated mouse-over.",
+            "keywords": [
+                "ecosystem:jquery",
+                "jquery-plugin",
+                "scroll",
+                "scrollable",
+                "scrollbar",
+                "scroller",
+                "scrolling",
+                "slimscroll",
+                "ui"
+            ]
+        },
+        {
             "name": "bower-asset/jquery.inputmask",
             "version": "3.1.63",
             "source": {
@@ -190,7 +265,6 @@
         },
         {
             "name": "bower-asset/yii2-pjax",
-<<<<<<< HEAD
             "version": "v2.0.5",
             "source": {
                 "type": "git",
@@ -201,18 +275,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/6818718408086db6bdcf33649cecb86b6b4f9b67",
                 "reference": "6818718408086db6bdcf33649cecb86b6b4f9b67",
-=======
-            "version": "v2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "3f20897307cca046fca5323b318475ae9dac0ca0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/3f20897307cca046fca5323b318475ae9dac0ca0",
-                "reference": "3f20897307cca046fca5323b318475ae9dac0ca0",
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
                 "shasum": ""
             },
             "require": {
@@ -275,7 +337,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2013-06-26 03:44:33"
+            "time": "2013-06-26T03:44:33+00:00"
         },
         {
             "name": "cebe/markdown",
@@ -335,7 +397,110 @@
                 "markdown",
                 "markdown-extra"
             ],
-            "time": "2015-03-06 05:28:07"
+            "time": "2015-03-06T05:28:07+00:00"
+        },
+        {
+            "name": "cebe/yii2-gravatar",
+            "version": "1.1",
+            "target-dir": "cebe/gravatar",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cebe/yii2-gravatar.git",
+                "reference": "c9c01bd14c9bdee9e5ae1ef1aad23f80c182c057"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cebe/yii2-gravatar/zipball/c9c01bd14c9bdee9e5ae1ef1aad23f80c182c057",
+                "reference": "c9c01bd14c9bdee9e5ae1ef1aad23f80c182c057",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-0": {
+                    "cebe\\gravatar\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carsten Brandt",
+                    "email": "mail@cebe.cc",
+                    "homepage": "http://cebe.cc/",
+                    "role": "Core framework development"
+                }
+            ],
+            "description": "Gravatar Widget for Yii 2",
+            "keywords": [
+                "gravatar",
+                "yii"
+            ],
+            "time": "2013-12-10T17:49:58+00:00"
+        },
+        {
+            "name": "dmstr/yii2-adminlte-asset",
+            "version": "2.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmstr/yii2-adminlte-asset.git",
+                "reference": "b339611f9f34621d731d3feca3a83b42720c7d5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmstr/yii2-adminlte-asset/zipball/b339611f9f34621d731d3feca3a83b42720c7d5c",
+                "reference": "b339611f9f34621d731d3feca3a83b42720c7d5c",
+                "shasum": ""
+            },
+            "require": {
+                "almasaeed2010/adminlte": "~2.0",
+                "cebe/yii2-gravatar": "1.*",
+                "rmrevin/yii2-fontawesome": "~2.9",
+                "yiisoft/yii2": "2.*",
+                "yiisoft/yii2-bootstrap": "2.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dmstr\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Tobias Munk",
+                    "email": "tobias@diemeisterei.de"
+                },
+                {
+                    "name": "Evgeniy Tkachenko",
+                    "email": "et.coder@gmail.com"
+                }
+            ],
+            "description": "AdminLTE backend theme asset bundle for Yii 2.0 Framework",
+            "keywords": [
+                "AdminLTE",
+                "admin",
+                "asset",
+                "backend",
+                "css",
+                "extension",
+                "less",
+                "theme",
+                "yii2"
+            ],
+            "time": "2017-03-30T09:04:16+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -379,7 +544,55 @@
             "keywords": [
                 "html"
             ],
-            "time": "2013-11-30 08:25:19"
+            "time": "2013-11-30T08:25:19+00:00"
+        },
+        {
+            "name": "fortawesome/font-awesome",
+            "version": "v4.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "reference": "a8386aae19e200ddb0f6845b5feeee5eb7013687",
+                "shasum": ""
+            },
+            "require-dev": {
+                "jekyll": "1.0.2",
+                "lessc": "1.4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.6.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OFL-1.1",
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dave Gandy",
+                    "email": "dave@fontawesome.io",
+                    "homepage": "http://twitter.com/davegandy",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The iconic font and CSS framework",
+            "homepage": "http://fontawesome.io/",
+            "keywords": [
+                "FontAwesome",
+                "awesome",
+                "bootstrap",
+                "font",
+                "icon"
+            ],
+            "time": "2016-10-24T15:52:54+00:00"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -432,7 +645,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-02-28 02:23:49"
+            "time": "2016-02-28T02:23:49+00:00"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
@@ -476,7 +689,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2015-03-18 13:08:39"
+            "time": "2015-03-18T13:08:39+00:00"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -520,7 +733,7 @@
                 "star",
                 "svg"
             ],
-            "time": "2016-02-28 16:13:18"
+            "time": "2016-02-28T16:13:18+00:00"
         },
         {
             "name": "kartik-v/bootstrap-tabs-x",
@@ -564,7 +777,7 @@
                 "tabs",
                 "tabs-x"
             ],
-            "time": "2015-06-26 14:48:16"
+            "time": "2015-06-26T14:48:16+00:00"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -606,7 +819,7 @@
                 "option",
                 "select"
             ],
-            "time": "2015-12-16 18:15:01"
+            "time": "2015-12-16T18:15:01+00:00"
         },
         {
             "name": "kartik-v/yii2-detail-view",
@@ -654,12 +867,11 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-11 06:02:49"
+            "time": "2016-01-11T06:02:49+00:00"
         },
         {
             "name": "kartik-v/yii2-dynagrid",
             "version": "v1.4.4",
-<<<<<<< HEAD
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-dynagrid.git",
@@ -710,7 +922,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-08-04 15:22:13"
+            "time": "2015-08-04T15:22:13+00:00"
         },
         {
             "name": "kartik-v/yii2-editable",
@@ -758,13 +970,11 @@
                 "popover-x",
                 "widget"
             ],
-            "time": "2015-12-27 16:31:06"
+            "time": "2015-12-27T16:31:06+00:00"
         },
         {
             "name": "kartik-v/yii2-export",
             "version": "v1.2.5",
-=======
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-export.git",
@@ -819,7 +1029,7 @@
                 "xlsx",
                 "yii2"
             ],
-            "time": "2016-04-18 16:54:14"
+            "time": "2016-04-18T16:54:14+00:00"
         },
         {
             "name": "kartik-v/yii2-field-range",
@@ -870,62 +1080,10 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-25 08:52:00"
-        },
-        {
-            "name": "kartik-v/yii2-field-range",
-            "version": "v1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/yii2-field-range.git",
-                "reference": "095d260eecb86ff2e78a70775011cec00a75df98"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-field-range/zipball/095d260eecb86ff2e78a70775011cec00a75df98",
-                "reference": "095d260eecb86ff2e78a70775011cec00a75df98",
-                "shasum": ""
-            },
-            "require": {
-                "kartik-v/yii2-krajee-base": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "kartik\\field\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD 3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Kartik Visweswaran",
-                    "email": "kartikv2@gmail.com",
-                    "homepage": "http://www.krajee.com/"
-                }
-            ],
-            "description": "Easily manage Yii 2 ActiveField ranges (from/to) with Bootstrap 3 addons markup and more",
-            "homepage": "https://github.com/kartik-v/yii2-field-range",
-            "keywords": [
-                "addon",
-                "bootstrap",
-                "bootstrap 3",
-                "date",
-                "extension",
-                "field-range",
-                "from",
-                "range",
-                "to",
-                "widget",
-                "yii2"
-            ],
-            "time": "2014-11-25 08:52:00"
+            "time": "2014-11-25T08:52:00+00:00"
         },
         {
             "name": "kartik-v/yii2-grid",
-<<<<<<< HEAD
             "version": "dev-master",
             "source": {
                 "type": "git",
@@ -936,18 +1094,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/0de680803dbe09baab83b03f1f13037bd19fa4a4",
                 "reference": "0de680803dbe09baab83b03f1f13037bd19fa4a4",
-=======
-            "version": "v3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "fe29bcf8f46bde42aa3eb067851b38dc07cd4d8a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/fe29bcf8f46bde42aa3eb067851b38dc07cd4d8a",
-                "reference": "fe29bcf8f46bde42aa3eb067851b38dc07cd4d8a",
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
                 "shasum": ""
             },
             "require": {
@@ -983,11 +1129,7 @@
                 "widget",
                 "yii2"
             ],
-<<<<<<< HEAD
             "time": "2016-06-09 10:21:32"
-=======
-            "time": "2016-04-09 20:31:20"
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -1033,7 +1175,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2015-12-12 18:47:11"
+            "time": "2015-12-12T18:47:11+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -1084,8 +1226,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-05-07 19:45:52"
-<<<<<<< HEAD
+            "time": "2016-05-07T19:45:52+00:00"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -1138,8 +1279,6 @@
                 "yii2"
             ],
             "time": "2016-04-09 18:17:46"
-=======
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
         },
         {
             "name": "kartik-v/yii2-popover-x",
@@ -1187,7 +1326,7 @@
                 "popover",
                 "popover-x"
             ],
-            "time": "2016-01-12 16:59:09"
+            "time": "2016-01-12T16:59:09+00:00"
         },
         {
             "name": "kartik-v/yii2-sortable",
@@ -1234,7 +1373,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-06-17 17:34:48"
+            "time": "2015-06-17T17:34:48+00:00"
         },
         {
             "name": "kartik-v/yii2-sortable-input",
@@ -1330,7 +1469,7 @@
                 "tabs",
                 "tabs-x"
             ],
-            "time": "2016-01-12 07:59:30"
+            "time": "2016-01-12T07:59:30+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -1377,7 +1516,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-12-11 19:07:50"
+            "time": "2015-12-11T19:07:50+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-affix",
@@ -1426,7 +1565,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-09 04:56:27"
+            "time": "2014-11-09T04:56:27+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-alert",
@@ -1476,7 +1615,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-19 06:44:12"
+            "time": "2014-11-19T06:44:12+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-colorinput",
@@ -1530,7 +1669,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-14 11:15:49"
+            "time": "2016-01-14T11:15:49+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-datepicker",
@@ -1633,7 +1772,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 12:18:38"
+            "time": "2016-01-10T12:18:38+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-depdrop",
@@ -1682,7 +1821,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 17:30:48"
+            "time": "2016-01-10T17:30:48+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-fileinput",
@@ -1732,7 +1871,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 16:10:58"
+            "time": "2016-01-10T16:10:58+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-growl",
@@ -1781,7 +1920,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-05-03 08:23:04"
+            "time": "2015-05-03T08:23:04+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-rangeinput",
@@ -1830,7 +1969,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-11-22 06:52:44"
+            "time": "2015-11-22T06:52:44+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-rating",
@@ -1886,7 +2025,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-17 19:13:26"
+            "time": "2016-02-17T19:13:26+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -1939,7 +2078,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-02-17 11:49:30"
+            "time": "2016-02-17T11:49:30+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -1988,7 +2127,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-09 08:07:23"
+            "time": "2014-11-09T08:07:23+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-spinner",
@@ -2036,7 +2175,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-09 05:02:05"
+            "time": "2014-11-09T05:02:05+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-switchinput",
@@ -2086,7 +2225,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 16:47:35"
+            "time": "2016-01-10T16:47:35+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-timepicker",
@@ -2135,7 +2274,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-12 09:50:39"
+            "time": "2016-01-12T09:50:39+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-touchspin",
@@ -2185,7 +2324,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-01-10 17:10:39"
+            "time": "2016-01-10T17:10:39+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-typeahead",
@@ -2233,7 +2372,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-06-28 18:05:41"
+            "time": "2015-06-28T18:05:41+00:00"
         },
         {
             "name": "kartik-v/yii2-widgets",
@@ -2295,14 +2434,58 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-09 19:54:17"
+            "time": "2014-11-09T19:54:17+00:00"
+        },
+        {
+            "name": "loveorigami/yii2-slimscroll-widget",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loveorigami/yii2-slimscroll-widget.git",
+                "reference": "76c9599376be496e0a671658962dcedd74aacb8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/loveorigami/yii2-slimscroll-widget/zipball/76c9599376be496e0a671658962dcedd74aacb8a",
+                "reference": "76c9599376be496e0a671658962dcedd74aacb8a",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery-slimscroll": "^1.3",
+                "yiisoft/yii2": "2.0.*"
+            },
+            "require-dev": {
+                "yiisoft/yii2-debug": "2.0.*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "lo\\widgets\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Lukyanov",
+                    "email": "loveorigami@mail.ru"
+                }
+            ],
+            "description": "Yii2 slimscroll widget",
+            "keywords": [
+                "slimscroll",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-08-26T17:09:42+00:00"
         },
         {
             "name": "mpdf/mpdf",
             "version": "v6.1.1",
             "source": {
                 "type": "git",
-<<<<<<< HEAD
                 "url": "https://github.com/mpdf/mpdf.git",
                 "reference": "9116f8b28e86d1eaf858d1a4623d26a910441672"
             },
@@ -2310,15 +2493,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/mpdf/mpdf/zipball/9116f8b28e86d1eaf858d1a4623d26a910441672",
                 "reference": "9116f8b28e86d1eaf858d1a4623d26a910441672",
-=======
-                "url": "https://github.com/PHPOffice/PHPExcel.git",
-                "reference": "fcc5c6585574054bd2dce530d5fb3f5da745bc49"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/fcc5c6585574054bd2dce530d5fb3f5da745bc49",
-                "reference": "fcc5c6585574054bd2dce530d5fb3f5da745bc49",
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
                 "shasum": ""
             },
             "require": {
@@ -2327,7 +2501,6 @@
                 "setasign/fpdi": "1.6.*"
             },
             "require-dev": {
-<<<<<<< HEAD
                 "phpunit/phpunit": "^4.7"
             },
             "suggest": {
@@ -2357,7 +2530,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2016-04-28 18:19:01"
+            "time": "2016-04-28T18:19:01+00:00"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -2379,11 +2552,6 @@
                 "php": ">=5.2.0"
             },
             "type": "library",
-=======
-                "squizlabs/php_codesniffer": "2.*"
-            },
-            "type": "library",
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
             "autoload": {
                 "psr-0": {
                     "PHPExcel": "Classes/"
@@ -2419,11 +2587,7 @@
                 "xls",
                 "xlsx"
             ],
-<<<<<<< HEAD
-            "time": "2015-05-01 07:00:55"
-=======
-            "time": "2016-06-05 15:48:23"
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
+            "time": "2015-05-01T07:00:55+00:00"
         },
         {
             "name": "raveren/kint",
@@ -2474,7 +2638,60 @@
                 "kint",
                 "php"
             ],
-            "time": "2015-09-16 14:09:00"
+            "abandoned": "kint-php/kint",
+            "time": "2015-09-16T14:09:00+00:00"
+        },
+        {
+            "name": "rmrevin/yii2-fontawesome",
+            "version": "2.17.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmrevin/yii2-fontawesome.git",
+                "reference": "65ce306da864f4d558348aeba040ed7876878090"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmrevin/yii2-fontawesome/zipball/65ce306da864f4d558348aeba040ed7876878090",
+                "reference": "65ce306da864f4d558348aeba040ed7876878090",
+                "shasum": ""
+            },
+            "require": {
+                "fortawesome/font-awesome": "~4.7",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "2.0.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "rmrevin\\yii\\fontawesome\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Revin Roman",
+                    "email": "roman@rmrevin.com",
+                    "homepage": "https://rmrevin.com/"
+                }
+            ],
+            "description": "Asset Bundle for Yii2 with Font Awesome",
+            "keywords": [
+                "asset",
+                "awesome",
+                "bundle",
+                "font",
+                "yii"
+            ],
+            "time": "2017-01-11T14:05:47+00:00"
         },
         {
             "name": "setasign/fpdi",
@@ -2523,7 +2740,7 @@
                 "fpdi",
                 "pdf"
             ],
-            "time": "2015-11-30 10:53:14"
+            "time": "2015-11-30T10:53:14+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2576,7 +2793,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-05-01 08:45:47"
+            "time": "2016-05-01T08:45:47+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -2664,7 +2881,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-08-05 22:00:30"
+            "time": "2015-08-05T22:00:30+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2714,7 +2931,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2016-03-17 03:29:28"
+            "time": "2016-03-17T03:29:28+00:00"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -2761,7 +2978,7 @@
                 "extension installer",
                 "yii2"
             ],
-            "time": "2016-02-06 00:49:24"
+            "time": "2016-02-06T00:49:24+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -2811,10 +3028,63 @@
                 "swiftmailer",
                 "yii2"
             ],
-            "time": "2016-03-17 03:58:49"
+            "time": "2016-03-17T03:58:49+00:00"
         }
     ],
     "packages-dev": [
+        {
+            "name": "bower-asset/bootstrap3-dialog",
+            "version": "v1.35.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nakupanda/bootstrap3-dialog.git",
+                "reference": "3dd11d586f78de75356af418907ec6e3b347377c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nakupanda/bootstrap3-dialog/zipball/3dd11d586f78de75356af418907ec6e3b347377c",
+                "reference": "3dd11d586f78de75356af418907ec6e3b347377c",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=3.1.0",
+                "bower-asset/jquery": ">=1.9.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/less/bootstrap-dialog.less",
+                    "dist/css/bootstrap-dialog.min.css",
+                    "dist/js/bootstrap-dialog.min.js"
+                ],
+                "bower-asset-ignore": [
+                    "source",
+                    "spec",
+                    ".bowerrc",
+                    ".gitignore",
+                    ".jshintignore",
+                    ".jshintrc",
+                    "bower.json",
+                    "gruntfile.js",
+                    "package.json",
+                    "README.md"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Make use of Bootstrap Modal more monkey-friendly. http://nakupanda.github.io/bootstrap3-dialog/",
+            "keywords": [
+                "css",
+                "framework",
+                "front-end",
+                "js",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
+            ]
+        },
         {
             "name": "bower-asset/typeahead.js",
             "version": "v0.10.5",
@@ -2888,7 +3158,59 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-04-29 12:21:54"
+            "time": "2016-04-29T12:21:54+00:00"
+        },
+        {
+            "name": "kartik-v/yii2-dialog",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-dialog.git",
+                "reference": "4aaf8918c6dbd90218b6ad9036b1aae211480716"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-dialog/zipball/4aaf8918c6dbd90218b6ad9036b1aae211480716",
+                "reference": "4aaf8918c6dbd90218b6ad9036b1aae211480716",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap3-dialog": "~1.34",
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\dialog\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An asset bundle for bootstrap3-dialog for Yii 2.0 framework.",
+            "homepage": "https://github.com/kartik-v/yii2-dialog",
+            "keywords": [
+                "alert",
+                "bootstrap",
+                "dialog",
+                "extension",
+                "modal",
+                "yii2"
+            ],
+            "time": "2016-09-13T18:15:26+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -2926,7 +3248,7 @@
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2016-04-07 12:29:16"
+            "time": "2016-04-07T12:29:16+00:00"
         },
         {
             "name": "yiisoft/yii2-codeception",
@@ -2971,7 +3293,8 @@
                 "codeception",
                 "yii2"
             ],
-            "time": "2016-03-17 03:41:26"
+            "abandoned": "codeception/codeception",
+            "time": "2016-03-17T03:41:26+00:00"
         },
         {
             "name": "yiisoft/yii2-debug",
@@ -3018,7 +3341,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2016-03-17 03:50:19"
+            "time": "2016-03-17T03:50:19+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -3065,7 +3388,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2015-03-01 06:22:44"
+            "time": "2015-03-01T06:22:44+00:00"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -3118,21 +3441,16 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-03-18 14:09:46"
+            "time": "2016-03-18T14:09:46+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/yii2-sortable-input": 20,
-<<<<<<< HEAD
         "kartik-v/yii2-widget-datepicker": 20,
         "kartik-v/yii2-mpdf": 20,
         "kartik-v/yii2-grid": 20
-=======
-        "phpoffice/phpexcel": 20,
-        "kartik-v/yii2-widget-datepicker": 20
->>>>>>> 85c63d095894e6e051e11cc9950f4a74b69906ce
     },
     "prefer-stable": false,
     "prefer-lowest": false,
