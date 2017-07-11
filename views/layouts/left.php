@@ -51,21 +51,21 @@ use yii\helpers\Url;
                     /**
                     * 2
                     */
-                    ['label' => 'Cereals', 'icon' => '', 'items' => 
+                    ['label' => 'Cereals', 'icon' => 'toggle-down', 'items' => 
                         [
                             /**
                             * 2.1
                             */
-                            ['label' => 'Corn', 'items' => 
+                            ['label' => 'Corn', 'icon' => 'toggle-down', 'items' => 
                                 [
                                     /**
                                     * 2.1.1
                                     */
                                     ['label' => 'Registration Data', 'icon' => 'book', 'items' => 
                                         [
-                                            ['label' => 'New Registration Entry', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')
+                                            ['label' => 'New Registration Entry', 'icon' => 'plus', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')
                                             ],
-                                            ['label' => 'Tabular view', 'url' => Url::to(['/corn/browse/registration']), 'active' => ($item == 'corn-registration' )
+                                            ['label' => 'Tabular view', 'icon' => 'table', 'url' => Url::to(['/corn/browse/registration']), 'active' => ($item == 'corn-registration' )
                                             ],
                                         ]
                                     ],
@@ -73,15 +73,15 @@ use yii\helpers\Url;
                                     * 2.1.2
                                     */
                                     ['label' => 'Passport Data', 'icon' => 'leaf', 'items' =>[
-                                            ['label' => 'New Passport Entry', 'url' => Url::to(['/corn/browse/create']), 'active' => ($item == 'corn-create')
+                                            ['label' => 'New Passport Entry', 'icon' => 'plus', 'url' => Url::to(['/corn/browse/create']), 'active' => ($item == 'corn-create')
                                             ],
-                                            ['label' => 'Tabular view', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')
+                                            ['label' => 'Tabular view', 'icon' => 'table', 'url' => Url::to(['/corn/browse/index']), 'active' => ($item == 'corn-browse')
                                             ],
-                                            ['label' => 'Grid view', 'url' => Url::to(['/corn/view/index']), 'active' => ($item == 'corn-view')
+                                            ['label' => 'Grid view', 'icon' => 'table', 'url' => Url::to(['/corn/view/index']), 'active' => ($item == 'corn-view')
                                             ],
-                                            ['label' => 'Search', 'url' => Url::to(['/corn/browse/search']), 'active' => ($item == 'corn-search')
+                                            ['label' => 'Search', 'icon' => 'search', 'url' => Url::to(['/corn/browse/search']), 'active' => ($item == 'corn-search')
                                             ],
-                                            ['label' => 'Import File', 'url' => Url::to(['/corn/upload/index']), 'active' => ($item == 'corn-import')
+                                            ['label' => 'Import File', 'icon' => 'upload', 'url' => Url::to(['/corn/upload/index']), 'active' => ($item == 'corn-import')
                                             ],
                                         ]
                                     ],
@@ -90,13 +90,13 @@ use yii\helpers\Url;
                                     */
                                     ['label' => 'Characterization Data', 'icon' => 'list', 'items' => 
                                         [
-                                            ['label' => 'Tabular view', 'url' => Url::to(['/corn/characterization/index']), 'active' => ($item === 'corn-characterization-browse' )
+                                            ['label' => 'Tabular view', 'icon' => 'table', 'url' => Url::to(['/corn/characterization/index']), 'active' => ($item === 'corn-characterization-browse' )
                                             ],
-                                            ['label' => 'Grid view', 'url' => Url::to(['/corn/characterization/tabs']), 'active' => ( $item === 'corn-characterization-tabs')
+                                            ['label' => 'Grid view', 'icon' => 'table', 'url' => Url::to(['/corn/characterization/tabs']), 'active' => ( $item === 'corn-characterization-tabs')
                                             ],
-                                            ['label' => 'Search', 'url' => Url::to(['/corn/characterization/search']), 'active' => ($item === 'corn-characterization-search')
+                                            ['label' => 'Search', 'icon' => 'search', 'url' => Url::to(['/corn/characterization/search']), 'active' => ($item === 'corn-characterization-search')
                                             ],
-                                            ['label' => 'Import File', 'url' => Url::to(['/corn/characterization/upload']), 'active' => ($item == 'corn-characterization-import')
+                                            ['label' => 'Import File', 'icon' => 'upload', 'url' => Url::to(['/corn/characterization/upload']), 'active' => ($item == 'corn-characterization-import')
                                             ],     
                                         ] 
                                     ],    
@@ -105,22 +105,22 @@ use yii\helpers\Url;
                                     */     
                                     ['label' => 'Evaluation', 'icon' => 'check', 'items' => 
                                         [
-                                            ['label' => 'Tabular view', 'url' => Url::to(['/corn/browse/evaluation-browse']), 'active' => ($item === 'corn-evaluation-browse' )
+                                            ['label' => 'Tabular view', 'icon' => 'table', 'url' => Url::to(['/corn/browse/evaluation-browse']), 'active' => ($item === 'corn-evaluation-browse' )
                                             ],
-                                            ['label' => 'Grid view', 'url' => Url::to(['/corn/view/evaluation']), 'active' => ($item === 'corn-evaluation' )
+                                            ['label' => 'Grid view', 'icon' => 'table', 'url' => Url::to(['/corn/view/evaluation']), 'active' => ($item === 'corn-evaluation' )
                                             ],
-                                            ['label' => 'Search', 'url' => Url::to(['/corn/browse/evaluation-search']), 'active' => ($item === 'corn-evaluation-search')
+                                            ['label' => 'Search', 'icon' => 'search', 'url' => Url::to(['/corn/browse/evaluation-search']), 'active' => ($item === 'corn-evaluation-search')
                                             ],
-                                            ['label' => 'Import File', 'url' => Url::to(['/corn/characterization/upload']), 'active' => ($item == 'corn-characterization-import')
+                                            ['label' => 'Import File', 'icon' => 'upload', 'url' => Url::to(['/corn/characterization/upload']), 'active' => ($item == 'corn-characterization-import')
                                             ],
                                         ]
                                     ],
                                     /**
                                     * 2.1.5
                                     */
-                                    ['label' => 'Inventory', 'icon' => 'fa fa fa-search', 'items' => 
+                                    ['label' => 'Inventory', 'icon' => 'folder-open', 'items' => 
                                         [
-                                            ['label' => 'List', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')
+                                            ['label' => 'List', 'icon' => 'list', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')
                                             ],
                                         ]
                                     ],

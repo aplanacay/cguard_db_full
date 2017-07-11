@@ -128,7 +128,7 @@ use yii\bootstrap\ActiveForm;
     <?php
     echo '<div class="col-md-4">';
 
-    echo $form->field($model, 'phl_no');
+    //echo $form->field($model, 'phl_no');
     echo $form->field($model, 'variety_name');
 
 

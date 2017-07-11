@@ -332,8 +332,11 @@ class BrowseController extends Controller {
         \Yii::$app->session->set('curr_page', 'corn-browse-registration');
         // $query = \app\modules\corn\models\Germplasm::find()->orderBy( "(substring(phl_no,"."'^[0-9]+'"."))::int".",substring(phl_no,"."'[^0-9_].*$'".")");\
         $searchModel = new \app\modules\corn\models\RegistrationSearch();
-        $phl_no_str = "'(^[0-9]+)'";
-        $phl_no_str2 = "'([^0-9_].*)'";
+        /*$phl_no_str = "'(^[0-9]+)'";
+        $phl_no_str2 = "'([^0-9_].*)'";*/
+
+        $apn_no_str = "'(^[0-9]+)'";
+        $apn_no_str2 = "'([^0-9_].*)'";
 
 //        $model = \app\modules\corn\models\GermplasmAttribute::find()->select('distinct(germplasm_attribute.variable_id)');
         $query = \app\modules\corn\models\Germplasm::find();//->select(['germplasm.*'])->groupBy('phl_no,id')->orderBy( "(substring(phl_no, {$phl_no_str}))::int, substring(phl_no, {$phl_no_str2})");
@@ -341,7 +344,7 @@ class BrowseController extends Controller {
 
           $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
+            /*'sort' => [
                 'defaultOrder' => ['phl_no' => SORT_ASC],
                 'attributes' => [
                     'phl_no' => [
@@ -350,6 +353,16 @@ class BrowseController extends Controller {
                         'default' => '(substring(phl_no, ' . $phl_no_str . '))::int, substring(phl_no, ' . $phl_no_str2 . ') ASC',
                     ],
                     'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'scientific_name', 'count_coll', 'prov', 'acq_date'
+                ]]*/
+            'sort' => [
+                'defaultOrder' => ['apn_no' => SORT_ASC],
+                'attributes' => [
+                    'apn_no' => [
+                        'asc' => ["(substring(apn_no, {$apn_no_str}))::int, substring(apn_no, {$apn_no_str2})" => SORT_ASC],
+                        'desc' => ["(substring(apn_no, {$apn_no_str}))::int" => SORT_DESC],
+                        'default' => '(substring(apn_no, ' . $apn_no_str . '))::int, substring(apn_no, ' . $apn_no_str2 . ') ASC',
+                    ],
+                    /*'old_acc_no', 'gb_no', 'collecting_no', 'variety_name', 'scientific_name', 'count_coll', 'prov', 'acq_date'*/
                 ]]
         ]);
 

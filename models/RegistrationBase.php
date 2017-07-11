@@ -62,9 +62,10 @@ class RegistrationBase extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['phl_no', 'old_acc_no', 'gb_no', 'collecting_no', 'other_number', 'variety_name', 'scientific_name', 'count_coll', 'prov', 'acq_date'], 'string'],
-            [['phl_no', 'old_acc_no', 'gb_no',], 'required'],
-
+            /*[['phl_no', 'old_acc_no', 'gb_no', 'collecting_no', 'other_number', 'variety_name', 'scientific_name', 'count_coll', 'prov', 'acq_date'], 'string'],
+            [['phl_no', 'old_acc_no', 'gb_no',], 'required'],*/
+            [['cguard_no', 'region_no', 'region_name', 'province', 'variety', 'date_received', 'sample_type', 'remarks', 'apn_no'], 'string'],
+            [['cguard_no', 'apn_no'], 'required'],
         ];
     }
 
@@ -73,17 +74,28 @@ class RegistrationBase extends \yii\db\ActiveRecord {
      */
     public function attributeLabels() {
         return [
-            'id' => 'ID',
-            'phl_no' => 'Phl No',
-            'other_number' => 'Other Number',
-            'old_acc_no' => 'Old Acc No',
-            'gb_no' => 'Gb No',
-            'collecting_no' => 'Collecting No',
-            'variety_name' => 'Local/Variety Name',
-            'scientific_name' => 'Scientific Name',
-            'count_coll' => 'Country',
-            'prov' => 'Province',
-            'acq_date' => 'Acq Date',
+            // 'id' => 'ID',
+            // 'phl_no' => 'Phl No',
+            // 'other_number' => 'Other Number',
+            // 'old_acc_no' => 'Old Acc No',
+            // 'gb_no' => 'Gb No',
+            // 'collecting_no' => 'Collecting No',
+            // 'variety_name' => 'Local/Variety Name',
+            // 'scientific_name' => 'Scientific Name',
+            // 'count_coll' => 'Country',
+            // 'prov' => 'Province',
+            // 'acq_date' => 'Acq Date',
+
+            'reg_id' => 'ID',
+            'cguard_no' => 'CGUARD #',
+            'region_no' => 'Region #',
+            'region_name' => 'Region',
+            'province' => 'Province',
+            'variety' => 'Variety',
+            'date_received' => 'Date Received',
+            'sample_type' => 'Sample Type',
+            'remarks' => 'Remarks',
+            'apn_no' => 'APN #'
         ];
     }
 

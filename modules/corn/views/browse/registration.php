@@ -66,7 +66,7 @@ $dynagrid = DynaGrid::begin([
                     'deleteOptions' => ['title' => 'Delete record', 'data-toggle' => 'tooltip'],
                     'order' => \kartik\dynagrid\DynaGrid::ORDER_FIX_LEFT],
 //            'id',
-                'phl_no',
+                // 'phl_no',
 //            'creator_id',
 //            'creation_timestamp',
 //            'modifier_id',
@@ -75,21 +75,31 @@ $dynagrid = DynaGrid::begin([
                 // 'Notes:ntext',
                 // 'is_void:boolean',
                 // 'crop_id',
-                'old_acc_no',
-                'gb_no',
-                'collecting_no',
-                'other_number',
-                'variety_name',
-                [
-                    'attribute' => 'scientific_name',
-                    'format' => 'html',
-                    'value' => function($model) {
-                return '<i>' . $model->scientific_name . '</i>';
-                 }
-                ],
-                'count_coll',
-                'prov',
-                'acq_date',
+                // 'old_acc_no',
+                // 'gb_no',
+                // 'collecting_no',
+                // 'other_number',
+                // 'variety_name',
+                // [
+                //     'attribute' => 'scientific_name',
+                //     'format' => 'html',
+                //     'value' => function($model) {
+                // return '<i>' . $model->scientific_name . '</i>';
+                //  }
+                // ],
+                // 'count_coll',
+                // 'prov',
+                // 'acq_date',
+                'reg_id',
+                'cguard_no',
+                'region_no',
+                'region_name',
+                'province',
+                'variety',
+                'date_received',
+                'sample_type',
+                'remarks',
+                'apn_no'
             ],
             'theme' => 'panel-success',
             'showPersonalize' => true,

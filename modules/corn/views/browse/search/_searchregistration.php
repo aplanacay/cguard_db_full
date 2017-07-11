@@ -128,17 +128,25 @@ use yii\bootstrap\ActiveForm;
     <?php
     echo '<div class="col-md-4">';
 
-    echo $form->field($model, 'phl_no');
-    echo $form->field($model, 'variety_name');
+    // echo $form->field($model, 'phl_no');
+    // echo $form->field($model, 'variety_name');
 
 
-    echo '</div><div class="col-md-4">';
-    echo $form->field($model, 'gb_no');
+    // echo '</div><div class="col-md-4">';
+    // echo $form->field($model, 'gb_no');
 
-    echo $form->field($model, 'scientific_name');
-    echo '</div><div class="col-md-4">';
-    echo $form->field($model, 'old_acc_no')->label('Old Acc No');
-    echo $form->field($model, 'other_number')->label('Other No');
+    // echo $form->field($model, 'scientific_name');
+    // echo '</div><div class="col-md-4">';
+    // echo $form->field($model, 'old_acc_no')->label('Old Acc No');
+    // echo $form->field($model, 'other_number')->label('Other No');
+
+    echo $form->field($model, 'cguard_no');
+    echo $form->field($model, 'region_no');
+    echo $form->field($model, 'apn_no');
+   /* echo $form->field($model, '');
+    echo $form->field($model, '');
+    echo $form->field($model, '');
+    echo $form->field($model, '');*/
     echo '</div>';
     ?>
 </div>
@@ -151,9 +159,9 @@ echo '<div class="col-md-4">';
 
 //echo $form->field($model, 'grower');
 
-echo $form->field($model, 'count_coll');
+// echo $form->field($model, 'count_coll');
 
-echo $form->field($model, 'prov');
+// echo $form->field($model, 'prov');
 //
 //echo $form->field($model, 'town');
 //
@@ -161,8 +169,8 @@ echo $form->field($model, 'prov');
 
 //echo $form->field($model, 'sitio');
 
-echo $form->field($model, 'acq_date');
-echo $form->field($model, 'collecting_no');
+// echo $form->field($model, 'acq_date');
+// echo $form->field($model, 'collecting_no');
 echo Html::submitButton('Search', ['class' => 'btn btn-success']);
 echo Html::resetButton('Reset', ['class' => 'btn btn-default']);
 echo '</div><div class="col-md-4">';
