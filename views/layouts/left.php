@@ -63,9 +63,9 @@ use yii\helpers\Url;
                                     */
                                     ['label' => 'Registration Data', 'icon' => 'book', 'items' => 
                                         [
-                                            ['label' => 'New Registration Entry', 'icon' => 'plus', 'url' => Url::to(['/corn/browse/add']), 'active' => ($item == 'corn-add')
+                                            ['label' => 'New Registration Entry', 'icon' => 'plus', 'url' => Url::to(['/corn/registration/create']), 'active' => ($item == 'corn-add')
                                             ],
-                                            ['label' => 'Tabular view', 'icon' => 'table', 'url' => Url::to(['/corn/browse/registration']), 'active' => ($item == 'corn-registration' )
+                                            ['label' => 'Tabular view', 'icon' => 'table', 'url' => Url::to(['/corn/registration/index']), 'active' => ($item == 'corn-registration' )
                                             ],
                                         ]
                                     ],

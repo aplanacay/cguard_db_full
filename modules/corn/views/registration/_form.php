@@ -10,20 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="registration-form">
 
-    <?php $form = ActiveForm::begin([
-                // 'layout' => 'horizontal',
-                'fieldConfig' => [
-                    //'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-                    /*'horizontalCssClasses' => [
-                        ['label' => 'col-sm-6',
-                            'offset' => 'col-sm-offset-4',
-                            'wrapper' => 'col-sm-6',
-                            'error' => '',
-                            'hint' => '',
-                        ],
-                    ],*/
-                ],
-    ]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'cguard_no')->textInput() ?>
 
