@@ -18,8 +18,8 @@ class InventorySearch extends Inventory
     public function rules()
     {
         return [
-            [['accession_no', 'lot_no'], 'integer'],
-            [['store_location', 'date', 'seedref_no', 'store_location_base', 'remarks', 'date_of_harvest'], 'safe'],
+            [['accession_no', 'lot_no', 'seedref_no','remarks'], 'string'],
+            [['store_location', 'store_location_base', 'date', 'date_of_harvest'], 'safe'],
             [['packets_active_no', 'packets_base_no', 'seed_weight_active', 'seed_weight_base'], 'number'],
         ];
     }
@@ -44,10 +44,9 @@ class InventorySearch extends Inventory
     {
         $query = Inventory::find();
 
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['seedref_no','accession_no']],
         ]);
 
         $this->load($params);
@@ -58,23 +57,21 @@ class InventorySearch extends Inventory
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
+            'seedref_no' => $this->seedref_no,
             'accession_no' => $this->accession_no,
+            'lot_no' => $this->lot_no,
             'packets_active_no' => $this->packets_active_no,
             'packets_base_no' => $this->packets_base_no,
             'seed_weight_active' => $this->seed_weight_active,
             'seed_weight_base' => $this->seed_weight_base,
-            'date' => $this->date,
-            'lot_no' => $this->lot_no,
             'date_of_harvest' => $this->date_of_harvest,
+            'date' => $this->date,
+            'remarks' => $this->remarks,
         ]);
 
-        $query->andFilterWhere(['like', 'store_location', $this->store_location])
-            ->andFilterWhere(['like', 'seedref_no', $this->seedref_no])
-            ->andFilterWhere(['like', 'store_location_base', $this->store_location_base])
-            ->andFilterWhere(['like', 'remarks', $this->remarks]);
-
+        $query->andFilterWhere(['like', 'store_location', $this->store_location]);
+        $query->andFilterWhere(['like', 'store_location_base', $this->store_location_base]);
         return $dataProvider;
     }
 }

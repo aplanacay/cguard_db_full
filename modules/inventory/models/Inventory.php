@@ -8,12 +8,19 @@ use Yii;
  * This is the model class for table "master.inventory".
  *
  * @property integer $accession_no
- * @property integer $lot_no
  * @property string $store_location
  * @property string $packets_active_no
  * @property string $packets_base_no
  * @property string $seed_weight_active
  * @property string $seed_weight_base
+ * @property string $date
+ * @property string $seedref_no
+ * @property integer $lot_no
+ * @property string $store_location_base
+ * @property string $remarks
+ * @property string $date_of_harvest
+ *
+ * @property CatalogRegistration $accessionNo
  */
 class Inventory extends \yii\db\ActiveRecord
 {
@@ -31,13 +38,11 @@ class Inventory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['accession_no','store_location','store_location_base','remarks'], 'string'],
-            [['seedref_no'], 'unique'],
+            [['accession_no'], 'integer'],
+            [['store_location', 'seedref_no', 'store_location_base', 'remarks'], 'string'],
             [['packets_active_no', 'packets_base_no', 'seed_weight_active', 'seed_weight_base'], 'number'],
-            [['date', 'date_of_harvest', 'seedref_no'], 'safe'],
-            [['accession_no', 'store_location', 'packets_active_no', 'packets_base_no', 'seed_weight_active', 'seed_weight_base', 'date', 'seedref_no'], 'required'],
-            //['packets_active_no', 'compare', 'compareValue' => 0, 'operator' => '>'],
-            //['packets_base_no', 'compare', 'compareValue' => 0, 'operator' => '>'],
+            [['date', 'date_of_harvest'], 'safe'],
+            [['accession_no'], 'exist', 'skipOnError' => true, 'targetClass' => '\app\modules\corn\models\Registration::className()', 'targetAttribute' => ['accession_no' => 'reg_id']],
         ];
     }
 
@@ -47,32 +52,26 @@ class Inventory extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'accession_no' => 'ACCESSION NO',
-            'lot_no' => 'LOT NO',
-            'store_location' => 'STORE LOCATION',
-            'store_location_base' => 'STORE LOCATION - BASE',
-            'packets_active_no' => 'NUMBER OF PACKETS - ACTIVE',
-            'packets_base_no' => 'NUMBER OF PACKETS - BASE',
-            'seed_weight_active' => 'ESTIMATED SEED WEIGHT - ACTIVE',
-            'seed_weight_base' => 'ESTIMATED SEED WEIGHT - BASE',
-            'date_of_harvest' => 'DATE OF HARVEST',
-            'date' => 'DATE OF STORAGE',
-            'seedref_no' => 'REFERENCE NO',
-            'remarks' => 'REMARKS'
+            'accession_no' => 'Accession No',
+            'store_location' => 'Store Location',
+            'packets_active_no' => 'Packets Active No',
+            'packets_base_no' => 'Packets Base No',
+            'seed_weight_active' => 'Seed Weight Active',
+            'seed_weight_base' => 'Seed Weight Base',
+            'date' => 'Date',
+            'seedref_no' => 'Seedref No',
+            'lot_no' => 'Lot No',
+            'store_location_base' => 'Store Location Base',
+            'remarks' => 'Remarks',
+            'date_of_harvest' => 'Date Of Harvest',
         ];
     }
 
-    /*public function beforeSave($insert){
-        if (parent::beforeSave($insert)) {
-            if ($this->isNewRecord) {
-                $this->total_active = $this->packets_active_no*35;
-                $this->total_base = $this->packets_base_no*35;
-                return true;
-            }else{
-                return true;
-            }
-        }
-        return false;
-    }*/
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccessionNo()
+    {
+        return $this->hasOne('\app\modules\corn\models\Registration::className()', ['reg_id' => 'accession_no']);
+    }
 }

@@ -25,6 +25,9 @@ $config = [
         'characterizationData' => [
             'class' => 'app\modules\characterizationData\GermplasmModule',
         ],
+        'inventory' => [
+            'class' => 'app\modules\inventory\InventoryModule',
+        ],
         'gridview' => [
             'class' => '\kartik\grid\Module',
         // enter optional module parameters below - only if you need to  

@@ -120,7 +120,7 @@ use yii\helpers\Url;
                                     */
                                     ['label' => 'Inventory', 'icon' => 'folder-open', 'items' => 
                                         [
-                                            ['label' => 'List', 'icon' => 'list', 'url' => Url::to(['/inventory/inventory/index']), 'active' => ($item == 'inventory-index')
+                                            ['label' => 'List', 'icon' => 'list', 'url' => Url::to(['/inventory/browse']), 'active' => ($item == 'inventory-index')
                                             ],
                                         ]
                                     ],

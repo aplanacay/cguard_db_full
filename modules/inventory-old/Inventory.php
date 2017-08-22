@@ -2,19 +2,10 @@
 
 namespace app\modules\inventory;
 
-/**
- * inventory module definition class
- */
 class Inventory extends \yii\base\Module
 {
-    /**
-     * @inheritdoc
-     */
     public $controllerNamespace = 'app\modules\inventory\controllers';
 
-    /**
-     * @inheritdoc
-     */
     public function init()
     {
         parent::init();

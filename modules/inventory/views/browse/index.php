@@ -4,20 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\corn\models\RegistrationSearch */
+/* @var $searchModel app\modules\inventory\models\InventorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Registration';
+$this->title = 'Inventories';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="registration-index">
+<div class="inventory-index">
 
     <!-- <h1><?= Html::encode($this->title) ?></h1> -->
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Registration', ['create'], ['class' => 'btn btn-success']) ?>
-
+        <?= Html::a('Add to Inventory', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -25,16 +24,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'reg_id',
-            'cguard_no',
-            'region_no',
-            'region_name',
-            'province',
-            // 'variety',
-            // 'date_received',
-            // 'sample_type',
-            // 'remarks',
-            // 'apn_no',
+            'accession_no',
+            'store_location',
+            'packets_active_no',
+            'packets_base_no',
+            'seed_weight_active',
+            // 'seed_weight_base',
+            // 'date',
+            // 'seedref_no',
+            // 'lot_no',
+            // 'store_location_base',
+            // 'remarks:ntext',
+            // 'date_of_harvest',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
