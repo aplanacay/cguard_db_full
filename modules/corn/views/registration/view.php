@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?= Html::a('Add to Inventory', ['addToInventory'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Add to Inventory', ['addtoinventory'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= DetailView::widget([

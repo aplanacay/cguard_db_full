@@ -83,7 +83,7 @@ class RegistrationController extends Controller
      * There must be exisiting seeds in the storage to add an entry in the inventory table.
      * @return mixed
      */
-    public function actionAddToInventory()
+    public function actionAddtoinventory()
     {
         $inventoryModel = new Inventory();
 
@@ -93,7 +93,7 @@ class RegistrationController extends Controller
         if ($inventoryModel->load(Yii::$app->request->post()) && $inventoryModel->save()) {
             return $this->redirect(['view', 'id' => $inventoryModel->lot_no]);
         } else {
-            return $this->render('app/inventory/browse/create', [
+            return $this->render('/app/inventory/browse/create', [
                 'inventoryModel' => $inventoryModel,
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,

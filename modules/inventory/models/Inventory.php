@@ -70,8 +70,8 @@ class Inventory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAccessionNo()
-    {
-        return $this->hasOne('\app\modules\corn\models\Registration::className()', ['reg_id' => 'accession_no']);
-    }
+    // public function getAccessionNo()
+    // {
+    //     return $this->hasOne('\app\modules\corn\models\Registration::className()', ['reg_id' => 'accession_no']);
+    // }
 }

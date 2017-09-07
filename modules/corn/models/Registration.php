@@ -56,4 +56,12 @@ class Registration extends \yii\db\ActiveRecord
             'apn_no' => 'Apn No',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    // public function getInventory()
+    // {
+    //     return $this->hasMany(Inventory::className(), ['accession_no' => 'reg_id']);
+    // }
 }

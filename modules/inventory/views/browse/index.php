@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\modules\inventory\models\InventorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Inventories';
+$this->title = 'Inventory';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="inventory-index">
@@ -24,15 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'accession_no',
+            //'accession_no',
+            'lot_no',
             'store_location',
             'packets_active_no',
             'packets_base_no',
             'seed_weight_active',
-            // 'seed_weight_base',
+            'seed_weight_base',
             // 'date',
             // 'seedref_no',
-            // 'lot_no',
             // 'store_location_base',
             // 'remarks:ntext',
             // 'date_of_harvest',
