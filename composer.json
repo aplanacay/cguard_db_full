@@ -12,9 +12,14 @@
         "irc": "irc://irc.freenode.net/yii",
         "source": "https://github.com/yiisoft/yii2"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.0",
+
+        "yidas/yii2-bower-asset": "~2.0.5",
+        "yiisoft/yii2": "~2.0.5",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
@@ -33,11 +38,13 @@
         "kartik-v/yii2-krajee-base": "~1.7",
         "kartik-v/yii2-helpers": "~1.3",
         "kartik-v/yii2-widget-activeform": "~1.4",
+
+        "phpoffice/phpexcel": "^1.8.0",
+
         "kartik-v/yii2-export": "*",
         "kartik-v/yii2-mpdf": "dev-master",
         "kartik-v/yii2-grid": "@dev",
-        "dmstr/yii2-adminlte-asset": "2.*",
-        "loveorigami/yii2-slimscroll-widget": "*"
+        "dmstr/yii2-adminlte-asset": "2.*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

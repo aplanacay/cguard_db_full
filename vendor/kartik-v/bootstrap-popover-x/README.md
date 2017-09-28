@@ -1,17 +1,16 @@
 bootstrap-popover-x
 =====================
 
-Bootstrap Popover Extended - Popover with modal behavior, styling enhancements and more. This plugin is inspired by [BootstrapModalPopover](http://scruffles.github.io/BootstrapModalPopover/) 
-for Bootstrap 2.x. This plugin enhances and simplifies these concepts for Bootstrap 3.x, and incorporates various additional styling options.
+Bootstrap Popover Extended - Popover with modal behavior, multiple placements, automatic placements, ability to load content dynamically, and more other styling enhancements. The plugin enhances the styles for Bootstrap 3.x, and incorporates various additional styling options. This plugin was originally inspired by [BootstrapModalPopover](http://scruffles.github.io/BootstrapModalPopover/) for Bootstrap 2.x, and has been significantly enhanced for Bootstrap 3.x and includes various new features.
 
-> NOTE: The latest version of the plugin v1.4.1 has been released. Refer the [CHANGE LOG](https://github.com/kartik-v/bootstrap-popover-x/blob/master/CHANGE.md) for details.
+> NOTE: The latest version of the plugin v1.4.5 has been released. From release v1.4.5, Bootstrap 4.x framework is also supported along with Bootstrap 3.x. Refer the [CHANGE LOG](https://github.com/kartik-v/bootstrap-popover-x/blob/master/CHANGE.md) for details.
 
 ## Features  
 
 The plugin offers these enhanced features:
 
 - The extended popover can be rendered just like a bootstrap modal dialog with the bootstrap popover styling. Since the plugin extends the bootstrap modal,
-  all features of the [bootstrap modal](http://getbootstrap.com/javascript/#modals) and its methods are also available.
+  all features of the [bootstrap modal](https://getbootstrap.com/docs/4.0/components/modal/) and its methods are also available.
 - Adds a popover footer along with header. Configuration of the HTML content for the popover is much easier, just like a bootstrap modal.
 - Specially styles and spaces out bootstrap buttons added in popover footer. 
 - Add a close icon/button to a popover window.
@@ -30,8 +29,19 @@ The plugin offers these enhanced features:
     - left left-bottom
     - right right-top
     - right right-bottom
+    - auto
+    - auto-top
+    - auto-right
+    - auto-bottom
+    - auto-left
+    - horizontal
+    - vertical
 - Specially style the popover arrow to be consistent for each contextual color and popover placement.
 - Prebuilt CSS styles for controlling appearance and sizes of the popovers
+- Ability to initialize and set popovers via javascript using the <code>PopoverButton</code> plugin.
+- Auto placement functionality that allows the popover to be placed automatically based on scroll and device screen dimensions. Various automatic placement options are available like `auto`, `auto-top`, `auto-right`, `auto-bottom`, `auto-left`, `horizontal`, and `vertical`.
+- Allow scrolling of the page with popover displayed (unlike bootstrap modal).
+- Styling enhancements for popover to not overlay but stay behind the bootstrap navbar.
 
 ## Demo
 
@@ -39,7 +49,7 @@ View the [plugin documentation](http://plugins.krajee.com/popover-x) and [plugin
 
 ## Pre-requisites  
 
-1. [Bootstrap 3.x](http://getbootstrap.com/) (Requires bootstrap `modal.js`)
+1. [Bootstrap 4.x or 3.x](http://getbootstrap.com/) (Requires bootstrap `modal.js`)
 2. Latest [JQuery](http://jquery.com/)
 3. Most browsers supporting CSS3 & JQuery. 
 
@@ -72,10 +82,16 @@ You can also manually install the plugin easily to your project. Just download t
 You must first load the following assets in your header. 
 
 ```html
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- bootstrap 4.x is supported. You can also use the bootstrap css 3.3.x versions -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
 <link href="path/to/css/bootstrap-popover-x.min.css" media="all" rel="stylesheet" type="text/css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- popper.min.js below is needed if you use bootstrap 4.x. You can also use the bootstrap js 
+   3.3.x versions without popper.min.js. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<!-- bootstrap.min.js below is needed for modal dialog dependency. bootstrap 4.x is supported. 
+   You can also use the bootstrap js 3.3.x versions. -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="path/to/js/bootstrap-popover-x.min.js" type="text/javascript"></script>
 ```
 
@@ -92,10 +108,10 @@ to target a specific popover to toggle.
 
 ```html
 <button class="btn btn-primary btn-lg" data-toggle="popover-x" data-target="#myPopover1" data-placement="top">Top</button>
-<div id="myPopover1" class="popover popover-default">
+<div id="myPopover1" class="popover popover-x popover-default">
     <div class="arrow"></div>
-    <h3 class="popover-title"><span class="close" data-dismiss="popover-x">&times;</span>Title</h3>
-    <div class="popover-content">
+    <h3 class="popover-header popover-title"><span class="close" data-dismiss="popover-x">&times;</span>Title</h3>
+    <div class="popover-body popover-content">
         <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
     </div>
 </div>
@@ -103,92 +119,29 @@ to target a specific popover to toggle.
 
 ### Option 2: Via javascript
 
-Alternatively, you can initialize the popover manually on your page via javascript.
+Alternatively, you can initialize the popover manually on your page via javascript using the `PopoverButton` plugin. This feature is typically useful when  dynamically rendering content and dynamically enabling an element to trigger the popover.
 
-```js
-$('#myPopover1').popoverX(options);
-```
-
-## Documentation
-
-### Plugin Options
-
-The plugin supports all options that are supported by the [bootstrap modal](http://getbootstrap.com/javascript/#modals). The following options are important for the `bootstrap-popover-x` plugin:
-
-#### placement
-_string_, the positioning of the popover with respect to the initialized element/button. It can be one of `left`, `right`, `top`, `bottom`. 
-Defaults to `right`.
-
-#### keyboard
-_boolean_, when set to `true`, it closes the popover when escape key is pressed. Defaults to `true`.
-
-#### show
-_boolean_, shows the popover when initialized. Defaults to `true`.
-
-#### useOffsetForPos
-_boolean_, use the offset method instead of position method to get the popover position. Defaults to `false`.
-
-### Plugin Events
-The plugin supports these events:
-
-#### click.target.popoverX
-This event is fired when the popover target button is clicked to open the popover dialog.
-
-#### load.complete.popoverX
-This event is fired when the popover has loaded content using the remote option.
-
-#### keyup.target.popoverX
-This event is fired when the escape key is pressed to hide the popover.
-
-#### show.bs.modal
-This event fires immediately when the `show` instance method is called. If caused by a click, 
-the clicked element is available as the `relatedTarget` property of the event.
-
-#### shown.bs.modal
-This event is fired when the popover has been made visible to the user (will wait for CSS transitions to complete). 
-If caused by a click, the clicked element is available as the `relatedTarget` property of the event.
-
-#### hide.bs.modal
-This event is fired immediately when the `hide` instance method has been called.
-
-#### hidden.bs.modal
-This event is fired when the popover has finished being hidden from the user (will wait for CSS transitions to complete).
-
-**Example:**
-```js
-$('#myPopover1').on('hidden.bs.modal', function (e) {
-    // do something...
+```html
+<-- for example with the following button markup and using the same popover content markup above -->
+<button id="#btn1" class="btn btn-primary btn-lg">Top</button>
+<script>
+$(document).on('ready', function() {
+    // initialize popover on click of `#btn1`
+    $('#btn1').popoverButton({
+        target: '#myPopover1'
+    });
+    // or alternatively initialize popover on hover of `#btn1`
+    $('#btn1').popoverButton({
+        target: '#myPopover1',
+        trigger: 'hover focus'
+    });
 });
+</script>
 ```
 
-### Plugin Methods
-The plugin supports these methods:
+## Documentation and Demo
 
-#### toggle
-Manually toggles a popover. Returns to the caller before the popover has actually been shown or hidden 
-(i.e. before the `shown.bs.modal` or `hidden.bs.modal` event occurs).
-
-```js
-$('#myPopover1').popoverX('toggle')
-```
-
-#### refreshPosition
-Refresh the position of the popover via javascript based on the popover dimensions and placement.
-```js
-$('#myPopover1').popoverX('refreshPosition')
-```
-
-#### show
-Manually opens a popover. Returns to the caller before the modal has actually been shown (i.e. before the `shown.bs.modal` event occurs).
-```js
-$('#myPopover1').popoverX('show')
-```
-
-#### hide
-Manually hides a popover. Returns to the caller before the modal has actually been hidden (i.e. before the `hidden.bs.modal` event occurs).
-```js
-$('#myPopover1').popoverX('hide')
-```
+View the [plugin documentation](http://plugins.krajee.com/popover-x) and [plugin demos](http://plugins.krajee.com/popover-x/demo) at Krajee JQuery plugins. 
 
 ## License
 

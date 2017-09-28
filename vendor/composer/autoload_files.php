@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-    '2c102faa651ef8ea5874edb585946bce' => $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
-    '6bc45d0537e6858fd179bdbc31d62c79' => $vendorDir . '/raveren/kint/Kint.class.php',
+    $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+    $vendorDir . '/paragonie/random_compat/lib/random.php',
+    $vendorDir . '/mpdf/mpdf/src/functions.php',
+    $vendorDir . '/swiftmailer/swiftmailer/lib/swift_required.php',
+    $vendorDir . '/raveren/kint/Kint.class.php',
 );

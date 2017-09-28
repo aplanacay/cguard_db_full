@@ -3,8 +3,8 @@
 /**
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
- * @version   1.4.4
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
+ * @version   1.4.6
  */
 
 namespace kartik\dynagrid\models;
@@ -25,15 +25,56 @@ use kartik\dynagrid\DynaGridStore;
  */
 class DynaGridSettings extends Model
 {
-    public $id;
+    /**
+     * @var string the identifier the dynagrid detail
+     */
+    public $settingsId;
+
+    /**
+     * @var string the dynagrid category (FILTER or SORT)
+     */
     public $category;
+
+    /**
+     * @var string the dynagrid detail storage type
+     */
     public $storage;
+
+    /**
+     * @var boolean whether the storage is user specific
+     */
     public $userSpecific;
+
+    /**
+     * @var boolean whether to update only the name, when editing and saving a filter or sort. This is applicable
+     * only for [[$storage]] set to [[Dynagrid::TYPE_DB]]. If set to `false`, it will also overwrite the current 
+     * `filter` or `sort` settings.
+     */
+    public $dbUpdateNameOnly = false;
+
+    /**
+     * @var string the dynagrid detail setting name
+     */
     public $name;
+
+    /**
+     * @var string the dynagrid widget id identifier
+     */
     public $dynaGridId;
-    public $editId;
+
+    /**
+     * @var string the key for the dynagrid category (FILTER or SORT)
+     */
     public $key;
+
+    /**
+     * @var array the available list of values data for the specified dynagrid detail category (FILTER or SORT)
+     */
     public $data;
+
+    /**
+     * @var Module the dynagrid module instance
+     */
     protected $_module;
 
     /**
@@ -51,7 +92,7 @@ class DynaGridSettings extends Model
     public function rules()
     {
         return [
-            [['id', 'category', 'storage', 'userSpecific', 'name', 'dynaGridId', 'editId', 'key', 'data'], 'safe'],
+            [['category', 'storage', 'userSpecific', 'dbUpdateNameOnly', 'name', 'dynaGridId', 'settingsId', 'key', 'data'], 'safe'],
             [['name'], 'required'],
         ];
     }
@@ -64,16 +105,17 @@ class DynaGridSettings extends Model
         if ($this->category === DynaGridStore::STORE_FILTER) {
             return [
                 'name' => Yii::t('kvdynagrid', 'Filter Name'),
-                'editId' => Yii::t('kvdynagrid', 'Saved Filters'),
+                'settingsId' => Yii::t('kvdynagrid', 'Saved Filters'),
                 'dataConfig' => Yii::t('kvdynagrid', 'Filter Configuration'),
             ];
         } elseif ($this->category === DynaGridStore::STORE_SORT) {
             return [
                 'name' => Yii::t('kvdynagrid', 'Sort Name'),
-                'editId' => Yii::t('kvdynagrid', 'Saved Sorts'),
+                'settingsId' => Yii::t('kvdynagrid', 'Saved Sorts'),
                 'dataConfig' => Yii::t('kvdynagrid', 'Sort Configuration'),
             ];
         }
+        return [];
     }
 
     /**
@@ -88,10 +130,11 @@ class DynaGridSettings extends Model
             'name' => $this->name,
             'category' => $this->category,
             'storage' => $this->storage,
-            'userSpecific' => $this->userSpecific
+            'userSpecific' => $this->userSpecific,
+            'dbUpdateNameOnly' => $this->dbUpdateNameOnly
         ];
-        if (isset($this->id) && !empty($this->id)) {
-            $settings['dtlKey'] = $this->id;
+        if (!empty($this->settingsId)) {
+            $settings['dtlKey'] = $this->settingsId;
         }
         return new DynaGridStore($settings);
     }
@@ -103,7 +146,7 @@ class DynaGridSettings extends Model
      */
     public function fetchSettings()
     {
-        return $this->store->fetch();
+        return $this->getStore()->fetch();
     }
 
     /**
@@ -111,14 +154,11 @@ class DynaGridSettings extends Model
      */
     public function saveSettings()
     {
-        $this->store->save($this->data);
+        $this->getStore()->save($this->data);
     }
 
     /**
      * Deletes grid configuration settings from store
-     *
-     * @return void
-     * @throws \yii\base\InvalidConfigException
      */
     public function deleteSettings()
     {
@@ -126,26 +166,32 @@ class DynaGridSettings extends Model
             'id' => $this->dynaGridId,
             'category' => DynaGridStore::STORE_GRID,
             'storage' => $this->storage,
-            'userSpecific' => $this->userSpecific
+            'userSpecific' => $this->userSpecific,
+            'dbUpdateNameOnly' => $this->dbUpdateNameOnly
         ]);
         $config = $this->storage == DynaGrid::TYPE_DB ? null : $master->fetch();
         $master->deleteConfig($this->category, $config);
-        $this->store->delete();
-    }
-
-    public function getDtlList()
-    {
-        return $this->store->getDtlList($this->category);
+        $this->getStore()->delete();
     }
 
     /**
-     * Gets data configuration
+     * Gets list of values (for filter or sort category)
+     *
+     * @return mixed
+     */
+    public function getDtlList()
+    {
+        return $this->getStore()->getDtlList($this->category);
+    }
+
+    /**
+     * Gets data configuration as a HTML list markup
      *
      * @return string
      */
     public function getDataConfig()
     {
-        $data = $this->store->fetch();
+        $data = $this->getStore()->fetch();
         if (!is_array($data) || empty($data) &&
             ($this->category !== DynaGridStore::STORE_SORT && $this->category !== DynaGridStore::STORE_SORT)
         ) {
@@ -156,18 +202,60 @@ class DynaGridSettings extends Model
         if ($this->category === DynaGridStore::STORE_FILTER) {
             foreach ($data as $attribute => $value) {
                 $label = isset($attribute['label']) ? $attribute['label'] : Inflector::camel2words($attribute);
+                $value = is_array($value) ? print_r($value, true) : $value;
                 $out .= "<li>{$label} = {$value}</li>";
             }
         } else {
             foreach ($data as $attribute => $direction) {
                 $label = isset($attribute['label']) ? $attribute['label'] : Inflector::camel2words($attribute);
                 $icon = $direction === SORT_DESC ? "glyphicon glyphicon-sort-by-alphabet-alt" : "glyphicon glyphicon-sort-by-alphabet";
-                $dir = $direction === SORT_DESC ? Yii::t('kvdynagrid', 'descending') : Yii::t('kvdynagrid',
-                    'ascending');
+                $dir = $direction === SORT_DESC ? Yii::t('kvdynagrid', 'descending') : Yii::t('kvdynagrid', 'ascending');
                 $out .= "<li>{$label} <span class='{$icon}'></span> <span class='label label-default'>{$dir}</span></li>";
             }
         }
         $out .= "</ul>";
         return $out;
+    }
+
+    /**
+     * Gets a hashed signature for specific attribute data passed between server and client
+     *
+     * @param array $attribs the list of attributes whose data is to be hashed
+     * @return string the hashed signature output
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getHashSignature($attribs = [])
+    {
+        $salt = $this->_module->configEncryptSalt;
+        $out = '';
+        if (empty($attribs)) {
+            $attribs = ['dynaGridId', 'category', 'storage', 'userSpecific', 'dbUpdateOnly'];
+        }
+        foreach ($attribs as $key => $attr) {
+            if (isset($this->$attr)) {
+                $out .= $attr === 'userSpecific' || $attr === 'dbUpdateOnly' ? !!$this->$attr : $this->$attr;
+            }
+        }
+        return Yii::$app->security->hashData($out, $salt);
+    }
+
+    /**
+     * Validate signature of the hashed data submitted via hidden fields from the filter/sort update form
+     *
+     * @param string $hashData the hashed data to match
+     * @param array $attribs the list of attributes against which data hashed is to be validated
+     *
+     * @return boolean|string returns true if valid else the validation error message
+     */
+    public function validateSignature($hashData = '', $attribs = [])
+    {
+        $salt = $this->_module->configEncryptSalt;
+        $origHash = $this->getHashSignature($attribs);
+        $params = YII_DEBUG ? '<pre>OLD HASH:<br>' . $origHash . '<br>NEW HASH:<br>' . $hashData . '</pre>' : '';
+        return (Yii::$app->security->validateData($hashData, $salt) && $hashData === $origHash) ? true : Yii::t(
+            'kvdynagrid',
+            'Operation disallowed! Invalid request signature detected for dynagrid settings. {params}',
+            ['params' => $params]
+        );
     }
 }

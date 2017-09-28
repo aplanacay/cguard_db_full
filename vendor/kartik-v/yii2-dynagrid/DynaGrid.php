@@ -3,48 +3,69 @@
 /**
  * @package   yii2-dynagrid
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
- * @version   1.4.4
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
+ * @version   1.4.6
  */
 
 namespace kartik\dynagrid;
 
-use Yii;
 use kartik\base\Config;
 use kartik\dynagrid\models\DynaGridConfig;
 use kartik\dynagrid\models\DynaGridSettings;
-use kartik\grid\CheckboxColumn;
 use kartik\grid\GridView;
-use kartik\sortable\Sortable;
-use yii\base\Model;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Inflector;
-use yii\helpers\Url;
-use yii\web\JsExpression;
-use yii\helpers\Json;
-use yii\helpers\Html;
+use kartik\dialog\Dialog;
+use Yii;
 use yii\base\InvalidConfigException;
-use yii\web\Cookie;
+use yii\base\Model;
+use yii\base\Widget;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\data\DataProviderInterface;
 use yii\data\Sort;
+use yii\data\SqlDataProvider;
+use yii\db\ActiveQuery;
+use yii\db\ActiveQueryInterface;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\helpers\Inflector;
+use yii\helpers\Json;
 
 /**
- * Enhance GridView by allowing you to dynamically edit grid configuration. The dynagrid
- * allows you to set your own grid theme, pagesize, and column order/display settings.
- * The widget allows you to manage the order and visibility of columns dynamically
- * at runtime. It also allows you to save this configuration or retrieve the saved
- * configuration to/from session, cookie, or database.
+ * Enhance GridView by allowing you to dynamically edit grid configuration. The dynagrid allows you to set your own grid
+ * theme, pagesize, and column order/display settings. The widget allows you to manage the order and visibility of
+ * columns dynamically at runtime. It also allows you to save this configuration or retrieve the saved configuration
+ * to/from session, cookie, or database.
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class DynaGrid extends \yii\base\Widget
+class DynaGrid extends Widget
 {
-    const TYPE_SESSION = 'session';
-    const TYPE_COOKIE = 'cookie';
-    const TYPE_DB = 'db';
+    use DynaGridTrait;
 
+    /**
+     * Session storage
+     */
+    const TYPE_SESSION = 'session';
+    /**
+     * Cookie storage
+     */
+    const TYPE_COOKIE = 'cookie';
+    /**
+     * Database storage
+     */
+    const TYPE_DB = 'db';
+    /**
+     * Fix column to the left
+     */
     const ORDER_FIX_LEFT = 'fixleft';
+    /**
+     * Fix column to the right
+     */
     const ORDER_FIX_RIGHT = 'fixright';
+    /**
+     * Fix column to the middle
+     */
     const ORDER_MIDDLE = 'middle';
 
     /**
@@ -66,6 +87,13 @@ class DynaGrid extends \yii\base\Widget
      * @var boolean whether settings are stored specific to each user
      */
     public $userSpecific;
+
+    /**
+     * @var boolean whether to update only the name, when editing and saving a filter or sort. This is applicable
+     * only for [[$storage]] set to [[Dynagrid::TYPE_DB]]. If set to `false`, it will also overwrite the current 
+     * `filter` or `sort` settings.
+     */
+    public $dbUpdateNameOnly = false;
 
     /**
      * @var boolean whether to show the personalize button group. Defaults to `true`.
@@ -108,32 +136,30 @@ class DynaGrid extends \yii\base\Widget
     public $allowSortSetting = true;
 
     /**
-     * @var array widget options for \kartik\widgets\GridView that will be rendered
-     * by the DynaGrid widget
+     * @var array widget options for \kartik\widgets\GridView that will be rendered by the DynaGrid widget
      */
     public $gridOptions;
 
     /**
-     * @var bool whether the DynaGrid configuration button class should match
-     * the grid panel style.
+     * @var boolean whether the DynaGrid configuration button class should match the grid panel style.
      */
     public $matchPanelStyle;
 
     /**
-     * @var array the HTML attributes for the dynagrid personalize toggle button which will
-     * render the DynaGrid configuration form within a Bootstrap Modal container.
+     * @var array the HTML attributes for the dynagrid personalize toggle button which will render the DynaGrid
+     * configuration form within a Bootstrap Modal container.
      */
     public $toggleButtonGrid;
 
     /**
-     * @var array the HTML attributes for the filter configuration button which will
-     * render the Filter settings form within a Bootstrap Modal container.
+     * @var array the HTML attributes for the filter configuration button which will render the Filter settings form
+     * within a Bootstrap Modal container.
      */
     public $toggleButtonFilter;
 
     /**
-     * @var array the HTML attributes for the sort configuration button which will
-     * render the Sort settings form within a Bootstrap Modal container.
+     * @var array the HTML attributes for the sort configuration button which will render the Sort settings form
+     * within a Bootstrap Modal container.
      */
     public $toggleButtonSort;
 
@@ -158,8 +184,8 @@ class DynaGrid extends \yii\base\Widget
     public $columns;
 
     /**
-     * @var string the message to display after applying and submitting the configuration and
-     * until refreshed grid is reloaded
+     * @var string the message to display after applying and submitting the configuration and until refreshed grid is
+     * reloaded
      */
     public $submitMessage;
 
@@ -180,29 +206,36 @@ class DynaGrid extends \yii\base\Widget
     public $deleteConfirmation;
 
     /**
+     * @var array configuration settings for the Krajee dialog widget that will be used to render alerts and
+     * confirmation dialog prompts
+     * @see http://demos.krajee.com/dialog
+     */
+    public $krajeeDialogSettings = [];
+
+    /**
      * @var array the HTML attributes for the save/apply action button. If this is set to `false`, it will not be
-     *     displayed. The following special variables are supported:
-     * - `icon`: string the glyphicon class suffix for the button. Defaults to `save`.
-     * - `label`: string the label for the action button. Defaults to empty string.
-     * - `title`: string the title for the action button. Defaults to `Save grid settings`.
+     * displayed. The following special variables are supported:
+     * - `icon`: _string_, the glyphicon class suffix for the button. Defaults to `save`.
+     * - `label`: _string_, the label for the action button. Defaults to empty string.
+     * - `title`: _string_, the title for the action button. Defaults to `Save grid settings`.
      */
     public $submitButtonOptions = [];
 
     /**
      * @var array|boolean the HTML attributes for the reset action button. If this is set to `false`, it will not be
-     *     displayed. The following special variables are supported:
-     * - `icon`: string the glyphicon class suffix for the button. Defaults to `repeat`.
-     * - `label`: string the label for the action button. Defaults to empty string.
-     * - `title`: string the title for the action button. Defaults to `Abort any changes and reset settings`.
+     * displayed. The following special variables are supported:
+     * - `icon`: _string_, the glyphicon class suffix for the button. Defaults to `repeat`.
+     * - `label`: _string_, the label for the action button. Defaults to empty string.
+     * - `title`: _string_, the title for the action button. Defaults to `Abort any changes and reset settings`.
      */
     public $resetButtonOptions = [];
 
     /**
      * @var array|boolean the HTML attributes for the delete/trash action button. If this is set to `false`, it will
-     *     not be displayed. The following special variables are supported:
-     * - `icon`: string the glyphicon class suffix for the button. Defaults to `trash`.
-     * - `label`: string the label for the action button. Defaults to empty string.
-     * - `title`: string the title for the action button. Defaults to `Remove saved grid settings`.
+     * not be displayed. The following special variables are supported:
+     * - `icon`: _string_, the glyphicon class suffix for the button. Defaults to `trash`.
+     * - `label`: _string_, the label for the action button. Defaults to empty string.
+     * - `title`: _string_, the title for the action button. Defaults to `Remove saved grid settings`.
      */
     public $deleteButtonOptions = [];
 
@@ -269,17 +302,17 @@ class DynaGrid extends \yii\base\Widget
     protected $_requestSubmit;
 
     /**
-     * @var kartik\dynagrid\models\DynaGridConfig model
+     * @var DynaGridConfig model
      */
     protected $_model;
 
     /**
-     * @var bool flag to check if the grid configuration form has been submitted
+     * @var boolean flag to check if the grid configuration form has been submitted
      */
     protected $_isSubmit = false;
 
     /**
-     * @var bool flag to check if the pjax is enabled for the grid
+     * @var boolean flag to check if the pjax is enabled for the grid
      */
     protected $_isPjax;
 
@@ -319,16 +352,84 @@ class DynaGrid extends \yii\base\Widget
     protected $_store;
 
     /**
+     * Is column visible
+     *
+     * @param mixed $column
+     *
+     * @return mixed
+     */
+    protected static function isVisible($column)
+    {
+        return is_array($column) && !ArrayHelper::getValue($column, 'visible', true) ? false : true;
+    }
+
+    /**
+     * Can the column be reordered
+     *
+     * @param mixed $column
+     *
+     * @return boolean
+     */
+    protected function canReorder($column)
+    {
+        return is_array($column) && ArrayHelper::getValue($column, 'order', self::ORDER_MIDDLE) != self::ORDER_MIDDLE
+            ? false : true;
+    }
+
+    /**
+     * Get the default action button option settings
+     *
+     * @param string $type the button type
+     *
+     * @return array the button settings
+     */
+    protected static function getDefaultButtonOptions($type)
+    {
+        if ($type === 'submit') {
+            return [
+                'type' => 'button',
+                'icon' => 'save',
+                'label' => Yii::t('kvdynagrid', 'Apply'),
+                'title' => Yii::t('kvdynagrid', 'Save grid settings'),
+                'class' => 'btn btn-primary',
+                'data-pjax' => false,
+            ];
+        }
+        if ($type === 'reset') {
+            return [
+                'type' => 'reset',
+                'icon' => 'repeat',
+                'label' => Yii::t('kvdynagrid', 'Reset'),
+                'title' => Yii::t('kvdynagrid', 'Abort any changes and reset settings'),
+                'class' => 'btn btn-default',
+                'data-pjax' => false,
+            ];
+        }
+        if ($type === 'delete') {
+            return [
+                'type' => 'button',
+                'icon' => 'trash',
+                'label' => Yii::t('kvdynagrid', 'Trash'),
+                'title' => Yii::t('kvdynagrid', 'Remove saved grid settings'),
+                'class' => 'btn btn-danger',
+                'data-pjax' => false,
+            ];
+        }
+        return [];
+    }
+
+    /**
      * Initializes the widget
      *
      * @throws InvalidConfigException
-     * @return void
      */
     public function init()
     {
         parent::init();
         if (empty($this->options['id'])) {
-            throw new InvalidConfigException("You must setup a unique identifier for DynaGrid within \"options['id']\".");
+            throw new InvalidConfigException(
+                "You must setup a unique identifier for DynaGrid within \"options['id']\"."
+            );
         }
         $this->_module = Config::initModule(Module::classname());
         $this->_gridModalId = $this->options['id'] . '-grid-modal';
@@ -348,14 +449,19 @@ class DynaGrid extends \yii\base\Widget
             throw new InvalidConfigException("The 'columns' configuration must be setup as a valid array.");
         }
         if (empty($this->gridOptions['dataProvider']) && empty($this->gridOptions['filterModel'])) {
-            throw new InvalidConfigException("You must setup either the gridOptions['filterModel'] or gridOptions['dataProvider'].");
+            throw new InvalidConfigException(
+                "You must setup either the gridOptions['filterModel'] or gridOptions['dataProvider']."
+            );
         }
         if (!empty($this->gridOptions['filterModel']) && !method_exists($this->gridOptions['filterModel'], 'search')) {
-            throw new InvalidConfigException("The gridOptions['filterModel'] must implement a 'search' method in order to apply saved filters.");
+            throw new InvalidConfigException(
+                "The gridOptions['filterModel'] must implement a 'search' method in order to apply saved filters."
+            );
         }
         if (empty($this->gridOptions['dataProvider'])) {
             $this->initDataProvider($this->gridOptions['filterModel']);
         }
+        /** @var DataProviderInterface $dataProvider */
         $dataProvider = $this->gridOptions['dataProvider'];
         if ($dataProvider->getSort() === false) {
             $this->showSort = false;
@@ -371,17 +477,22 @@ class DynaGrid extends \yii\base\Widget
         if (empty($this->theme)) {
             $this->theme = $this->_module->defaultTheme;
         }
-        if (!isset($this->_pageSize) && $this->allowPageSetting) {
+        if (!isset($this->_pageSize) || $this->_pageSize === null) {
             $this->_pageSize = $this->_module->defaultPageSize;
         }
         $this->_requestSubmit = $this->options['id'] . '-dynagrid';
         $this->_model = new DynaGridConfig;
-        $this->_isSubmit = !empty($_POST[$this->_requestSubmit]) && $this->_model->load(Yii::$app->request->post()) && $this->_model->validate();
-        $this->_store = new DynaGridStore([
-            'id' => $this->options['id'],
-            'storage' => $this->storage,
-            'userSpecific' => $this->userSpecific
-        ]);
+        $this->_isSubmit = !empty($_POST[$this->_requestSubmit]) && $this->_model->load(
+                Yii::$app->request->post()
+            ) && $this->_model->validate();
+        $this->_store = new DynaGridStore(
+            [
+                'id' => $this->options['id'],
+                'storage' => $this->storage,
+                'userSpecific' => $this->userSpecific,
+                'dbUpdateNameOnly' => $this->dbUpdateNameOnly,
+            ]
+        );
         $this->prepareColumns();
         $this->configureColumns();
         $this->applyGridConfig();
@@ -393,19 +504,37 @@ class DynaGrid extends \yii\base\Widget
     }
 
     /**
+     * Gets the columns for the dynagrid
+     *
+     * @return array
+     */
+    public function getColumns()
+    {
+        return $this->gridOptions['columns'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function run()
+    {
+        echo Html::tag('div', GridView::widget($this->gridOptions), $this->options);
+        parent::run();
+    }
+
+    /**
      * Initialize the data provider
      *
-     * @return void
+     * @param Model $searchModel
      */
     protected function initDataProvider($searchModel)
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->gridOptions['dataProvider'] = $searchModel->search(Yii::$app->request->getQueryParams());
     }
 
     /**
      * Prepares the columns for the dynagrid
-     *
-     * @return void
      */
     protected function prepareColumns()
     {
@@ -422,8 +551,6 @@ class DynaGrid extends \yii\base\Widget
 
     /**
      * Reconfigure columns with unique keys
-     *
-     * @return void
      */
     protected function configureColumns()
     {
@@ -474,21 +601,22 @@ class DynaGrid extends \yii\base\Widget
      * @param string $column
      *
      * @return mixed
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     protected function matchColumnString($column)
     {
         $matches = [];
-        if (!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/', $column, $matches)) {
-            throw new InvalidConfigException("Invalid column configuration for '{$column}'. The column must be specified in the format of 'attribute', 'attribute:format' or 'attribute:format: label'.");
+        if (!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/u', $column, $matches)) {
+            throw new InvalidConfigException(
+                "Invalid column configuration for '{$column}'. The column must be specified " .
+                "in the format of 'attribute', 'attribute:format' or 'attribute:format: label'."
+            );
         }
         return $matches;
     }
 
     /**
      * Applies the current grid configuration
-     *
-     * @return void
      */
     protected function applyGridConfig()
     {
@@ -512,7 +640,7 @@ class DynaGrid extends \yii\base\Widget
     /**
      * Gets the current grid configuration
      *
-     * @param bool $current whether it is the currently set grid configuraton
+     * @param boolean $current whether it is the currently set grid configuraton
      *
      * @return array
      */
@@ -524,7 +652,7 @@ class DynaGrid extends \yii\base\Widget
                 'keys' => $this->_visibleKeys,
                 'theme' => $this->theme,
                 'filter' => $this->_filterId,
-                'sort' => $this->_sortId
+                'sort' => $this->_sortId,
             ];
         }
         return !$this->_isSubmit ? $this->_store->fetch() : [
@@ -532,17 +660,15 @@ class DynaGrid extends \yii\base\Widget
             'theme' => $this->_model->theme,
             'keys' => explode(',', $_POST['visibleKeys']),
             'filter' => $this->_model->filterId,
-            'sort' => $this->_model->sortId
+            'sort' => $this->_model->sortId,
         ];
     }
 
     /**
      * Update configuration
      *
-     * @param array   $config the dynagrid configuration
+     * @param array $config the dynagrid configuration
      * @param boolean $delete the deletion flag
-     *
-     * @return void
      */
     protected function saveGridConfig($config, $delete)
     {
@@ -556,37 +682,23 @@ class DynaGrid extends \yii\base\Widget
     /**
      * Load grid configuration from specific storage
      *
-     * @param array the configuration to load
+     * @param array $config the configuration to load
      *
-     * @throws \yii\base\InvalidConfigException
-     * @return void
+     * @throws InvalidConfigException
      */
-    protected function loadGridConfig($config)
+    protected function loadGridConfig($config = [])
     {
         if ($config === false) {
             $this->_visibleKeys = []; //take visible keys from grid config
             $this->_pageSize = $this->_module->defaultPageSize; //take pagesize from module configuration
             foreach ($this->_columns as $key => $column) {
-                if ($this->isReorderable($column) && ArrayHelper::getValue($column, 'visible', true) === true) {
+                if (static::canReorder($column) && static::isVisible($column)) {
                     $this->_visibleKeys[] = $key;
                 }
             }
         } else {
             $this->parseData($config);
         }
-    }
-
-    /**
-     * Can the column be reordered
-     *
-     * @param mixed $column
-     *
-     * @return mixed
-     */
-    protected function isReorderable($column)
-    {
-        return (is_array($column) && ArrayHelper::getValue($column, 'order',
-                self::ORDER_MIDDLE) != self::ORDER_MIDDLE) ? false : true;
     }
 
     /**
@@ -615,29 +727,29 @@ class DynaGrid extends \yii\base\Widget
         if (!empty($data['keys'])) {
             $this->_visibleKeys = $data['keys'];
         }
-        $this->parseDetailData($data, DynaGridStore::STORE_FILTER);
-        $this->parseDetailData($data, DynaGridStore::STORE_SORT);
+        $this->parseDetailData(DynaGridStore::STORE_FILTER);
+        $this->parseDetailData(DynaGridStore::STORE_SORT);
     }
 
     /**
      * Parses the grid detail configuration (for filter or sort).
      *
-     * @param array  $data the stored data to be parsed
      * @param string $category one of 'filter' or 'sort'
-     *
-     * @return void
      */
-    protected function parseDetailData($data, $category)
+    protected function parseDetailData($category)
     {
         $dtlKey = "_{$category}Id";
         if (!empty($this->$dtlKey)) {
-            $store = new DynaGridStore([
-                'id' => $this->options['id'],
-                'storage' => $this->storage,
-                'userSpecific' => $this->userSpecific,
-                'category' => $category,
-                'dtlKey' => $this->$dtlKey
-            ]);
+            $store = new DynaGridStore(
+                [
+                    'id' => $this->options['id'],
+                    'storage' => $this->storage,
+                    'userSpecific' => $this->userSpecific,
+                    'dbUpdateNameOnly' => $this->dbUpdateNameOnly,
+                    'category' => $category,
+                    'dtlKey' => $this->$dtlKey,
+                ]
+            );
             $config = $store === null ? false : $store->fetch();
             if ($config !== false) {
                 $this->_detailConfig[$category] = $config;
@@ -646,9 +758,7 @@ class DynaGrid extends \yii\base\Widget
     }
 
     /**
-     * Sets widget columns for display in [[\kartik\sortable\Sortable]]
-     *
-     * @return void
+     * Sets widget columns for display in [[\kartik\sortable\Sortable]] widget
      */
     protected function setWidgetColumns()
     {
@@ -659,14 +769,14 @@ class DynaGrid extends \yii\base\Widget
         // Ensure visible keys is not empty. If it is so, then grid will display all columns.
         $this->_visibleKeys = array_filter($this->_visibleKeys);
         $showAll = !is_array($this->_visibleKeys) || empty($this->_visibleKeys);
-        $indicator = Html::tag('span', $this->iconVisibleColumn, ['class'=>'icon-visible-column']) .
-            Html::tag('span', $this->iconHiddenColumn, ['class'=>'icon-hidden-column']);
+        $indicator = Html::tag('span', $this->iconVisibleColumn, ['class' => 'icon-visible-column']) .
+            Html::tag('span', $this->iconHiddenColumn, ['class' => 'icon-hidden-column']);
         foreach ($this->_columns as $key => $column) {
             $order = ArrayHelper::getValue($column, 'order', self::ORDER_MIDDLE);
             $disabled = ($order == self::ORDER_MIDDLE) ? false : true;
             $widgetColumns = [
                 'content' => (empty($indicator) ? '' : $indicator . ' ') . $this->getColumnLabel($key, $column),
-                'options' => ['id' => $key]
+                'options' => ['id' => $key],
             ];
 
             if ($showAll && !$disabled) {
@@ -702,16 +812,16 @@ class DynaGrid extends \yii\base\Widget
             [
                 'content' => $label,
                 'disabled' => true,
-                'options' => $this->sortableHeader
-            ]
+                'options' => $this->sortableHeader,
+            ],
         ];
     }
 
     /**
      * Fetches the column label
      *
-     * @param mixed $key
-     * @param mixed $column
+     * @param mixed $key the column key
+     * @param mixed $column the column object / configuration
      *
      * @return string
      */
@@ -753,25 +863,24 @@ class DynaGrid extends \yii\base\Widget
     {
         $provider = $this->gridOptions['dataProvider'];
         /** @var Model $model */
-        if ($provider instanceof yii\data\ActiveDataProvider && $provider->query instanceof yii\db\ActiveQueryInterface) {
-            $model = new $provider->query->modelClass;
+        if ($provider instanceof ActiveDataProvider && $provider->query instanceof ActiveQueryInterface) {
+            /** @var ActiveQuery $query */
+            $query = $provider->query;
+            $model = new $query->modelClass;
+            return $model->getAttributeLabel($attribute);
+        }
+        $models = $provider->getModels();
+        if (($model = reset($models)) instanceof Model) {
             return $model->getAttributeLabel($attribute);
         } else {
-            $models = $provider->getModels();
-            if (($model = reset($models)) instanceof Model) {
-                return $model->getAttributeLabel($attribute);
-            } else {
-                return Inflector::camel2words($attribute);
-            }
+            return Inflector::camel2words($attribute);
         }
     }
 
     /**
      * Load configuration attributes into DynaGridConfig model
      *
-     * @param Model $model
-     *
-     * @return void
+     * @param DynaGridConfig $model
      */
     protected function loadAttributes($model)
     {
@@ -783,8 +892,7 @@ class DynaGrid extends \yii\base\Widget
         $model->filterId = $this->_filterId;
         $model->sortId = $this->_sortId;
         $model->widgetOptions = $this->sortableOptions;
-        $model->footer = $this->renderActionButton('delete') .
-            $this->renderActionButton('reset') .
+        $model->footer = $this->renderActionButton('delete') . $this->renderActionButton('reset') .
             $this->renderActionButton('submit');
         $themes = array_keys($this->_module->themeConfig);
         $model->themeList = array_combine($themes, $themes);
@@ -793,7 +901,9 @@ class DynaGrid extends \yii\base\Widget
     /**
      * Renders the action button
      *
-     * @return array
+     * @param string $type the button type
+     *
+     * @return string the rendered button
      */
     protected function renderActionButton($type)
     {
@@ -819,48 +929,7 @@ class DynaGrid extends \yii\base\Widget
     }
 
     /**
-     * Get the default action button option settings
-     *
-     * @return array
-     */
-    protected static function getDefaultButtonOptions($type)
-    {
-        if ($type === 'submit') {
-            return [
-                'type' => 'button',
-                'icon' => 'save',
-                'label' => Yii::t('kvdynagrid', 'Apply'),
-                'title' => Yii::t('kvdynagrid', 'Save grid settings'),
-                'class' => 'btn btn-primary',
-                'data-pjax' => false
-            ];
-        }
-        if ($type === 'reset') {
-            return [
-                'type' => 'reset',
-                'icon' => 'repeat',
-                'label' => Yii::t('kvdynagrid', 'Reset'),
-                'title' => Yii::t('kvdynagrid', 'Abort any changes and reset settings'),
-                'class' => 'btn btn-default',
-                'data-pjax' => false
-            ];
-        }
-        if ($type === 'delete') {
-            return [
-                'type' => 'button',
-                'icon' => 'trash',
-                'label' => Yii::t('kvdynagrid', 'Trash'),
-                'title' => Yii::t('kvdynagrid', 'Remove saved grid settings'),
-                'class' => 'btn btn-danger',
-                'data-pjax' => false
-            ];
-        }
-    }
-
-    /**
      * Applies the grid filter
-     *
-     * @return void
      */
     protected function applyFilter()
     {
@@ -868,6 +937,7 @@ class DynaGrid extends \yii\base\Widget
             return;
         }
         $class = get_class($this->gridOptions['filterModel']);
+        /** @var Model $searchModel */
         if (!empty($this->_detailConfig[DynaGridStore::STORE_FILTER]) && empty($_GET[$class])) {
             $attributes = $this->_detailConfig[DynaGridStore::STORE_FILTER];
             $searchModel = $this->gridOptions['filterModel'];
@@ -879,12 +949,11 @@ class DynaGrid extends \yii\base\Widget
 
     /**
      * Applies the grid sort
-     *
-     * @return void
      */
     protected function applySort()
     {
         if (!empty($this->_detailConfig[DynaGridStore::STORE_SORT])) {
+            /** @var ActiveDataProvider $dataProvider */
             $dataProvider = $this->gridOptions['dataProvider'];
             $sort = $dataProvider->getSort();
             if (!$sort instanceof Sort) {
@@ -893,25 +962,27 @@ class DynaGrid extends \yii\base\Widget
             $sort->defaultOrder = $this->_detailConfig[DynaGridStore::STORE_SORT];
             $dataProvider->setSort($sort);
             $this->gridOptions['dataProvider'] = $dataProvider;
-
         }
     }
 
     /**
      * Applies the page size
-     *
-     * @return void
      */
     protected function applyPageSize()
     {
-        if (isset($this->_pageSize) && $this->allowPageSetting) {
+        if (isset($this->_pageSize) && $this->_pageSize !== '' && $this->allowPageSetting) {
+            /** @var \yii\data\BaseDataProvider $dataProvider */
             $dataProvider = $this->gridOptions['dataProvider'];
-            $pagination = $dataProvider->getPagination();
+            if ($dataProvider instanceof ArrayDataProvider) {
+                $dataProvider->refresh();
+            }
             if ($this->_pageSize > 0) {
-                $pagination->pageSize = $this->_pageSize;
-                $dataProvider->setPagination($pagination);
+                $dataProvider->setPagination(['pageSize' => $this->_pageSize]);
             } else {
-                $dataProvider->pagination = false;
+                $dataProvider->setPagination(false);
+            }
+            if ($dataProvider instanceof SqlDataProvider) {
+                $dataProvider->prepare(true);
             }
             $this->gridOptions['dataProvider'] = $dataProvider;
         }
@@ -979,18 +1050,22 @@ class DynaGrid extends \yii\base\Widget
         $dynagridFilter = '';
         $dynagridSort = '';
         $model = new DynaGridSettings;
+        /** @var ActiveDataProvider $dataProvider */
         $dataProvider = $this->gridOptions['dataProvider'];
         $sort = $dataProvider->getSort();
         $isValidSort = ($sort instanceof Sort);
         if ($this->showPersonalize) {
-            $this->setToggleButton('grid');
+            $this->setToggleButton(DynaGridStore::STORE_GRID);
             if ($this->allowFilterSetting || $this->allowSortSetting) {
-                $store = new DynaGridStore([
-                    'id' => $this->options['id'],
-                    'category' => DynaGridStore::STORE_GRID,
-                    'storage' => $this->storage,
-                    'userSpecific' => $this->userSpecific
-                ]);
+                $store = new DynaGridStore(
+                    [
+                        'id' => $this->options['id'],
+                        'category' => DynaGridStore::STORE_GRID,
+                        'storage' => $this->storage,
+                        'userSpecific' => $this->userSpecific,
+                        'dbUpdateNameOnly' => $this->dbUpdateNameOnly
+                    ]
+                );
                 if ($this->allowFilterSetting) {
                     $this->_model->filterId = $this->_filterId;
                     $this->_model->filterList = $store->getDtlList(DynaGridStore::STORE_FILTER);
@@ -1002,58 +1077,67 @@ class DynaGrid extends \yii\base\Widget
                     $this->_model->sortList = $store->getDtlList(DynaGridStore::STORE_SORT);
                 }
             }
-            $dynagrid = $this->render($this->_module->configView, [
+            $dynagrid = $this->render(
+                $this->_module->configView, [
                 'model' => $this->_model,
                 'toggleButtonGrid' => $this->toggleButtonGrid,
                 'id' => $this->_gridModalId,
                 'allowPageSetting' => $this->allowPageSetting,
                 'allowThemeSetting' => $this->allowThemeSetting,
                 'allowFilterSetting' => $this->allowFilterSetting,
-                'allowSortSetting' => $this->allowSortSetting
-            ]);
+                'allowSortSetting' => $this->allowSortSetting,
+            ]
+            );
         }
         $model->dynaGridId = $this->options['id'];
         $model->storage = $this->storage;
         $model->userSpecific = $this->userSpecific;
+        $model->dbUpdateNameOnly = $this->dbUpdateNameOnly;
         if ($this->showFilter) {
-            $this->setToggleButton('filter');
+            $this->setToggleButton(DynaGridStore::STORE_FILTER);
             $model->category = DynaGridStore::STORE_FILTER;
             $model->key = $this->_filterKey;
             $model->data = array_filter($this->gridOptions['filterModel']->attributes);
-            $dynagridFilter = DynaGridDetail::widget([
-                'id' => $this->_filterModalId,
-                'model' => $model,
-                'toggleButton' => $this->toggleButtonFilter,
-                'submitMessage' => $this->submitMessage,
-                'deleteMessage' => $this->deleteMessage,
-                'messageOptions' => $this->messageOptions,
-                'deleteConfirmation' => $this->deleteConfirmation,
-                'isPjax' => $this->_isPjax,
-                'pjaxId' => $this->_pjaxId,
-            ]);
+            $dynagridFilter = DynaGridDetail::widget(
+                [
+                    'id' => $this->_filterModalId,
+                    'model' => $model,
+                    'toggleButton' => $this->toggleButtonFilter,
+                    'submitMessage' => $this->submitMessage,
+                    'deleteMessage' => $this->deleteMessage,
+                    'messageOptions' => $this->messageOptions,
+                    'deleteConfirmation' => $this->deleteConfirmation,
+                    'isPjax' => $this->_isPjax,
+                    'pjaxId' => $this->_pjaxId,
+                    'krajeeDialogSettings' => $this->krajeeDialogSettings,
+                ]
+            );
         }
         if ($this->showSort) {
-            $this->setToggleButton('sort');
+            $this->setToggleButton(DynaGridStore::STORE_SORT);
             $model->category = DynaGridStore::STORE_SORT;
             $model->key = $this->_sortKey;
-            $model->data = $isValidSort ? $sort->getOrders() : [];
-            $dynagridSort = DynaGridDetail::widget([
-                'id' => $this->_sortModalId,
-                'model' => $model,
-                'toggleButton' => $this->toggleButtonSort,
-                'submitMessage' => $this->submitMessage,
-                'deleteMessage' => $this->deleteMessage,
-                'messageOptions' => $this->messageOptions,
-                'deleteConfirmation' => $this->deleteConfirmation,
-                'isPjax' => $this->_isPjax,
-                'pjaxId' => $this->_pjaxId,
-            ]);
+            $model->data = $isValidSort ? $sort->getAttributeOrders() : [];
+            $dynagridSort = DynaGridDetail::widget(
+                [
+                    'id' => $this->_sortModalId,
+                    'model' => $model,
+                    'toggleButton' => $this->toggleButtonSort,
+                    'submitMessage' => $this->submitMessage,
+                    'deleteMessage' => $this->deleteMessage,
+                    'messageOptions' => $this->messageOptions,
+                    'deleteConfirmation' => $this->deleteConfirmation,
+                    'isPjax' => $this->_isPjax,
+                    'pjaxId' => $this->_pjaxId,
+                    'krajeeDialogSettings' => $this->krajeeDialogSettings,
+                ]
+            );
         }
         $tags = ArrayHelper::getValue($this->gridOptions, 'replaceTags', []);
         $tags += [
             '{dynagrid}' => $dynagrid,
             '{dynagridFilter}' => $dynagridFilter,
-            '{dynagridSort}' => $dynagridSort
+            '{dynagridSort}' => $dynagridSort,
         ];
         $this->gridOptions['replaceTags'] = $tags;
         $this->registerAssets();
@@ -1071,46 +1155,49 @@ class DynaGrid extends \yii\base\Widget
             'btn btn-' . ArrayHelper::getValue($this->gridOptions['panel'], 'type', 'default') :
             'btn btn-default';
         Html::addCssClass($this->$setting, $btnClass);
-        if ($cat == 'grid') {
-            $this->toggleButtonGrid = ArrayHelper::merge([
-                'label' => '<i class="glyphicon glyphicon-wrench"></i>',
-                'title' => Yii::t('kvdynagrid', 'Personalize grid settings'),
-                'data-pjax' => false
-            ], $this->toggleButtonGrid);
+        if ($cat == DynaGridStore::STORE_GRID) {
+            $this->toggleButtonGrid = ArrayHelper::merge(
+                [
+                    'label' => '<i class="glyphicon glyphicon-wrench"></i>',
+                    'title' => Yii::t('kvdynagrid', 'Personalize grid settings'),
+                    'data-pjax' => false,
+                ], $this->toggleButtonGrid
+            );
         } else {
-            $this->$setting = ArrayHelper::merge([
-                'label' => "<i class='glyphicon glyphicon-{$cat}'></i>",
-                'title' => Yii::t('kvdynagrid', "Save / edit grid {category}", ['category' => $cat]),
-                'data-pjax' => false
-            ], $this->$setting);
+            $this->$setting = ArrayHelper::merge(
+                [
+                    'label' => "<i class='glyphicon glyphicon-{$cat}'></i>",
+                    'title' => Yii::t(
+                        'kvdynagrid', "Save / edit grid {category}", ['category' => static::getCat($cat)]
+                    ),
+                    'data-pjax' => false,
+                ], $this->$setting
+            );
         }
     }
 
     /**
      * Registers client assets
-     *
-     * @return void
      */
     protected function registerAssets()
     {
         $view = $this->getView();
         DynaGridAsset::register($view);
+        Dialog::widget($this->krajeeDialogSettings);
         Html::addCssClass($this->messageOptions, 'dynagrid-submit-message');
-        $options = Json::encode([
-            'submitMessage' => Html::tag('div', $this->submitMessage, $this->messageOptions),
-            'deleteMessage' => Html::tag('div', $this->deleteMessage, $this->messageOptions),
-            'deleteConfirmation' => $this->deleteConfirmation,
-            'modalId' => $this->_gridModalId
-        ]);
-        $dynagrid = $this->options['id'];
+        $options = Json::encode(
+            [
+                'submitMessage' => Html::tag('div', $this->submitMessage, $this->messageOptions),
+                'deleteMessage' => Html::tag('div', $this->deleteMessage, $this->messageOptions),
+                'deleteConfirmation' => $this->deleteConfirmation,
+                'modalId' => $this->_gridModalId,
+                'dynaGridId' => $this->options['id'],
+                'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog')
+            ]
+        );
         $id = "jQuery('[name=\"{$this->_requestSubmit}\"]')";
-
-        // move the modal after the dynagrid container to avoid runtime conflict
-        $js = "jQuery('#{$dynagrid}').after(jQuery('#{$this->_gridModalId}'));\n";
-
         // the core dynagrid form validation
         $js = "{$id}.dynagrid({$options});\n";
-
         // pjax related reset
         if ($this->_isPjax) {
             $js .= " $('#{$this->_pjaxId}').on('pjax:complete', function () {
@@ -1119,27 +1206,5 @@ class DynaGrid extends \yii\base\Widget
             });";
         }
         $view->registerJs($js);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function run()
-    {
-        echo Html::tag('div', GridView::widget($this->gridOptions), $this->options);
-        parent::run();
-    }
-
-    /**
-     * Is column visible
-     *
-     * @param mixed $column
-     *
-     * @return mixed
-     */
-    protected function isVisible($column)
-    {
-        return (!is_array($column) || empty($column['visible']) || $column['visible'] === true) &&
-        (empty($column['hidden']) || $column['hidden'] !== true);
     }
 }
