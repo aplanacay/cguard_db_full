@@ -3,127 +3,294 @@
 /**
  * @package   yii2-detail-view
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
- * @version   1.7.4
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
+ * @version   1.7.6
  */
 
 namespace kartik\detail;
 
+use Closure;
+use kartik\base\Config;
+use kartik\base\TranslationTrait;
+use kartik\base\WidgetTrait;
+use kartik\dialog\Dialog;
+use kartik\helpers\Html;
 use Yii;
 use yii\base\Arrayable;
 use yii\base\InvalidConfigException;
-use yii\bootstrap\Alert;
 use yii\base\Model;
+use yii\bootstrap\Alert;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
+use yii\web\View;
 use yii\widgets\ActiveForm;
-use kartik\base\Config;
-use kartik\helpers\Html;
-use kartik\base\WidgetTrait;
-use kartik\base\TranslationTrait;
+use yii\widgets\DetailView as YiiDetailView;
 
 /**
- * Enhances the Yii DetailView widget with various options to include Bootstrap specific styling enhancements. Also
- * allows to simply disable Bootstrap styling by setting `bootstrap` to false. In addition, it allows you to directly
- * edit the detail grid data using a form.
+ * DetailView displays the detail of a single data [[model]]. This widget enhances the [[YiiDetailView]] widget with
+ * ability to edit detail view data, configure multi columnar layouts, merged section headers, and various other
+ * bootstrap styling enhancements.
+ *
+ * DetailView is best used for displaying a model in a regular format (e.g. each model attribute is displayed as a
+ * row in a table or one can define multiple columns by defining child attributes in each attribute configuration.)
+ * The model can be either an instance of [[Model]] or an associative array.
+ *
+ * DetailView uses the [[attributes]] property to determines which model attributes should be displayed and how they
+ * should be formatted.
+ *
+ * A typical usage of DetailView is as follows:
+ *
+ * ```php
+ * echo DetailView::widget([
+ *     'model' => $model,
+ *     'attributes' => [
+ *         'title',               // title attribute (in plain text)
+ *         'description:html',    // description attribute in HTML
+ *         [                      // the owner name of the model
+ *             'label' => 'Owner',
+ *             'value' => $model->owner->name,
+ *         ],
+ *         'created_at:datetime', // creation date formatted as datetime
+ *     ],
+ * ]);
+ * ```
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since  1.0
  */
-class DetailView extends \yii\widgets\DetailView
+class DetailView extends YiiDetailView
 {
     use WidgetTrait;
     use TranslationTrait;
 
     /**
-     * Detail View Modes
+     * View mode for the detail view
      */
     const MODE_VIEW = 'view';
+    /**
+     * Edit mode for the detail view
+     */
     const MODE_EDIT = 'edit';
-
     /**
-     * Bootstrap Contextual Color Types
+     * The **default** bootstrap contextual color type (applicable only for panel contextual style)
      */
-    const TYPE_DEFAULT = 'default'; // only applicable for panel contextual style
+    const TYPE_DEFAULT = 'default';
+    /**
+     * The **primary** bootstrap contextual color type
+     */
     const TYPE_PRIMARY = 'primary';
+    /**
+     * The **information** bootstrap contextual color type
+     */
     const TYPE_INFO = 'info';
+    /**
+     * The **danger** bootstrap contextual color type
+     */
     const TYPE_DANGER = 'danger';
+    /**
+     * The **warning** bootstrap contextual color type
+     */
     const TYPE_WARNING = 'warning';
+    /**
+     * The **success** bootstrap contextual color type
+     */
     const TYPE_SUCCESS = 'success';
-    const TYPE_ACTIVE = 'active'; // only applicable for table row contextual style
-
     /**
-     * Alignment
+     * The **active** bootstrap contextual color type (applicable only for table row contextual style)
      */
-    // Horizontal Alignment
+    const TYPE_ACTIVE = 'active';
+    /**
+     * Horizontal **right** alignment for grid cells
+     */
     const ALIGN_RIGHT = 'right';
-    const ALIGN_CENTER = 'center';
-    const ALIGN_LEFT = 'left';
-    // Vertical Alignment
-    const ALIGN_TOP = 'top';
-    const ALIGN_MIDDLE = 'middle';
-    const ALIGN_BOTTOM = 'bottom';
-
     /**
-     * Edit input types
+     * Horizontal **center** alignment for grid cells
      */
-    // input types
-    const INPUT_TEXT = 'textInput';
-    const INPUT_PASSWORD = 'passwordInput';
-    const INPUT_TEXTAREA = 'textArea';
-    const INPUT_CHECKBOX = 'checkbox';
+    const ALIGN_CENTER = 'center';
+    /**
+     * Horizontal **left** alignment for grid cells
+     */
+    const ALIGN_LEFT = 'left';
+    /**
+     * Vertical **top** alignment for grid cells
+     */
+    const ALIGN_TOP = 'top';
+    /**
+     * Vertical **middle** alignment for grid cells
+     */
+    const ALIGN_MIDDLE = 'middle';
+    /**
+     * Vertical **bottom** alignment for grid cells
+     */
+    const ALIGN_BOTTOM = 'bottom';
+    /**
+     * Static input (styled using bootstrap style)
+     */
+    const INPUT_STATIC = 'staticInput';
+    /**
+     * Hidden input.
+     */
     const INPUT_HIDDEN = 'hiddenInput';
-    const INPUT_RADIO = 'radio';
-    const INPUT_LIST_BOX = 'listBox';
+    /**
+     * Hidden static input
+     */
+    const INPUT_HIDDEN_STATIC = 'hiddenStaticInput';
+    /**
+     * Text input
+     */
+    const INPUT_TEXT = 'textInput';
+    /**
+     * Text area
+     */
+    const INPUT_TEXTAREA = 'textarea';
+    /**
+     * Password input
+     */
+    const INPUT_PASSWORD = 'passwordInput';
+    /**
+     * Dropdown list allowing single select
+     */
     const INPUT_DROPDOWN_LIST = 'dropDownList';
+    /**
+     * List box allowing multiple select
+     */
+    const INPUT_LIST_BOX = 'listBox';
+    /**
+     * Checkbox input
+     */
+    const INPUT_CHECKBOX = 'checkbox';
+    /**
+     * Radio input
+     */
+    const INPUT_RADIO = 'radio';
+    /**
+     * Checkbox inputs as a list allowing multiple selection
+     */
     const INPUT_CHECKBOX_LIST = 'checkboxList';
+    /**
+     * Radio inputs as a list
+     */
     const INPUT_RADIO_LIST = 'radioList';
+    /**
+     * Bootstrap styled checkbox button group
+     */
+    const INPUT_CHECKBOX_BUTTON_GROUP = 'checkboxButtonGroup';
+    /**
+     * Bootstrap styled radio button group
+     */
+    const INPUT_RADIO_BUTTON_GROUP = 'radioButtonGroup';
+    /**
+     * Krajee styled multiselect input that allows formatted checkbox list and radio list
+     */
+    const INPUT_MULTISELECT = 'multiselect';
+    /**
+     * File input
+     */
     const INPUT_FILE = 'fileInput';
-    const INPUT_HTML5_INPUT = 'input';
+    /**
+     * Other HTML5 input (e.g. color, range, email etc.)
+     */
+    const INPUT_HTML5 = 'input';
+    /**
+     * Input widget
+     */
     const INPUT_WIDGET = 'widget';
+    /**
+     * Krajee dependent dropdown input widget [[\kartik\depdrop\DepDrop]]
+     */
     const INPUT_DEPDROP = '\kartik\depdrop\DepDrop';
+    /**
+     * Krajee select2 input widget [[\kartik\select2\Select2]]
+     */
     const INPUT_SELECT2 = '\kartik\select2\Select2';
+    /**
+     * Krajee typeahead input widget [[\kartik\typeahead\Typeahead]]
+     */
     const INPUT_TYPEAHEAD = '\kartik\typeahead\Typeahead';
+    /**
+     * Krajee switch input widget [[\kartik\switchinput\SwitchInput]]
+     */
     const INPUT_SWITCH = '\kartik\switchinput\SwitchInput';
-
-    // input widget classes
+    /**
+     * Krajee touch spin input widget [[\kartik\touchspin\TouchSpin]]
+     */
     const INPUT_SPIN = '\kartik\touchspin\TouchSpin';
-    const INPUT_RATING = '\kartik\widgets\StarRating';
+    /**
+     * Krajee star rating input widget [[\kartik\rating\StarRating]]
+     */
+    const INPUT_RATING = '\kartik\rating\StarRating';
+    /**
+     * Krajee range input widget [[\kartik\range\RangeInput]]
+     */
     const INPUT_RANGE = '\kartik\range\RangeInput';
+    /**
+     * Krajee color input widget [[\kartik\color\ColorInput]]
+     */
     const INPUT_COLOR = '\kartik\color\ColorInput';
+    /**
+     * Krajee file input widget [[\kartik\file\FileInput]]
+     */
     const INPUT_FILEINPUT = '\kartik\file\FileInput';
+    /**
+     * Krajee date picker input widget [[\kartik\date\DatePicker]]
+     */
     const INPUT_DATE = '\kartik\date\DatePicker';
+    /**
+     * Krajee Time picker input widget [[\kartik\time\TimePicker]]
+     */
     const INPUT_TIME = '\kartik\time\TimePicker';
+    /**
+     * Krajee date time Picker input widget [[\kartik\datetime\DateTimePicker]]
+     */
     const INPUT_DATETIME = '\kartik\datetime\DateTimePicker';
+    /**
+     * Krajee date range picker input widget [[\kartik\daterange\DateRangePicker]]
+     */
     const INPUT_DATE_RANGE = '\kartik\daterange\DateRangePicker';
+    /**
+     * Krajee sortable input widget [[\kartik\sortinput\SortableInput]]
+     */
     const INPUT_SORTABLE = '\kartik\sortinput\SortableInput';
+    /**
+     * Krajee slider input widget [[\kartik\slider\Slider]]
+     */
     const INPUT_SLIDER = '\kartik\slider\Slider';
+    /**
+     * Krajee mask money input widget [[\kartik\money\MaskMoney]]
+     */
     const INPUT_MONEY = '\kartik\money\MaskMoney';
+    /**
+     * Krajee checkbox extended input widget [[\kartik\checkbox\CheckboxX]]
+     */
     const INPUT_CHECKBOX_X = '\kartik\checkbox\CheckboxX';
 
     // inputs list
-    private static $_inputsList = [
+    protected static $_inputsList = [
         self::INPUT_HIDDEN => 'hiddenInput',
         self::INPUT_TEXT => 'textInput',
         self::INPUT_PASSWORD => 'passwordInput',
-        self::INPUT_TEXTAREA => 'textArea',
+        self::INPUT_TEXTAREA => 'textarea',
         self::INPUT_CHECKBOX => 'checkbox',
         self::INPUT_RADIO => 'radio',
         self::INPUT_LIST_BOX => 'listBox',
         self::INPUT_DROPDOWN_LIST => 'dropDownList',
         self::INPUT_CHECKBOX_LIST => 'checkboxList',
         self::INPUT_RADIO_LIST => 'radioList',
-        self::INPUT_HTML5_INPUT => 'input',
+        self::INPUT_HTML5 => 'input',
         self::INPUT_FILE => 'fileInput',
         self::INPUT_WIDGET => 'widget',
+        self::INPUT_CHECKBOX_BUTTON_GROUP => 'checkboxButtonGroup',
+        self::INPUT_RADIO_BUTTON_GROUP => 'radioButtonGroup',
     ];
 
     // dropdown inputs
-    private static $_dropDownInputs = [
+    protected static $_dropDownInputs = [
         self::INPUT_LIST_BOX => 'listBox',
         self::INPUT_DROPDOWN_LIST => 'dropDownList',
         self::INPUT_CHECKBOX_LIST => 'checkboxList',
         self::INPUT_RADIO_LIST => 'radioList',
+        self::INPUT_CHECKBOX_BUTTON_GROUP => 'checkboxButtonGroup',
+        self::INPUT_RADIO_BUTTON_GROUP => 'radioButtonGroup',
     ];
 
     /**
@@ -162,12 +329,17 @@ class DetailView extends \yii\widgets\DetailView
     public $valueColOptions = [];
 
     /**
-     * @var bool whether to hide all alerts. Defaults to `false`.
+     * @var boolean whether to hide all alerts. Defaults to `false`.
      */
     public $hideAlerts = false;
+    
+  	/**
+	 * @var bool whether to show form error summery as an error alert. Defaults to `false`.
+	 */
+	public $showErrorSummary = false;
 
     /**
-     * @var bool whether to show values as not set if empty string
+     * @var boolean whether to show values as not set if empty string
      */
     public $notSetIfEmpty = false;
 
@@ -178,14 +350,14 @@ class DetailView extends \yii\widgets\DetailView
     public $alertContainerOptions = [];
 
     /**
-     * @var array the widget settings for each bootstrap alert displayed in the alert container block.
-     * The CSS class in `options` within this will be auto derived and appended.
+     * @var array the widget settings for each bootstrap alert displayed in the alert container block. The CSS class in
+     * `options` within this property will be auto derived and appended.
      * - For `update` error messages will be displayed if you have set messages using Yii::$app->session->setFlash. The
-     *     CSS class for the error block will be auto-derived based on flash message type using `alertMessageSettings`.
+     *   CSS class for the error block will be auto-derived based on flash message type using `alertMessageSettings`.
      * - For `delete` this will be displayed based on the ajax response. The ajax response should be an object that
-     *     contain the following:
-     *   - success: `boolean`, whether the ajax delete is successful.
-     *   - messages: `array|object`,the list of messages to display as key value pairs. The key must be one of the
+     *   contain the following settings:
+     *   - `success`: _boolean_, whether the ajax delete is successful.
+     *   - `messages`: _array_|_object_,the list of messages to display as key value pairs. The key must be one of the
      *     message keys in the `alertMessageSettings`, and the value must be the message content to be displayed.
      */
     public $alertWidgetOptions = [];
@@ -195,13 +367,13 @@ class DetailView extends \yii\widgets\DetailView
      * - `$key`: flash message key e.g. `error`, `success`.
      * - `$value`: CSS class for the flash message e.g. `alert alert-danger`, `alert alert-success`. This defaults to
      *     the following setting:
-     * ```
-     *  [
-     *      'kv-detail-error' => 'alert alert-danger',
-     *      'kv-detail-success' => 'alert alert-success',
-     *      'kv-detail-info' => 'alert alert-info',
-     *      'kv-detail-warning' => 'alert alert-warning'
-     *  ]
+     * ```php
+     * [
+     *     'kv-detail-error' => 'alert alert-danger',
+     *     'kv-detail-success' => 'alert alert-success',
+     *     'kv-detail-info' => 'alert alert-info',
+     *     'kv-detail-warning' => 'alert alert-warning'
+     * ]
      * ```
      */
     public $alertMessageSettings = [];
@@ -212,105 +384,117 @@ class DetailView extends \yii\widgets\DetailView
     public $options = [];
 
     /**
-     * @var bool whether the grid view will have Bootstrap table styling.
+     * @var boolean whether the grid view will have Bootstrap table styling.
      */
     public $bootstrap = true;
 
     /**
-     * @var bool whether the grid table will have a `bordered` style. Applicable only if `bootstrap` is `true`.
-     *     Defaults to `true`.
+     * @var boolean whether the grid table will have a `bordered` style. Applicable only if `bootstrap` is `true`.
      */
     public $bordered = true;
 
     /**
-     * @var bool whether the grid table will have a `striped` style. Applicable only if `bootstrap` is `true`. Defaults
-     *     to `true`.
+     * @var boolean whether the grid table will have a `striped` style. Applicable only if `bootstrap` is `true`.
      */
     public $striped = true;
 
     /**
-     * @var bool whether the grid table will have a `condensed` style. Applicable only if `bootstrap` is `true`.
-     *     Defaults to `false`.
+     * @var boolean whether the grid table will have a `condensed` style. Applicable only if `bootstrap` is `true`.
      */
     public $condensed = false;
 
     /**
-     * @var bool whether the grid table will have a `responsive` style. Applicable only if `bootstrap` is `true`.
-     *     Defaults to `true`.
+     * @var boolean whether the grid table will have a `responsive` style. Applicable only if `bootstrap` is `true`.
      */
     public $responsive = true;
 
     /**
-     * @var bool whether the grid table will highlight row on `hover`. Applicable only if `bootstrap` is `true`.
-     *     Defaults to `false`.
+     * @var boolean whether the grid table will highlight row on `hover`. Applicable only if `bootstrap` is `true`.
      */
     public $hover = false;
 
     /**
-     * @var bool whether to enable edit mode for the detail view. Defaults to `true`.
+     * @var boolean whether to enable edit mode for the detail view.
      */
     public $enableEditMode = true;
 
     /**
-     * @var bool whether to hide rows in view mode if value is null or empty.
+     * @var boolean whether to hide rows in view mode if value is null or empty.
      */
     public $hideIfEmpty = false;
 
     /**
-     * @var bool whether to display bootstrap style tooltips for titles on hover of buttons
+     * @var boolean whether to display bootstrap style tooltips for titles on hover of buttons.
      */
     public $tooltips = true;
 
     /**
+     * @var array configuration settings for the Krajee dialog widget that will be used to render alerts and
+     * confirmation dialog prompts.
+     *
+     * @see http://demos.krajee.com/dialog
+     */
+    public $krajeeDialogSettings = [];
+
+    /**
      * @var array a list of attributes to be displayed in the detail view. Each array element represents the
-     *     specification for displaying one particular attribute.
+     * specification for displaying one particular attribute.
      *
      * An attribute can be specified as a string in the format of "attribute", "attribute:format" or
-     *     "attribute:format:label", where "attribute" refers to the attribute name, and "format" represents the format
-     *     of the attribute. The "format" is passed to the [[Formatter::format()]] method to format an attribute value
-     *     into a displayable text. Please refer to [[Formatter]] for the supported types. Both "format" and "label"
-     *     are optional. They will take default values if absent.
+     * "attribute:format:label", where "attribute" refers to the attribute name, and "format" represents the format
+     * of the attribute. The "format" is passed to the [[Formatter::format()]] method to format an attribute value
+     * into a displayable text. Please refer to [[Formatter]] for the supported types. Both "format" and "label"
+     * are optional. They will take default values if absent.
      *
-     * An attribute can also be specified in terms of an array with the following elements:
+     * An attribute can also be specified in terms of an array with the following elements.
      *
-     * - attribute: the attribute name. This is required if either "label" or "value" is not specified.
-     * - label: the label associated with the attribute. If this is not specified, it will be generated from the
-     *     attribute name.
-     * - value: the value to be displayed. If this is not specified, it will be retrieved from [[model]] using the
-     *     attribute name by calling [[ArrayHelper::getValue()]]. Note that this value will be formatted into a
-     *     displayable text according to the "format" option.
-     * - format: the type of the value that determines how the value would be formatted into a displayable text. Please
-     *     refer to [[Formatter]] for supported types.
-     * - visible: whether the attribute is visible. If set to `false`, the attribute will NOT be displayed.
+     * - attribute: string|Closure, the attribute name. This is required if either "label" or "value" is not specified.
+     * - label: string|Closure, the label associated with the attribute. If this is not specified, it will be generated
+     *   from the attribute name.
+     * - value: mixed|Closure, the value to be displayed. If this is not specified, it will be retrieved from [[model]]
+     *   using the attribute name by calling [[ArrayHelper::getValue()]]. Note that this value will be formatted into
+     *   a displayable text according to the "format" option.
+     * - format: mixed|Closure, the type of the value that determines how the value would be formatted into a
+     *   displayable text. Please refer to [[Formatter]] for supported types.
+     * - visible: boolean|Closure, whether the attribute is visible. If set to `false`, the attribute will NOT be
+     *   displayed.
      *
      * Additional special settings are:
-     * - viewModel: Model, the model to be used for this attribute in VIEW mode. This will override the `model` setting
-     *     at the widget level. If not set, the widget `model` setting will be used.
-     * - editModel: Model, the model to be used for this attribute in EDIT mode. This will override the `model` setting
-     *     at the widget level. If not set, the widget `model` setting will be used.
-     * - rowOptions: array, HTML attributes for the row (if not set, this will be defaulted to the `rowOptions` set at
-     *     the widget level)
-     * - labelColOptions: array, HTML attributes for the label column (if not set, this will be defaulted to the
-     *     `labelColOptions` set at the widget level)
-     * - valueColOptions: array, HTML attributes for the value column (if not set, this will be defaulted to
-     *     `valueColOptions` set at the widget level)
-     * - group: bool, whether to group the selection by merging the label and value into a single column.
-     * - groupOptions: array, HTML attributes for the grouped/merged column when `group` is set to `true`.
-     * - type: string, the input type for rendering the attribute in edit mode. Must be one of the
-     *     [[DetailView::::INPUT_]] constants.
-     * - displayOnly: boolean, if the input is to be set to as `display only` in edit mode.
-     * - widgetOptions: array, the widget options if you set `type` to [[DetailView::::INPUT_WIDGET]]. The following
-     *     special options are recognized:
+     * - viewModel: Model|Closure, the model to be used for this attribute in VIEW mode. This will override the `model`
+     *   setting at the widget level. If not set, the widget `model` setting will be used.
+     * - editModel: Model|Closure, the model to be used for this attribute in EDIT mode. This will override the `model`
+     *   setting at the widget level. If not set, the widget `model` setting will be used.
+     * - rowOptions: array|Closure, HTML attributes for the row (if not set, this will be defaulted to the `rowOptions`
+     *   set at the widget level)
+     * - labelColOptions: array|Closure, HTML attributes for the label column (if not set, this will be defaulted to
+     *   the `labelColOptions` set at the widget level)
+     * - valueColOptions: array|Closure, HTML attributes for the value column (if not set, this will be defaulted to
+     *   `valueColOptions` set at the widget level)
+     * - group: boolean|Closure, whether to group the selection by merging the label and value into a single column.
+     * - groupOptions: array|Closure, HTML attributes for the grouped/merged column when `group` is set to `true`.
+     * - type: string|Closure, the input type for rendering the attribute in edit mode. Must be one of the
+     *   [[DetailView::::INPUT_]] constants.
+     * - displayOnly: boolean|Closure, if the input is to be set to as `display only` in edit mode.
+     * - widgetOptions: array|Closure, the widget options if you set `type` to [[DetailView::::INPUT_WIDGET]]. The
+     *   following special options are recognized:
      *   - `class`: string the fully namespaced widget class.
-     * - items: array, the list of data items  for dropDownList, listBox, checkboxList & radioList
-     * - inputType: string, the HTML 5 input type if `type` is set to [[DetailView::::INPUT_HTML 5]].
-     * - inputContainer: array, HTML attributes for the input container
-     * - inputWidth: string, the width of the container holding the input, should be appended along with the width unit
-     *     (`px` or `%`) - this property is deprecated since v1.7.4
-     * - fieldConfig: array, optional, the Active field configuration.
-     * - options: array, optional, the HTML attributes for the input.
-     * - updateAttr: string, optional, the name of the attribute to be updated, when in edit mode. This will default to
-     *     the `attribute` setting.
+     * - items: array|Closure, the list of data items  for dropDownList, listBox, checkboxList & radioList
+     * - inputType: string|Closure, the HTML 5 input type if `type` is set to [[DetailView::::INPUT_HTML 5]].
+     * - inputContainer: array|Closure, HTML attributes for the input container
+     * - inputWidth: string|Closure, the width of the container holding the input, should be appended along with the
+     *   width unit (`px` or `%`) - this property is deprecated since v1.7.6
+     * - fieldConfig: array|Closure, optional, the Active field configuration.
+     * - options: array|Closure, optional, the HTML attributes for the input.
+     * - updateAttr: string|Closure, optional, the name of the attribute to be updated, when in edit mode. This will
+     *   default to the `attribute` setting.
+     * - updateMarkup: string|Closure, the raw markup to render in edit mode. If not set, this normally will be
+     *   automatically generated based on `attribute` or `updateAttr` setting. If this is set it will override the
+     *   default markup.
+     *
+     * Note that all of the attribute properties above can also be setup as a Closure callback with the signature
+     *    `function($form, $widget)`, where:
+     * - `$form`: ActiveForm, is the current active form object in the detail view.
+     * - `$widget`: DetailView, is the current detail view widget instance.
      */
     public $attributes;
 
@@ -322,34 +506,46 @@ class DetailView extends \yii\widgets\DetailView
     /**
      * @var string the ActiveForm widget class
      */
-    public $formClass = 'yii\widgets\ActiveForm';
+    public $formClass = 'kartik\form\ActiveForm';
 
     /**
      * @var array the panel settings. If this is set, the grid widget
      * will be embedded in a bootstrap panel. Applicable only if `bootstrap`
      * is `true`. The following array keys are supported:
+     * - `type`: _string_, the panel contextual type (one of the TYPE constants, if not set will default to `default` or
+     *   `self::TYPE_DEFAULT`)
      * - `heading`: string | boolean, the panel heading title value. If set to false, the entire heading will be not
-     *     displayed. Note that the `{title}` tag in the `headingOptions['template']` will be replaced with this value.
-     * - `headingOptions`: array, the HTML attributes for the panel heading. Defaults to `['class'=>'panel-title']`.
-     *     The following additional options are available:
-     *   - `tag`: string, the tag to render the heading. Defaults to `h3`.
-     *   - `template`: string, the template to render the heading. Defaults to `{buttons}{title}`, where:
+     *   displayed. Note that the `{title}` tag in the `headingOptions['template']` will be replaced with this value.
+     * - `headingOptions`: _array_, the HTML attributes for the panel heading. Defaults to `['class'=>'panel-title']`.
+     *   The following additional options are available:
+     *   - `tag`: _string_, the tag to render the heading. Defaults to `h3`.
+     *   - `template`: _string_, the template to render the heading. Defaults to `{buttons}{title}`, where:
      *      - `{title}` will be replaced with the `heading` value, and
      *      -`{buttons}` will be replaced by the rendered buttons.
-     * - `type`: string, the panel contextual type (one of the TYPE constants, if not set will default to `default` or
-     *     `self::TYPE_DEFAULT`)
      * - `footer`: string | boolean, the panel footer title value. Defaults to `false`. If set to false, the entire
-     *     footer will be not displayed. Note that the `{title}` tag in the `footerOptions['template']` will be
-     *     replaced with this value.
-     * - `footerOptions`: array, the HTML attributes for the panel footer. Defaults to `['class'=>'panel-title']`. The
-     *     following additional options are available:
-     *   - `tag`: string, the tag to render the footer. Defaults to `h4`.
-     *   - `template`: string, the template to render the footer. Defaults to `{title}`, where:
+     *   footer will be not displayed. Note that the `{title}` tag in the `footerOptions['template']` will be
+     *   replaced with this value.
+     * - `footerOptions`: _array_, the HTML attributes for the panel footer. Defaults to `['class'=>'panel-title']`. The
+     *   following additional options are available:
+     *   - `tag`: _string_, the tag to render the footer. Defaults to `h4`.
+     *   - `template`: _string_, the template to render the footer. Defaults to `{title}`, where:
      *      - `{title}` will be replaced with the `footer`, and
      *      -`{buttons}` will be replaced by the rendered buttons.
      */
     public $panel = [];
 
+    /**
+     * @var array the HTML attributes for the bootstrap panel container (applicable if [[panel]
+     * has been configured).
+     */
+    public $panelOptions = [];
+    
+    /**
+     * @var string the CSS class prefix to apply to the bootstrap panel container (applicable if 
+     * [[panel] has been configured)
+     */
+    public $panelCssPrefix = 'panel panel-';
+    
     /**
      * @var string the main template to render the detail view. The following tags will be replaced:
      * - `{detail}`: will be replaced by the rendered detail view
@@ -430,16 +626,16 @@ class DetailView extends \yii\widgets\DetailView
 
     /**
      * @var array the HTML attributes for the edit button. The following special options are recognized:
-     * - `label`: the delete button label. This will not be HTML encoded. Defaults to '<span class="glyphicon
-     *     glyphicon-trash"></span>'.
+     * - `label`: the delete button label. This will not be HTML encoded. Defaults to
+     *   `'<span class="glyphicon glyphicon-trash"></span>'`.
      * - `url`: the delete button url. If not set will default to `#`.
-     * - `params`: array, the parameters to be passed via ajax which you must set as key value pairs. This will be
-     *     automatically json encoded, so you can set JsExpression or callback
-     * - `ajaxSettings`: array, the ajax settings if you choose to override the delete ajax settings.
-     * @see http://api.jquery.com/jquery.ajax/
-     * - `confirm': string, the confirmation message before triggering delete. Defaults to Yii::t('kvdetail', 'Are you
-     *     sure you want to delete this item?')
-     * - `showErrorStack`: boolean, whether to show the complete error stack.
+     * - `params`: _array_, the parameters to be passed via ajax which you must set as key value pairs. This will be
+     *   automatically json encoded, so you can set JsExpression or callback
+     * - `ajaxSettings`: _array_, the ajax settings if you choose to override the delete ajax settings.
+     *   @see http://api.jquery.com/jquery.ajax/
+     * - `confirm': _string_, the confirmation message before triggering delete. Defaults to:
+     *   `Yii::t('kvdetail', 'Are you sure you want to delete this item?')`.
+     * - `showErrorStack`: _boolean_, whether to show the complete error stack.
      */
     public $deleteOptions = [];
 
@@ -475,6 +671,13 @@ class DetailView extends \yii\widgets\DetailView
      * @var string the Detail View plugin destroy JS
      */
     public $pluginDestroyJs;
+    
+    /**
+     * @var integer the position where the client JS hash variables for the DetailView widget will be loaded. 
+     * Defaults to `View::POS_HEAD`. This can be set to `View::POS_READY` for specific scenarios like when
+     * rendering the widget via `renderAjax`.
+     */
+    public $hashVarLoadPosition = View::POS_HEAD;
 
     /**
      * @var string translation message file category name for i18n
@@ -535,16 +738,20 @@ class DetailView extends \yii\widgets\DetailView
      */
     protected function initWidget()
     {
-        /**
-         * @var ActiveForm $formClass
-         */
-        $formClass = $this->formClass;
         if ($this->enableEditMode) {
+            /**
+             * @var ActiveForm $formClass
+             */
+            $formClass = $this->formClass;
             $activeForm = ActiveForm::classname();
             if (!is_subclass_of($formClass, $activeForm) && $formClass !== $activeForm) {
                 throw new InvalidConfigException("Form class '{$formClass}' must exist and extend from '{$activeForm}'.");
             }
             $this->validateDisplay();
+            if (!isset($this->formOptions['fieldConfig']['template'])) {
+                $this->formOptions['fieldConfig']['template'] = "{input}\n{hint}\n{error}";
+            }
+            $this->_form = $formClass::begin($this->formOptions);
         }
         if ($this->bootstrap) {
             Html::addCssClass($this->options, 'table');
@@ -572,18 +779,10 @@ class DetailView extends \yii\widgets\DetailView
      */
     protected function runWidget()
     {
-        /**
-         * @var ActiveForm $formClass
-         */
-        $formClass = $this->formClass;
         if (empty($this->container['id'])) {
             $this->container['id'] = $this->getId();
         }
         $this->initI18N(__DIR__);
-        if ($this->enableEditMode) {
-            $this->formOptions['fieldConfig']['template'] = "{input}\n{hint}\n{error}";
-            $this->_form = $formClass::begin($this->formOptions);
-        }
         Html::addCssClass($this->alertContainerOptions, 'panel-body kv-alert-container');
         $this->alertMessageSettings += [
             'kv-detail-error' => 'alert alert-danger',
@@ -596,10 +795,7 @@ class DetailView extends \yii\widgets\DetailView
         if (is_array($this->panel) && !empty($this->panel) && $this->panel !== false) {
             $output = $this->renderPanel($output);
         }
-        $output = strtr(
-            $this->mainTemplate,
-            ['{detail}' => Html::tag('div', $output, $this->container)]
-        );
+        $output = strtr(Html::tag('div', $this->mainTemplate, $this->container), ['{detail}' => $output]);
         Html::addCssClass($this->viewButtonsContainer, 'kv-buttons-1');
         $buttons = Html::tag('span', $this->renderButtons(1), $this->viewButtonsContainer);
         if ($this->enableEditMode) {
@@ -608,8 +804,13 @@ class DetailView extends \yii\widgets\DetailView
         }
         echo str_replace('{buttons}', Html::tag('div', $buttons, $this->buttonContainer), $output);
         if ($this->enableEditMode) {
+            /**
+             * @var ActiveForm $formClass
+             */
+            $formClass = $this->formClass;
             $formClass::end();
         }
+        
     }
 
     /**
@@ -619,14 +820,24 @@ class DetailView extends \yii\widgets\DetailView
     {
         $session = Yii::$app->session;
         $flashes = $session->getAllFlashes();
+        
+	    if ($this->showErrorSummary) {
+            // Show form error summary in error flash
+		    if ($this->model->getErrors()) {
+			    $flashes['kv-detail-error'] = $this->_form->errorSummary($this->model);
+		    }
+	    }
+        
         if (count($flashes) === 0) {
             Html::addCssStyle($this->alertContainerOptions, 'display:none;');
         }
         $out = Html::beginTag('div', $this->alertContainerOptions);
         foreach ($flashes as $type => $message) {
-            $class = ArrayHelper::getValue($this->alertMessageSettings, $type, 'alert alert-' . $type);
+            if (!isset($this->alertMessageSettings[$type])) {
+                continue;
+            }
             $options = ArrayHelper::getValue($this->alertWidgetOptions, 'options', []);
-            Html::addCssClass($options, $class);
+            Html::addCssClass($options, ['alert', 'alert-' . $this->alertMessageSettings[$type]]);
             $this->alertWidgetOptions['body'] = $message;
             $this->alertWidgetOptions['options'] = $options;
             $out .= "\n" . Alert::widget($this->alertWidgetOptions);
@@ -643,7 +854,7 @@ class DetailView extends \yii\widgets\DetailView
      */
     protected function hasEditErrors()
     {
-        if (count($this->model->getErrors()) > 0) {
+        if ($this->model->hasErrors()) {
             return true;
         }
         foreach ($this->attributes as $attribute) {
@@ -653,7 +864,7 @@ class DetailView extends \yii\widgets\DetailView
             if (empty($attribute['editModel']) || !$attribute['editModel'] instanceof Model) {
                 continue;
             }
-            if ($attribute['editModel']->getErrors() > 0) {
+            if ($attribute['editModel']->hasErrors()) {
                 return true;
             }
         }
@@ -714,17 +925,6 @@ class DetailView extends \yii\widgets\DetailView
         if (isset($attribute['columns'])) {
             Html::addCssClass($this->_rowOptions, 'kv-child-table-row');
             $content = '<td class="kv-child-table-cell" colspan=2><table class="kv-child-table"><tr>';
-            if (!empty($child['attribute'])) {
-                $childName = $child['attribute'];
-                if (!isset($child['label'])) {
-                    $child['label'] = $this->model instanceof Model ?
-                        $this->model->getAttributeLabel($childName) :
-                        Inflector::camel2words($childName, true);
-                }
-                if (!array_key_exists('value', $child)) {
-                    $child['value'] = ArrayHelper::getValue($this->model, $childName);
-                }
-            }
             foreach ($attribute['columns'] as $child) {
                 $content .= $this->renderAttributeItem($child);
             }
@@ -819,13 +1019,17 @@ class DetailView extends \yii\widgets\DetailView
         if (!$model instanceof Model) {
             $model = $this->model;
         }
+        if (isset($config['updateMarkup'])) {
+            $markup = $config['updateMarkup'];
+            return $markup instanceof Closure ? $markup($this->_form, $this) : $markup;
+        }
         $attr = ArrayHelper::getValue($config, 'updateAttr', $config['attribute']);
         $input = ArrayHelper::getValue($config, 'type', self::INPUT_TEXT);
         $fieldConfig = ArrayHelper::getValue($config, 'fieldConfig', []);
         $inputWidth = ArrayHelper::getValue($config, 'inputWidth', '');
         $container = ArrayHelper::getValue($config, 'inputContainer', []);
         if ($inputWidth != '') {
-            Html::addCssStyle($container, "width: {$inputWidth}"); // deprecated since v1.7.4
+            Html::addCssStyle($container, "width: {$inputWidth}"); // deprecated since v1.7.6
         }
         $template = ArrayHelper::getValue($fieldConfig, 'template', "{input}\n{error}\n{hint}");
         $row = Html::tag('div', $template, $container);
@@ -860,7 +1064,7 @@ class DetailView extends \yii\widgets\DetailView
             $items = ArrayHelper::getValue($config, 'items', []);
             return $this->_form->field($model, $attr, $fieldConfig)->$input($items, $options);
         }
-        if ($input == self::INPUT_HTML5_INPUT) {
+        if ($input == self::INPUT_HTML5) {
             $inputType = ArrayHelper::getValue($config, 'inputType', self::INPUT_TEXT);
             return $this->_form->field($model, $attr, $fieldConfig)->$input($inputType, $options);
         }
@@ -886,7 +1090,7 @@ class DetailView extends \yii\widgets\DetailView
         }
         $alertBlock = $this->hideAlerts ? '' : $this->renderAlertBlock() . "\n";
         $panel['preBody'] = $alertBlock . $content;
-        return Html::panel($panel, $type);
+        return Html::panel($panel, $type, $this->panelOptions, $this->panelCssPrefix);
     }
 
     /**
@@ -1003,6 +1207,7 @@ class DetailView extends \yii\widgets\DetailView
     {
         $view = $this->getView();
         DetailViewAsset::register($view);
+        Dialog::widget($this->krajeeDialogSettings);
         if (empty($this->alertWidgetOptions['closeButton'])) {
             $button = '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
         } else {
@@ -1028,7 +1233,8 @@ class DetailView extends \yii\widgets\DetailView
             'deleteParams' => ArrayHelper::getValue($this->deleteOptions, 'params', []),
             'deleteAjaxSettings' => ArrayHelper::getValue($this->deleteOptions, 'ajaxSettings', []),
             'deleteConfirm' => ArrayHelper::remove($this->deleteOptions, 'confirm', $deleteConfirmMsg),
-            'showErrorStack' => ArrayHelper::remove($this->deleteOptions, 'showErrorStack', false)
+            'showErrorStack' => ArrayHelper::remove($this->deleteOptions, 'showErrorStack', false),
+            'dialogLib' => ArrayHelper::getValue($this->krajeeDialogSettings, 'libName', 'krajeeDialog')
         ];
         $id = 'jQuery("#' . $this->container['id'] . '")';
         if ($this->enableEditMode) {
@@ -1080,7 +1286,7 @@ class DetailView extends \yii\widgets\DetailView
     protected function parseAttributeItem($attribute)
     {
         if (is_string($attribute)) {
-            if (!preg_match('/^([\w\.]+)(:(\w*))?(:(.*))?$/', $attribute, $matches)) {
+            if (!preg_match('/^([^:]+)(:(\w*))?(:(.*))?$/', $attribute, $matches)) {
                 throw new InvalidConfigException(
                     'The attribute must be specified in the format of "attribute", "attribute:format" or ' .
                     '"attribute:format:label"'
@@ -1094,6 +1300,9 @@ class DetailView extends \yii\widgets\DetailView
         }
         if (!is_array($attribute)) {
             throw new InvalidConfigException('The attribute configuration must be an array.');
+        }
+        foreach ($attribute as $prop => $setting) {
+            $attribute[$prop] = $this->parseAttributeProp($setting);
         }
         if (isset($attribute['columns'])) {
             foreach ($attribute['columns'] as $j => $child) {
@@ -1143,5 +1352,24 @@ class DetailView extends \yii\widgets\DetailView
             );
         }
         return $attribute;
+    }
+
+    /**
+     * Parses the attribute configuration and validates if a property is configured as a Closure callback. If so, the
+     * callback is executed and the attribute property is set to this callback output. The signature of the callback is
+     * `function($form, $widget)`, where:
+     * - `$form`: ActiveForm, is the current active form object in the detail view.
+     * - `$widget`: DetailView, is the current detail view widget instance.
+     *
+     * @param mixed $setting is the attribute property setting
+     *
+     * @return mixed the parsed attribute setting
+     */
+    protected function parseAttributeProp($setting)
+    {
+        /**
+         * @var Closure|mixed $setting
+         */
+        return $setting instanceof Closure ? $setting($this->_form, $this) : $setting;
     }
 }

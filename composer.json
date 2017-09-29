@@ -20,10 +20,8 @@
         "yiisoft/yii2": "~2.0.5",
         "yiisoft/yii2-bootstrap": "~2.0.0",
 
-        "yiisoft/yii2": "*",
-        "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "raveren/kint": "^1.0",
+        "kint-php/kint": "^1.0",
         "ccampbell/chromephp": "^4.1",
         "kartik-v/yii2-detail-view": "*",
         "kartik-v/yii2-widget-select2": "^2.0",
@@ -47,7 +45,7 @@
         "dmstr/yii2-adminlte-asset": "2.*"
     },
     "require-dev": {
-        "yiisoft/yii2-codeception": "*",
+        "codeception/codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
         "yiisoft/yii2-faker": "*"
@@ -58,7 +56,13 @@
         }
     },
     "config": {
-        "process-timeout": 1800
+        "process-timeout": 1800,
+        "fxp-asset": {
+            "installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
+        }
     },
     "scripts": {
         "post-create-project-cmd": [
@@ -77,10 +81,6 @@
             "generateCookieValidationKey": [
                 "config/web.php"
             ]
-        },
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
         }
     }
 }

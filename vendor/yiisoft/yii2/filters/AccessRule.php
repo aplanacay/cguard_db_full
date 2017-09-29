@@ -8,15 +8,15 @@
 namespace yii\filters;
 
 use Closure;
-use yii\base\Component;
 use yii\base\Action;
-use yii\base\InvalidConfigException;
-use yii\web\User;
-use yii\web\Request;
+use yii\base\Component;
 use yii\base\Controller;
+use yii\base\InvalidConfigException;
+use yii\web\Request;
+use yii\web\User;
 
 /**
- * This class represents an access rule defined by the [[AccessControl]] action filter
+ * This class represents an access rule defined by the [[AccessControl]] action filter.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
