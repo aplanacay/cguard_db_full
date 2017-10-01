@@ -1,6 +1,8 @@
 # phpstorm project files
 .idea
 
+trash
+
 # netbeans project files
 nbproject
 
@@ -13,7 +15,7 @@ nbproject
 Thumbs.db
 
 # composer vendor dir
-/vendor
+vendor
 
 # composer itself is not needed
 composer*
