@@ -1,13 +1,13 @@
 /*!
  * @package   yii2-detail-view
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
- * @version   1.7.6
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version   1.7.4
  *
  * Client extension for the yii2-detail-view extension 
  * 
  * Author: Kartik Visweswaran
- * Copyright: 2014 - 2017, Kartik Visweswaran, Krajee.com
+ * Copyright: 2014 - 2016, Kartik Visweswaran, Krajee.com
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
@@ -40,8 +40,9 @@
         alert: function (type, msg) {
             var self = this, css;
             css = self.alertMessageSettings[type];
-            if (msg && css) {
-                return self.alertTemplate.replace('{content}', msg).replace('{class}', 'alert alert-' + css);
+            if (msg) {
+                css = css || 'alert alert-' + type;
+                return self.alertTemplate.replace('{content}', msg).replace('{class}', css);
             }
             return '';
         },
@@ -86,68 +87,53 @@
                 self.setMode('view');
             });
             self.$btnDelete.off(eClick).on(eClick, function (ev) {
-                var $btn = $(this), confirmMsg = self.deleteConfirm, lib;
+                var $el = $(this), params = self.deleteParams, confirmMsg = self.deleteConfirm,
+                    settings = self.deleteAjaxSettings || {};
                 ev.preventDefault();
-                if (!confirmMsg) {
+                if (confirmMsg && !confirm(confirmMsg)) {
                     return;
                 }
-                //noinspection JSUnresolvedVariable
-                lib = window[self.dialogLib];
-                if (typeof (lib.confirm) !== "function" && confirm(confirmMsg)) {
-                    self.execDelete($btn);
-                } else {
-                    lib.confirm(confirmMsg, function (result) {
-                        if (!result) {
-                            return;
+                settings = $.extend({
+                    type: 'post',
+                    dataType: 'json',
+                    data: params,
+                    url: $el.attr('href'),
+                    beforeSend: function () {
+                        $alert.html('').hide();
+                        $detail.removeClass('kv-detail-loading').addClass('kv-detail-loading');
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            $detail.hide();
+                            self.$btnDelete.attr('disabled', 'disabled');
+                            self.$btnUpdate.attr('disabled', 'disabled');
+                            self.$btnView.attr('disabled', 'disabled');
+                            self.$btnSave.attr('disabled', 'disabled');
                         }
-                        self.execDelete($btn);
-                    });
-                }
+                        $.each(data.messages, function (key, msg) {
+                            $alert.append(self.alert(key, msg));
+                        });
+                        $alert.hide().fadeIn('slow', function () {
+                            $detail.removeClass('kv-detail-loading');
+                            self.initAlert();
+                        });
+                    },
+                    error: function (xhr, txt, err) {
+                        var msg = '';
+                        if (self.showErrorStack) {
+                            msg = xhr.responseText ? $(xhr.responseText).text() : '';
+                            msg = msg && msg.length ? '<pre>' + $.trim(msg).replace(/\n\s*\n/g, '\n')
+                                .replace(/</g, '&lt;') + '</pre>' : '';
+                        }
+                        msg = self.alert('kv-detail-error', err + msg);
+                        $detail.removeClass('kv-detail-loading');
+                        $alert.html(msg).hide().fadeIn('slow');
+                        self.initAlert();
+                    }
+                }, settings);
+                $.ajax(settings);
             });
             self.initAlert();
-        },
-        execDelete: function ($btn) {
-            var self = this, $el = self.$element, $alert = $el.find('.kv-alert-container'), params = self.deleteParams,
-                settings = self.deleteAjaxSettings || {}, $detail = $el.find('.kv-detail-view');
-            settings = $.extend({
-                type: 'post',
-                dataType: 'json',
-                data: params,
-                url: $btn.attr('href'),
-                beforeSend: function () {
-                    $alert.html('').hide();
-                    $detail.removeClass('kv-detail-loading').addClass('kv-detail-loading');
-                },
-                success: function (data) {
-                    if (data.success) {
-                        $detail.hide();
-                        self.$btnDelete.attr('disabled', 'disabled');
-                        self.$btnUpdate.attr('disabled', 'disabled');
-                        self.$btnView.attr('disabled', 'disabled');
-                        self.$btnSave.attr('disabled', 'disabled');
-                    }
-                    $.each(data.messages, function (key, msg) {
-                        $alert.append(self.alert(key, msg));
-                    });
-                    $alert.hide().fadeIn('slow', function () {
-                        $detail.removeClass('kv-detail-loading');
-                        self.initAlert();
-                    });
-                },
-                error: function (xhr, txt, err) {
-                    var msg = '';
-                    if (self.showErrorStack) {
-                        msg = xhr.responseText ? $(xhr.responseText).text() : '';
-                        msg = msg && msg.length ? '<pre>' + $.trim(msg).replace(/\n\s*\n/g, '\n')
-                            .replace(/</g, '&lt;') + '</pre>' : '';
-                    }
-                    msg = self.alert('kv-detail-error', err + msg);
-                    $detail.removeClass('kv-detail-loading');
-                    $alert.html(msg).hide().fadeIn('slow');
-                    self.initAlert();
-                }
-            }, settings);
-            $.ajax(settings);
         },
         setMode: function (mode) {
             var self = this, t = self.fadeDelay;
@@ -211,8 +197,7 @@
         deleteParams: {},
         deleteAjaxSettings: {},
         deleteConfirm: '',
-        showErrorStack: false,
-        dialogLib: ''
+        showErrorStack: false
     };
 
     $.fn.kvDetailView.Constructor = KvDetailView;

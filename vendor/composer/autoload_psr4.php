@@ -44,7 +44,6 @@ return array(
     'kartik\\export\\' => array($vendorDir . '/kartik-v/yii2-export'),
     'kartik\\editable\\' => array($vendorDir . '/kartik-v/yii2-editable'),
     'kartik\\dynagrid\\' => array($vendorDir . '/kartik-v/yii2-dynagrid'),
-    'kartik\\dialog\\' => array($vendorDir . '/kartik-v/yii2-dialog'),
     'kartik\\detail\\' => array($vendorDir . '/kartik-v/yii2-detail-view'),
     'kartik\\depdrop\\' => array($vendorDir . '/kartik-v/yii2-widget-depdrop'),
     'kartik\\datetime\\' => array($vendorDir . '/kartik-v/yii2-widget-datetimepicker'),

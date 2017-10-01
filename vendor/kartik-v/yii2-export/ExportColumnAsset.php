@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2016
  * @package yii2-export
- * @version 1.2.8
+ * @version 1.2.6
  */
 
 namespace kartik\export;

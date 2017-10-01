@@ -2,11 +2,8 @@
 /**
  * @package   yii2-export
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
- * @version   1.2.8
- * 
- * Column Selector View
- *
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2016
+ * @version   1.2.6
  */
 
 use yii\helpers\Html;

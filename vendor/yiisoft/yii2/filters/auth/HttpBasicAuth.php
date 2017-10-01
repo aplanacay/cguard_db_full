@@ -95,7 +95,6 @@ class HttpBasicAuth extends AuthMethod
                 } else {
                     $this->handleFailure($response);
                 }
-
                 return $identity;
             }
         } elseif ($username !== null) {
@@ -103,7 +102,6 @@ class HttpBasicAuth extends AuthMethod
             if ($identity === null) {
                 $this->handleFailure($response);
             }
-
             return $identity;
         }
 

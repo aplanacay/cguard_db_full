@@ -294,7 +294,6 @@ window.yii = (function ($) {
                     params[name].push(value || '');
                 }
             }
-
             return params;
         },
 
