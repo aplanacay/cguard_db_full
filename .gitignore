@@ -17,6 +17,7 @@ Thumbs.db
 
 # composer itself is not needed
 composer*
+!composer.lock
 
 # assets except AppAsset and MaterialAsset
 /assets
